@@ -38,6 +38,7 @@ import quote from "./quote";
 // Utilities & Localization
 import localeString from "./localeString";
 import localeText from "./localeText";
+import gallerySettings from "./gallerySettings";
 
 export const schemaTypes: SchemaTypeDefinition[] = [
   // Pages
@@ -78,4 +79,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   // Utils
   localeString,
   localeText,
+
+  // Gallery
+  gallerySettings,
 ];

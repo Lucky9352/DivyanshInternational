@@ -448,3 +448,17 @@ export const privacyPolicyQuery = groq`
     }
   }
 `;
+
+export const galleryQuery = groq`
+  *[_type == "galleryPage"][0] {
+    title,
+    description,
+    images[] {
+      _key,
+      title,
+      category,
+      imageUrl,
+      aspectRatio
+    }
+  }
+`;

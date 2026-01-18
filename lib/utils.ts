@@ -163,3 +163,34 @@ export function isYouTubeUrl(url: string): boolean {
 export function isValidVideoUrl(url: string): boolean {
   return typeof url === "string" && url.trim().length > 0;
 }
+
+/**
+ * Extracts the File ID from a Google Drive URL.
+ */
+export function extractGoogleDriveId(url: string): string | null {
+  if (!url) return null;
+  const patterns = [
+    /drive\.google\.com\/file\/d\/([^/]+)/,
+    /drive\.google\.com\/uc\?.*?id=([^&]+)/,
+    /drive\.google\.com\/open\?id=([^&]+)/,
+  ];
+
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match?.[1]) {
+      return match[1];
+    }
+  }
+  return null;
+}
+
+/**
+ * Generates a direct image URL for Google Drive files.
+ * Uses the lh3.googleusercontent.com domain for better performance/caching with Next.js Image.
+ */
+export function getGoogleDriveImageUrl(url: string): string | null {
+  const id = extractGoogleDriveId(url);
+  if (!id) return null;
+  // 'd' parameter means direct download/view, allows size params if needed but basic format operates well
+  return `https://lh3.googleusercontent.com/d/${id}`;
+}
