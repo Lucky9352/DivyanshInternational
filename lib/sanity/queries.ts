@@ -164,7 +164,8 @@ export const certificatesQuery = groq`
     _id,
     name,
     label,
-    "imageUrl": image.asset->url
+    imageUrl,
+    image
   }
 `;
 

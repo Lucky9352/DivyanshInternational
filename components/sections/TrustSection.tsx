@@ -16,6 +16,7 @@ import { z } from "zod";
 
 import type { SanityImageSource } from "@sanity/image-url";
 import { urlForImage } from "@/lib/sanity/image";
+import { getGoogleDriveImageUrl } from "@/lib/utils";
 
 // =============================================================================
 // ZOD VALIDATION SCHEMAS
@@ -26,6 +27,7 @@ const CertificateSchema = z.object({
   name: z.string(),
   label: z.string(),
   image: z.unknown().optional(), // SanityImageSource is complex
+  imageUrl: z.string().optional().nullable(),
   description: z.string().optional(),
 });
 
@@ -58,6 +60,7 @@ interface DisplayCertificate {
   label: string;
   description: string;
   image: SanityImageSource | undefined;
+  imageUrl: string | null | undefined;
 }
 
 interface TrustSectionProps {
@@ -132,6 +135,7 @@ export default function TrustSection({
           label: c.label || c.name,
           description: c.name,
           image: c.image as SanityImageSource | undefined,
+          imageUrl: c.imageUrl,
         }))
       : [];
 
@@ -242,10 +246,19 @@ function CertificateCard({ certificate }: CertificateCardProps) {
       <div className="absolute inset-0 bg-linear-to-br from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
       <div
-        className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-100 transition-opacity duration-500"
+        className="absolute top-0 right-0 p-2 opacity-70 group-hover:opacity-100 transition-opacity duration-500"
         aria-hidden="true"
       >
-        {certificate.image ? (
+        {certificate.imageUrl ? (
+          <div className="w-16 h-16 relative grayscale group-hover:grayscale-0 transition-all duration-500">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={getGoogleDriveImageUrl(certificate.imageUrl) || ""}
+              alt=""
+              className="w-full h-full object-contain"
+            />
+          </div>
+        ) : certificate.image ? (
           <div className="w-16 h-16 relative grayscale group-hover:grayscale-0 transition-all duration-500">
             <Image
               src={urlForImage(certificate.image).url()}

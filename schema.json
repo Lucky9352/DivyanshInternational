@@ -1128,6 +1128,13 @@
         },
         "optional": true
       },
+      "imageUrl": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "order": {
         "type": "objectAttribute",
         "value": {

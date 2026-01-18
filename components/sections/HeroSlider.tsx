@@ -377,7 +377,7 @@ function VideoBackground({
         )}
       </AnimatePresence>
       {/* Light warm overlay */}
-      <div className="absolute inset-0 bg-linear-to-br from-ivory/40 via-cashew-cream/35 to-beige/30" />
+      <div className="absolute inset-0 bg-linear-to-br from-ivory/80 via-cashew-cream/70 to-beige/60" />
       {/* Subtle texture */}
       <div
         className="absolute inset-0 opacity-20"

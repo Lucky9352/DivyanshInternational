@@ -205,6 +205,7 @@ export type Certificate = {
     alt?: string;
     _type: "image";
   };
+  imageUrl?: string;
   order?: number;
 };
 

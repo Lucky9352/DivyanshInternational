@@ -48,6 +48,12 @@ const nextConfig = {
 
   images: {
     formats: ["image/avif", "image/webp"],
+    localPatterns: [
+      {
+        pathname: "/api/**",
+        search: "",
+      },
+    ],
     remotePatterns: [
       { protocol: "https", hostname: "cdn.sanity.io" },
       { protocol: "https", hostname: "*.sanity.io" },

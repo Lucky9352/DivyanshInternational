@@ -22,6 +22,7 @@ import {
   NutIcon,
 } from "@/components/assets/Decorations";
 import { urlForImage } from "@/lib/sanity/image";
+import { getGoogleDriveImageUrl } from "@/lib/utils";
 
 // =============================================================================
 // ZOD VALIDATION SCHEMAS
@@ -327,18 +328,24 @@ interface CertificateCardProps {
 }
 
 function CertificateCard({ certificate }: CertificateCardProps) {
-  const imageUrl = certificate.imageUrl
-    ? certificate.imageUrl
-    : certificate.image
-      ? urlForImage(certificate.image).url()
-      : null;
+  const driveImageUrl = certificate.imageUrl ? getGoogleDriveImageUrl(certificate.imageUrl) : null;
+  const sanityImageUrl = certificate.image ? urlForImage(certificate.image).url() : null;
 
   return (
     <motion.div className="flex flex-col items-center gap-3 group" variants={scaleIn}>
       <div className="w-24 h-24 relative bg-white rounded-full shadow-sm border border-sand p-4 flex items-center justify-center overflow-hidden">
-        {imageUrl ? (
+        {driveImageUrl ? (
           <div className="relative w-full h-full">
-            <Image src={imageUrl} alt={certificate.name} fill className="object-contain" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={driveImageUrl}
+              alt={certificate.name}
+              className="w-full h-full object-contain"
+            />
+          </div>
+        ) : sanityImageUrl ? (
+          <div className="relative w-full h-full">
+            <Image src={sanityImageUrl} alt={certificate.name} fill className="object-contain" />
           </div>
         ) : (
           <span className="text-lg font-bold text-deep-brown">{certificate.name}</span>

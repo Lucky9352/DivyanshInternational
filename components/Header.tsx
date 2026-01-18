@@ -215,7 +215,7 @@ export default function Header({ initialHeader, products, siteSettings }: Header
 
               <Link
                 href="/contact?type=trade"
-                className="bg-linear-to-r from-almond-gold to-gold-dark hover:shadow-lg text-white px-6 py-2.5 rounded-full font-semibold transition-all duration-300 hover:scale-105 focus:outline-2 focus:outline-gold-dark focus:outline-offset-2"
+                className="bg-linear-to-r from-almond-gold to-gold-dark hover:shadow-lg text-white px-6 py-2.5 rounded-full font-semibold transition-all duration-300 hover:scale-105 focus:outline-2 focus:outline-gold-dark focus:outline-offset-2 whitespace-nowrap"
               >
                 {tradeButtonText}
               </Link>
