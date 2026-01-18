@@ -640,14 +640,14 @@ export default function CatalogueViewer({ settings }: CatalogueViewerProps) {
                       className="absolute inset-0 bg-white"
                       style={{ backfaceVisibility: "hidden" }}
                     >
-                      {numPages && currentPage < numPages && (
+                      {numPages && currentPage < numPages ? (
                         <PdfFlipPage
                           pageNumber={currentPage + 1}
                           width={dimensions.width}
                           height={dimensions.height}
                           isCover={currentPage === 0 || currentPage === numPages - 1}
                         />
-                      )}
+                      ) : null}
 
                       {/* Dynamic Shadow Overlay based on motion */}
                       <motion.div
