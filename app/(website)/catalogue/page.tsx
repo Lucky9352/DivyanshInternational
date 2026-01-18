@@ -136,8 +136,9 @@ export async function generateMetadata(): Promise<Metadata> {
     const settings = settingsResult.success ? settingsResult.data : null;
     const siteSettings = siteSettingsResult.success ? siteSettingsResult.data : null;
 
-    const pageTitle = settings?.title
-      ? `${settings.title} | ${siteSettings?.organization?.name ?? "Divyansh International"}`
+    const titleFromCms = settings?.title === "Test" ? "Catalogue" : settings?.title;
+    const pageTitle = titleFromCms
+      ? `${titleFromCms} | ${siteSettings?.organization?.name ?? "Divyansh International"}`
       : DEFAULT_META.title;
 
     const pageDescription = settings?.description ?? DEFAULT_META.description;

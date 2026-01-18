@@ -228,6 +228,7 @@ export default function CatalogueViewer({ settings }: CatalogueViewerProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [dimensions, setDimensions] = useState({ width: 900, height: 500 });
+  const [direction, setDirection] = useState(0); // 1 = next, -1 = prev
 
   // PDF State
   const [numPages, setNumPages] = useState<number | null>(null);
@@ -244,17 +245,28 @@ export default function CatalogueViewer({ settings }: CatalogueViewerProps) {
     setIsLoading(false);
   }
 
+  // Content Variables (Moved to top to prevent ReferenceError)
   const imagePages = settings?.pages ?? [];
   const contentType = settings?.contentType ?? "images";
   const isActive = settings?.isActive !== false;
   const showThumbnails = settings?.showThumbnails !== false;
   const showPageNumbers = settings?.showPageNumbers !== false;
-  const displayTitle = settings?.title || "Product Catalogue";
+  const rawTitle = settings?.title || "Product Catalogue";
+  const displayTitle = rawTitle === "Test" ? "Product Catalogue" : rawTitle;
   const displayDescription = settings?.description || "Explore our premium collection.";
   const pdfUrl = settings?.pdfFile?.asset?.url || settings?.pdfDownloadUrl;
 
   // Filter pages with valid URLs
   const validPages = imagePages.filter((page) => page.asset?.url);
+
+  // Check if we have content
+  const hasImageContent = validPages.length >= 2;
+  const hasPdfContent = !!pdfUrl;
+
+  // Determine total pages based on content type
+  const totalPages = contentType === "pdf" ? numPages || 0 : validPages.length;
+
+
 
   // Calculate responsive dimensions
   useEffect(() => {
@@ -322,11 +334,15 @@ export default function CatalogueViewer({ settings }: CatalogueViewerProps) {
   }, []);
 
   const goToPage = useCallback((pageIndex: number) => {
-    const flipBook = flipBookRef.current as {
-      pageFlip?: () => { turnToPage: (page: number) => void };
-    } | null;
-    flipBook?.pageFlip?.()?.turnToPage(pageIndex);
-  }, []);
+    if (contentType === "pdf") {
+      setCurrentPage(pageIndex);
+    } else {
+      const flipBook = flipBookRef.current as {
+        pageFlip?: () => { turnToPage: (page: number) => void };
+      } | null;
+      flipBook?.pageFlip?.()?.turnToPage(pageIndex);
+    }
+  }, [contentType]);
 
   const handleDownload = useCallback(() => {
     if (!pdfUrl) return;
@@ -340,21 +356,27 @@ export default function CatalogueViewer({ settings }: CatalogueViewerProps) {
   }, [pdfUrl, settings?.pdfFile?.asset?.originalFilename]);
 
   const flipNext = useCallback(() => {
-    const flipBook = flipBookRef.current as { pageFlip?: () => { flipNext: () => void } } | null;
-    flipBook?.pageFlip?.()?.flipNext();
-  }, []);
+    if (contentType === "pdf") {
+      setDirection(1);
+      setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1));
+    } else {
+      const flipBook = flipBookRef.current as { pageFlip?: () => { flipNext: () => void } } | null;
+      flipBook?.pageFlip?.()?.flipNext();
+    }
+  }, [contentType, totalPages]);
 
   const flipPrev = useCallback(() => {
-    const flipBook = flipBookRef.current as { pageFlip?: () => { flipPrev: () => void } } | null;
-    flipBook?.pageFlip?.()?.flipPrev();
-  }, []);
+    if (contentType === "pdf") {
+      setDirection(-1);
+      setCurrentPage((prev) => Math.max(prev - 1, 0));
+    } else {
+      const flipBook = flipBookRef.current as { pageFlip?: () => { flipPrev: () => void } } | null;
+      flipBook?.pageFlip?.()?.flipPrev();
+    }
+  }, [contentType]);
 
   // Check if we have content
-  const hasImageContent = validPages.length >= 2;
-  const hasPdfContent = !!pdfUrl;
-
-  // Determine total pages based on content type
-  const totalPages = contentType === "pdf" ? numPages || 0 : validPages.length;
+  // Content variables moved to top
 
   // Determine if we should show the flipbook
   // For PDF, we need the URL and pages loaded. For Images, we need > 0 pages.
@@ -568,46 +590,75 @@ export default function CatalogueViewer({ settings }: CatalogueViewerProps) {
             {/* Wrap with Document if PDF */}
             {contentType === "pdf" && hasPdfContent ? (
               <Document file={pdfUrl} loading={null} className="flex justify-center items-center">
-                <HTMLFlipBook
-                  ref={flipBookRef}
-                  width={dimensions.width}
-                  height={dimensions.height}
-                  size="fixed"
-                  minWidth={280}
-                  maxWidth={1050}
-                  minHeight={400}
-                  maxHeight={1000}
-                  showCover={true}
-                  mobileScrollSupport={true}
-                  onFlip={handleFlip}
-                  onInit={() => setIsLoading(false)}
-                  className="catalogue-flipbook"
-                  style={{ display: "block" }}
-                  startPage={0}
-                  drawShadow={false}
-                  flippingTime={1000}
-                  usePortrait={true}
-                  startZIndex={0}
-                  autoSize={true}
-                  maxShadowOpacity={0}
-                  showPageCorners={false}
-                  disableFlipByClick={false}
-                  swipeDistance={30}
-                  clickEventForward={true}
-                  useMouseEvents={true}
+                {/* Custom Single Page Viewer - Restored for True Single Page View */}
+                <div
+                  className="relative bg-white rounded-lg shadow-2xl overflow-hidden"
+                  style={{
+                    width: dimensions.width,
+                    height: dimensions.height,
+                    perspective: '2000px', // Enhanced depth
+                  }}
                 >
-                  {numPages
-                    ? Array.from(new Array(numPages), (el, index) => (
+                  <AnimatePresence initial={false} custom={direction} mode="popLayout">
+                    {/* Current Page with Physics Curl Animation */}
+                    <motion.div
+                      key={currentPage}
+                      custom={direction}
+                      variants={{
+                        enter: (direction: number) => ({
+                          rotateY: direction > 0 ? 120 : -120, // Start overly rotated for "snap" effect
+                          opacity: 0,
+                          zIndex: 0,
+                          x: 0,
+                          transformOrigin: direction > 0 ? "right center" : "left center", // Flip from edge
+                        }),
+                        center: {
+                          rotateY: 0,
+                          opacity: 1,
+                          zIndex: 1,
+                          x: 0,
+                          transition: {
+                            rotateY: { type: "spring", stiffness: 60, damping: 12, mass: 1.2 }, // Heavy physics feel
+                            opacity: { duration: 0.4 }
+                          }
+                        },
+                        exit: (direction: number) => ({
+                          rotateY: direction > 0 ? -120 : 120, // Flip out to opposite side
+                          opacity: 0,
+                          zIndex: 0,
+                          // transformOrigin: direction > 0 ? "left center" : "right center", // Consistent origin
+                          transition: {
+                            rotateY: { type: "spring", stiffness: 60, damping: 12 },
+                            opacity: { duration: 0.4 }
+                          }
+                        })
+                      }}
+                      initial="enter"
+                      animate="center"
+                      exit="exit"
+                      className="absolute inset-0 bg-white"
+                      style={{ backfaceVisibility: 'hidden' }}
+                    >
+                      {numPages && currentPage < numPages && (
                         <PdfFlipPage
-                          key={`pdf-page-${index + 1}`}
-                          pageNumber={index + 1}
+                          pageNumber={currentPage + 1}
                           width={dimensions.width}
                           height={dimensions.height}
-                          isCover={index === 0 || index === numPages - 1}
+                          isCover={currentPage === 0 || currentPage === numPages - 1}
                         />
-                      ))
-                    : null}
-                </HTMLFlipBook>
+                      )}
+
+                      {/* Dynamic Shadow Overlay based on motion */}
+                      <motion.div
+                        initial={{ opacity: 0.5 }}
+                        animate={{ opacity: 0 }}
+                        exit={{ opacity: 0.5 }}
+                        className="absolute inset-0 pointer-events-none z-50 bg-black"
+                        style={{ mixBlendMode: 'multiply' }}
+                      />
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
               </Document>
             ) : showFlipbook ? (
               /* Image Flipbook */
@@ -642,26 +693,26 @@ export default function CatalogueViewer({ settings }: CatalogueViewerProps) {
                 {/* Image Pages */}
                 {contentType === "images"
                   ? validPages.map((page, index) => (
-                      <PageComponent
-                        key={page._key || `page-${index}`}
-                        page={page}
-                        pageNumber={index + 1}
-                        showPageNumbers={showPageNumbers}
-                      />
-                    ))
+                    <PageComponent
+                      key={page._key || `page-${index}`}
+                      page={page}
+                      pageNumber={index + 1}
+                      showPageNumbers={showPageNumbers}
+                    />
+                  ))
                   : null}
 
                 {/* PDF Pages */}
                 {contentType === "pdf" && numPages
                   ? Array.from(new Array(numPages), (el, index) => (
-                      <PdfFlipPage
-                        key={`pdf-page-${index + 1}`}
-                        pageNumber={index + 1}
-                        width={dimensions.width}
-                        height={dimensions.height}
-                        isCover={index === 0 || index === numPages - 1}
-                      />
-                    ))
+                    <PdfFlipPage
+                      key={`pdf-page-${index + 1}`}
+                      pageNumber={index + 1}
+                      width={dimensions.width}
+                      height={dimensions.height}
+                      isCover={index === 0 || index === numPages - 1}
+                    />
+                  ))
                   : null}
               </HTMLFlipBook>
             ) : null}
@@ -697,48 +748,50 @@ export default function CatalogueViewer({ settings }: CatalogueViewerProps) {
         </motion.div>
 
         {/* Thumbnails */}
-        {showThumbnails && validPages.length > 0 ? (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="mt-10"
-          >
-            <div className="flex gap-3 overflow-x-auto pb-4 px-4 justify-center flex-wrap">
-              {validPages.slice(0, 16).map((page, index) => (
-                <button
-                  key={page._key || `thumb-${index}`}
-                  onClick={() => goToPage(index)}
-                  className={cn(
-                    "relative w-16 h-22 md:w-20 md:h-28 rounded-lg overflow-hidden border-2 transition-all shrink-0 hover:scale-105 bg-white shadow-md",
-                    currentPage === index
-                      ? "border-almond-gold shadow-lg ring-2 ring-almond-gold/30"
-                      : "border-gray-200 hover:border-gold-light"
-                  )}
-                  aria-label={`Go to page ${index + 1}`}
-                >
-                  {page.asset?.url ? (
-                    <Image
-                      src={page.asset.url}
-                      alt={page.alt || `Thumbnail ${index + 1}`}
-                      fill
-                      className="object-cover"
-                      sizes="80px"
-                    />
-                  ) : null}
-                  {currentPage === index ? (
-                    <div className="absolute inset-0 bg-almond-gold/20" />
-                  ) : null}
-                </button>
-              ))}
-              {validPages.length > 16 ? (
-                <div className="flex items-center text-sm text-gray-500 px-2">
-                  +{validPages.length - 16} more
-                </div>
-              ) : null}
-            </div>
-          </motion.div>
-        ) : null}
+        {
+          showThumbnails && validPages.length > 0 ? (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="mt-10"
+            >
+              <div className="flex gap-3 overflow-x-auto pb-4 px-4 justify-center flex-wrap">
+                {validPages.slice(0, 16).map((page, index) => (
+                  <button
+                    key={page._key || `thumb-${index}`}
+                    onClick={() => goToPage(index)}
+                    className={cn(
+                      "relative w-16 h-22 md:w-20 md:h-28 rounded-lg overflow-hidden border-2 transition-all shrink-0 hover:scale-105 bg-white shadow-md",
+                      currentPage === index
+                        ? "border-almond-gold shadow-lg ring-2 ring-almond-gold/30"
+                        : "border-gray-200 hover:border-gold-light"
+                    )}
+                    aria-label={`Go to page ${index + 1}`}
+                  >
+                    {page.asset?.url ? (
+                      <Image
+                        src={page.asset.url}
+                        alt={page.alt || `Thumbnail ${index + 1}`}
+                        fill
+                        className="object-cover"
+                        sizes="80px"
+                      />
+                    ) : null}
+                    {currentPage === index ? (
+                      <div className="absolute inset-0 bg-almond-gold/20" />
+                    ) : null}
+                  </button>
+                ))}
+                {validPages.length > 16 ? (
+                  <div className="flex items-center text-sm text-gray-500 px-2">
+                    +{validPages.length - 16} more
+                  </div>
+                ) : null}
+              </div>
+            </motion.div>
+          ) : null
+        }
 
         {/* Touch Instructions */}
         <motion.div
@@ -751,30 +804,32 @@ export default function CatalogueViewer({ settings }: CatalogueViewerProps) {
         </motion.div>
 
         {/* Download Button */}
-        {pdfUrl ? (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="mt-10 text-center"
-          >
-            <button
-              onClick={handleDownload}
-              className="px-8 py-4 bg-linear-to-r from-almond-gold to-gold-dark text-white rounded-full font-semibold hover:shadow-xl transition-all duration-300 hover:scale-105 inline-flex items-center gap-3 text-lg"
+        {
+          pdfUrl ? (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="mt-10 text-center"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                />
-              </svg>
-              Download PDF Catalogue
-            </button>
-          </motion.div>
-        ) : null}
-      </div>
-    </div>
+              <button
+                onClick={handleDownload}
+                className="px-8 py-4 bg-linear-to-r from-almond-gold to-gold-dark text-white rounded-full font-semibold hover:shadow-xl transition-all duration-300 hover:scale-105 inline-flex items-center gap-3 text-lg"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                  />
+                </svg>
+                Download PDF Catalogue
+              </button>
+            </motion.div>
+          ) : null
+        }
+      </div >
+    </div >
   );
 }
