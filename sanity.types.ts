@@ -13,6 +13,24 @@
  */
 
 // Source: schema.json
+export type GalleryPage = {
+  _id: string;
+  _type: "galleryPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  description?: string;
+  images?: Array<{
+    title?: string;
+    category?: "products" | "community" | "events" | "facility" | "other";
+    imageUrl?: string;
+    aspectRatio?: "auto" | "tall" | "wide";
+    _type: "galleryImage";
+    _key: string;
+  }>;
+};
+
 export type LocaleText = {
   _type: "localeText";
   en?: string;
@@ -241,6 +259,27 @@ export type TestimonialsSection = {
     highlights?: Array<string>;
     note?: string;
   };
+  videoTestimonialsSection?: {
+    eyebrow?: string;
+    title?: string;
+    placeholderText?: string;
+    videos?: Array<{
+      title?: string;
+      description?: string;
+      videoUrl?: string;
+      thumbnail?: {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt?: string;
+        _type: "image";
+      };
+      _key: string;
+    }>;
+    highlights?: Array<string>;
+    note?: string;
+  };
 };
 
 export type Cta = {
@@ -413,25 +452,43 @@ export type Slug = {
   source?: string;
 };
 
-export type Fliphtml5Settings = {
+export type CatalogueSettings = {
   _id: string;
-  _type: "fliphtml5Settings";
+  _type: "catalogueSettings";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  catalogueUrl?: string;
-  mobileOptimizedUrl?: string;
+  title?: string;
+  description?: string;
+  contentType?: "pdf" | "images";
   pdfFile?: {
     asset?: SanityFileAssetReference;
     media?: unknown;
     _type: "file";
   };
+  pages?: Array<{
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    caption?: string;
+    _type: "image";
+    _key: string;
+  }>;
   pdfDownloadUrl?: string;
-  title?: string;
-  description?: string;
+  coverImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
   version?: string;
   lastUpdated?: string;
   isActive?: boolean;
+  showThumbnails?: boolean;
+  showPageNumbers?: boolean;
 };
 
 export type Footer = {
@@ -1317,6 +1374,7 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
+  | GalleryPage
   | LocaleText
   | LocaleString
   | Quote
@@ -1339,7 +1397,7 @@ export type AllSanitySchemaTypes =
   | Brand
   | Product
   | Slug
-  | Fliphtml5Settings
+  | CatalogueSettings
   | Footer
   | Header
   | SiteSettings
