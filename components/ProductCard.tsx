@@ -9,6 +9,7 @@ import { urlFor } from "@/lib/sanity/client-browser";
 import type { SanityImageSource } from "@sanity/image-url";
 import { getLocalized, type LocaleString, type LocaleText } from "@/lib/i18n";
 import { useLanguage, type Language } from "@/context/LanguageContext";
+import { getGoogleDriveImageUrl } from "@/lib/utils";
 
 // =============================================================================
 // ZOD VALIDATION SCHEMAS
@@ -33,6 +34,7 @@ const ProductSchema = z.object({
     .nullable(),
   applications: z.array(z.string()).optional().nullable(),
   heroImage: z.custom<SanityImageSource>().optional().nullable(),
+  heroImageUrl: z.string().optional().nullable(),
   MOQ: z.string().optional().nullable(),
   grades: z.array(z.string()).optional().nullable(),
   packFormats: z.array(z.string()).optional().nullable(),
@@ -140,7 +142,14 @@ export default function ProductCard({ product, onAddToEnquiry, labels }: Product
       <Link href={`/products/${productSlug}`} className="block flex-1 p-6 space-y-4">
         {/* Hero Image */}
         <div className="relative aspect-square w-full rounded-2xl border border-dashed border-deep-brown bg-beige flex items-center justify-center text-center overflow-hidden">
-          {product.heroImage ? (
+          {product.heroImageUrl ? (
+            /* eslint-disable-next-line @next/next/no-img-element */
+            <img
+              src={getGoogleDriveImageUrl(product.heroImageUrl) || ""}
+              alt={productTitle}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          ) : product.heroImage ? (
             <Image
               src={urlFor(product.heroImage).width(500).height(500).url()}
               alt={productTitle}

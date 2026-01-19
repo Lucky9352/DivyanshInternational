@@ -41,6 +41,13 @@ export default defineType({
         },
       ],
     }),
+    defineField({
+      name: "imageUrl",
+      title: "Image URL",
+      type: "url",
+      description: "Google Drive URL (used if no uploaded image). Paste the full share URL.",
+      validation: (Rule) => Rule.uri({ scheme: ["https", "http"] }),
+    }),
   ],
   orderings: [
     {

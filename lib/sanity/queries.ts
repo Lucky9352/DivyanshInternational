@@ -129,6 +129,7 @@ export const heroSlidesQuery = groq`
     secondaryCta,
     "videoUrl": coalesce(video.asset->url, videoUrl),
     posterImage,
+    posterImageUrl,
     stats
   }
 `;
@@ -235,7 +236,13 @@ export const productsQuery = groq`
     MOQ,
     "specSheetPDF": specSheetPDF.asset->url,
     heroImage,
-    gallery,
+    heroImageUrl,
+    gallery[] {
+      _key,
+      image,
+      imageUrl,
+      alt
+    },
     "microVideo": microVideo.asset->url,
     heroHeading,
     introParagraphs,
@@ -265,7 +272,13 @@ export const productBySlugQuery = groq`
     MOQ,
     "specSheetPDF": specSheetPDF.asset->url,
     heroImage,
-    gallery,
+    heroImageUrl,
+    gallery[] {
+      _key,
+      image,
+      imageUrl,
+      alt
+    },
     "microVideo": microVideo.asset->url,
     heroHeading,
     introParagraphs,
@@ -289,6 +302,7 @@ export const brandsQuery = groq`
     _id,
     name,
     heroImage,
+    heroImageUrl,
     brandCopy,
     productSKUs,
     distributionContacts,
@@ -367,6 +381,7 @@ export const teamMembersQuery = groq`
     name,
     role,
     image,
+    imageUrl,
     bio
   }
 `;
@@ -377,7 +392,8 @@ export const timelineQuery = groq`
     year,
     title,
     description,
-    image
+    image,
+    imageUrl
   }
 `;
 

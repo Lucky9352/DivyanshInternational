@@ -33,6 +33,14 @@ export default defineType({
       ],
     }),
     defineField({
+      name: "imageUrl",
+      title: "Photo URL",
+      type: "url",
+      description:
+        "Google Drive URL for photo (used if no uploaded image). Paste the full share URL.",
+      validation: (Rule) => Rule.uri({ scheme: ["https", "http"] }),
+    }),
+    defineField({
       name: "bio",
       title: "Bio / Quote",
       type: "text",

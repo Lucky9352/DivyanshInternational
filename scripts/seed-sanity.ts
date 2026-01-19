@@ -144,6 +144,9 @@ const products = [
       "Looking for a dependable premium almond supplier? Contact us today for quality almond prices and available sizes."
     ),
     description: createLocaleText("Premium almonds for retail, quality and customers."),
+    heroImageUrl:
+      "https://drive.google.com/file/d/17G8sRChK6W-U3Y09iMJRXdN1-HenQPwU/view?usp=sharing",
+    gallery: [],
     pricing: { currentPrice: 1299, originalPrice: 1599, discount: 19 },
     specifications: {
       origin: "California, USA / India",
@@ -272,6 +275,9 @@ const products = [
       "Require bulk cashews? Contact us for the best daily rates and supply continuity."
     ),
     description: createLocaleText("Premium W180, W240 & W320 Cashews for retail & wholesale."),
+    heroImageUrl:
+      "https://drive.google.com/file/d/12cl96_Dy9hGUQbhPHJFDrSJ68XtM8lYy/view?usp=sharing",
+    gallery: [],
     pricing: { currentPrice: 950, originalPrice: 1350, discount: 20 },
     specifications: {
       origin: "India / Africa",
@@ -336,6 +342,9 @@ const products = [
     description: createLocaleText(
       "Bulk walnuts and kernels with stringent grading for retailers, food processors and exporters."
     ),
+    heroImageUrl:
+      "https://drive.google.com/file/d/1nOvaNlIZQVAQc2Px9oghJpXGM-U9XTRD/view?usp=sharing",
+    gallery: [],
     pricing: { currentPrice: 899, originalPrice: 1199, discount: 25 },
     specifications: {
       origin: "India (Kashmir) / Chile / USA",
@@ -413,6 +422,9 @@ const products = [
     description: createLocaleText(
       "Premium pistachios graded for retail, hospitality and gifting programs."
     ),
+    heroImageUrl:
+      "https://drive.google.com/file/d/1e-89nRAVMjaktCqDPHYFT6LYTep1xnyw/view?usp=sharing",
+    gallery: [],
     pricing: { currentPrice: 8999, originalPrice: 10499, discount: 14 },
     specifications: {
       origin: "California, USA",
@@ -482,6 +494,9 @@ const products = [
     description: createLocaleText(
       "Fine powder, flakes and copra variants for industrial, retail and private-label coconut programs."
     ),
+    heroImageUrl:
+      "https://drive.google.com/file/d/1mhFddFWgLPZ2ZA_CUk5F_b0zfzXWmZWf/view?usp=sharing",
+    gallery: [],
     pricing: { currentPrice: 2499, originalPrice: 2999, discount: 17 },
     specifications: {
       origin: "India",
@@ -554,6 +569,9 @@ const products = [
     description: createLocaleText(
       "Golden, Indian and Kandhari raisins processed hygienically for quality and customer needs."
     ),
+    heroImageUrl:
+      "https://drive.google.com/file/d/1sO9D-vQ8OsYwzchxVvf_jZVblFJVh4Sj/view?usp=sharing",
+    gallery: [],
     pricing: { currentPrice: 899, originalPrice: 1199, discount: 25 },
     specifications: {
       origin: "India",
@@ -584,6 +602,7 @@ const heroSlides = [
     secondaryCta: { label: "Contact Us", target: "contact" },
     videoUrl: "https://youtu.be/6qCa_lNKxjw?si=d834rowMA4ALItv_",
     posterUrl: "https://images.unsplash.com/photo-1508747703725-719777637510?w=1920&q=80",
+    posterImageUrl: "",
   },
 ];
 
@@ -594,6 +613,7 @@ const timeline = [
     title: "The Beginning – Gujranwala",
     description:
       "A well-established quality spices business thrived in Gujranwala, Punjab (then part of undivided India, now Pakistan).",
+    imageUrl: "",
   },
   {
     _id: "2",
@@ -601,6 +621,7 @@ const timeline = [
     title: "Partition & New Beginnings",
     description:
       "Following Partition, the family migrated to Ludhiana, Punjab—empty-handed but rich in experience and determination. At just 11 years of age, Mr. Som Nath Sethi marked a new beginning in India by starting a quality and retail grocery store.",
+    imageUrl: "",
   },
   {
     _id: "3",
@@ -608,6 +629,7 @@ const timeline = [
     title: "hospitality Expansion",
     description:
       "Mr. Raman Sethi expanded operations into the hospitality (Hotel, Restaurant & Catering) segment, strengthening the business's professional footprint.",
+    imageUrl: "",
   },
   {
     _id: "4",
@@ -615,6 +637,7 @@ const timeline = [
     title: "Third Generation Joins",
     description:
       "During the turbulent years of riots and emergency in Punjab, Mr. Sanjeev Sethi joined the business in his teenage years, dedicating himself to serving the people of Punjab—an involvement that became lifelong.",
+    imageUrl: "",
   },
   {
     _id: "5",
@@ -622,6 +645,7 @@ const timeline = [
     title: "Divyansh International – California Almonds",
     description:
       "The family branched out internationally with the launch of Divyansh International, beginning imports of California Almonds.",
+    imageUrl: "",
   },
   {
     _id: "6",
@@ -629,6 +653,7 @@ const timeline = [
     title: "Portfolio Expansion – Walnuts",
     description:
       "Mr. Divyansh Sethi, with a next-generation approach, expanded the portfolio to include Walnuts, scaling operations with a strong foundation in finance and marketing.",
+    imageUrl: "",
   },
   {
     _id: "7",
@@ -636,6 +661,7 @@ const timeline = [
     title: "Zonaar Global – International Trade",
     description:
       "Divyansh International further expanded its global footprint by initiating international trade facilitation and brokerage under the name Zonaar Global, connecting markets and partners across borders with trust, expertise, and efficiency.",
+    imageUrl: "",
   },
   {
     _id: "8",
@@ -643,6 +669,7 @@ const timeline = [
     title: "State-of-the-Art Facility – Mullapur",
     description:
       "Operations expanded to a state-of-the-art facility in Mullapur, Ludhiana—ISO & FSSAI certified—marking a major infrastructural milestone and reinforcing the group's commitment to quality and compliance.",
+    imageUrl: "",
   },
   {
     _id: "9",
@@ -650,6 +677,7 @@ const timeline = [
     title: "The Badam Factory – Heritage Retail",
     description:
       "Launched a heritage retail outlet, 'The Badam Factory', at the original workplace—reviving the name affectionately given by the people.",
+    imageUrl: "",
   },
   {
     _id: "10",
@@ -657,6 +685,7 @@ const timeline = [
     title: "The Betternut Co. – Modern Conscious Living",
     description:
       "Launch of The Betternut Co., ushering the legacy into a modern, conscious-living brand—focused on mindfulness and well-being through food.",
+    imageUrl: "",
   },
 ];
 
@@ -665,16 +694,19 @@ const teamMembers = [
     _id: "1",
     name: "Rajesh Kumar",
     role: "Founder & Chairman",
+    imageUrl: "",
   },
   {
     _id: "2",
     name: "Amit Singh",
     role: "Managing Director",
+    imageUrl: "",
   },
   {
     _id: "3",
     name: "Priya Sharma",
     role: "Head of Operations",
+    imageUrl: "",
   },
 ];
 
@@ -744,6 +776,7 @@ const brands = [
         phone: "+91-XXX-XXX-XXXX",
       },
     ],
+    heroImageUrl: "",
     order: 1,
   },
   {
@@ -752,6 +785,7 @@ const brands = [
     brandCopy:
       "Sethi Mawa brings traditional flavors to modern markets. A trusted name in quality food products.",
     productSKUs: ["SM-001", "SM-002"],
+    heroImageUrl: "",
     order: 2,
   },
   {
@@ -760,6 +794,7 @@ const brands = [
     brandCopy:
       "Butternut offers a wide range of premium dry fruits and nuts for everyday consumption.",
     productSKUs: ["BN-001", "BN-002"],
+    heroImageUrl: "",
     order: 3,
   },
 ];
@@ -800,8 +835,8 @@ const testimonials = [
     _id: "0",
     quote:
       "Divyansh delivers the responsiveness and QA rigor we expect from leading processors. RFQs, lab updates and dispatch milestones arrive without chasing.",
-    author: "Head of purchase",
-    role: "retail Retailer",
+    author: "Head Of Purchase",
+    role: " Modern Trade Retailer",
   },
 ];
 
@@ -2214,6 +2249,13 @@ async function seed() {
         })),
         ctaLine: product.ctaLine,
         description: product.description,
+        heroImageUrl: product.heroImageUrl,
+        gallery:
+          product.gallery?.map((item: { imageUrl?: string; alt?: string }, index: number) => ({
+            _key: `gallery-${index}`,
+            imageUrl: item.imageUrl || "",
+            alt: item.alt || "",
+          })) || [],
         order: product.order,
       };
       await safeCreateOrReplace(doc);
@@ -2232,6 +2274,7 @@ async function seed() {
       primaryCta: slide.primaryCta,
       secondaryCta: slide.secondaryCta,
       videoUrl: slide.videoUrl,
+      posterImageUrl: slide.posterImageUrl,
       order: parseInt(slide._id),
     };
     await client.createOrReplace(doc);
@@ -2245,6 +2288,7 @@ async function seed() {
       year: entry.year,
       title: entry.title,
       description: entry.description,
+      imageUrl: entry.imageUrl,
     };
     await client.createOrReplace(doc);
   }
@@ -2256,6 +2300,7 @@ async function seed() {
       _id: `team-${member._id}`,
       name: member.name,
       role: member.role,
+      imageUrl: member.imageUrl,
     };
     await client.createOrReplace(doc);
   }
@@ -2282,6 +2327,7 @@ async function seed() {
       brandCopy: brand.brandCopy,
       productSKUs: brand.productSKUs,
       distributionContacts: brand.distributionContacts,
+      heroImageUrl: brand.heroImageUrl,
       order: brand.order,
     };
     await client.createOrReplace(doc);

@@ -95,6 +95,7 @@ export type Timeline = {
     alt?: string;
     _type: "image";
   };
+  imageUrl?: string;
 };
 
 export type SanityImageCrop = {
@@ -150,6 +151,7 @@ export type TeamMember = {
     alt?: string;
     _type: "image";
   };
+  imageUrl?: string;
   bio?: string;
   order?: number;
 };
@@ -314,6 +316,7 @@ export type HeroSlide = {
     alt?: string;
     _type: "image";
   };
+  posterImageUrl?: string;
   primaryCta?: {
     label?: string;
     target?: string;
@@ -346,6 +349,7 @@ export type Brand = {
     alt?: string;
     _type: "image";
   };
+  heroImageUrl?: string;
   brandCopy?: string;
   productSKUs?: Array<string>;
   distributionContacts?: Array<{
@@ -404,13 +408,17 @@ export type Product = {
     alt?: string;
     _type: "image";
   };
+  heroImageUrl?: string;
   gallery?: Array<{
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    imageUrl?: string;
     alt?: string;
-    _type: "image";
     _key: string;
   }>;
   microVideo?: {

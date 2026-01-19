@@ -83,6 +83,15 @@ export default defineType({
         },
       ],
     }),
+    defineField({
+      name: "posterImageUrl",
+      title: "Poster Image URL",
+      type: "url",
+      group: "media",
+      description:
+        "Google Drive URL for poster image (used if no uploaded image). Paste the full share URL.",
+      validation: (Rule) => Rule.uri({ scheme: ["https", "http"] }),
+    }),
 
     // =========================================================================
     // CALLS TO ACTION

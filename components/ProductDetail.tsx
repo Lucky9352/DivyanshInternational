@@ -15,6 +15,7 @@ import {
   ProductVisual,
 } from "@/components/VisualElements";
 import { z } from "zod";
+import { getGoogleDriveImageUrl } from "@/lib/utils";
 
 // =============================================================================
 // ZOD SCHEMAS & TYPES
@@ -49,7 +50,17 @@ const ProductSchema = z.object({
     .optional(),
   ctaLine: z.custom<LocaleString>().optional(),
   heroImage: z.custom<SanityImageSource>().optional(),
-  gallery: z.array(z.custom<SanityImageSource>()).optional(),
+  heroImageUrl: z.string().optional().nullable(),
+  gallery: z
+    .array(
+      z.object({
+        _key: z.string().optional(),
+        image: z.custom<SanityImageSource>().optional(),
+        imageUrl: z.string().optional().nullable(),
+        alt: z.string().optional(),
+      })
+    )
+    .optional(),
   rating: z.string().optional(),
 
   // Dynamic Fields
@@ -152,9 +163,33 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
 
   // Data Normalization
   const productType = extractVisualType(productTitle);
-  const productImages = [product.heroImage, ...(product.gallery || [])].filter(
-    Boolean
-  ) as SanityImageSource[];
+
+  // Build unified image array supporting both URL and Sanity images
+  type ProductImage =
+    | { type: "url"; url: string; alt: string }
+    | { type: "sanity"; image: SanityImageSource; alt: string };
+  const productImages: ProductImage[] = [];
+
+  // Add hero image (URL first, then Sanity)
+  if (product.heroImageUrl) {
+    const driveUrl = getGoogleDriveImageUrl(product.heroImageUrl);
+    if (driveUrl) productImages.push({ type: "url", url: driveUrl, alt: productTitle });
+  } else if (product.heroImage) {
+    productImages.push({ type: "sanity", image: product.heroImage, alt: productTitle });
+  }
+
+  // Add gallery images (URL first, then Sanity for each)
+  if (product.gallery) {
+    for (const item of product.gallery) {
+      if (item.imageUrl) {
+        const driveUrl = getGoogleDriveImageUrl(item.imageUrl);
+        if (driveUrl)
+          productImages.push({ type: "url", url: driveUrl, alt: item.alt || productTitle });
+      } else if (item.image) {
+        productImages.push({ type: "sanity", image: item.image, alt: item.alt || productTitle });
+      }
+    }
+  }
 
   const specs = [
     { label: "Origin", value: product.specifications?.origin || "Multiple Origins" },
@@ -237,14 +272,26 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
               <div className="space-y-4">
                 <div className="aspect-square rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 relative">
                   {productImages[selectedImage] ? (
-                    <Image
-                      src={urlFor(productImages[selectedImage]).width(800).height(800).url()}
-                      alt={productTitle}
-                      width={800}
-                      height={800}
-                      className="w-full h-full object-cover"
-                      priority
-                    />
+                    productImages[selectedImage].type === "url" ? (
+                      /* eslint-disable-next-line @next/next/no-img-element */
+                      <img
+                        src={productImages[selectedImage].url}
+                        alt={productImages[selectedImage].alt}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <Image
+                        src={urlFor(productImages[selectedImage].image)
+                          .width(800)
+                          .height(800)
+                          .url()}
+                        alt={productImages[selectedImage].alt}
+                        width={800}
+                        height={800}
+                        className="w-full h-full object-cover"
+                        priority
+                      />
+                    )
                   ) : (
                     <div className="w-full h-full flex flex-col items-center justify-center text-gray-400 p-8">
                       <div className="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center mb-4">
@@ -259,7 +306,7 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
 
                 {productImages.length > 1 ? (
                   <div className="flex gap-2 overflow-x-auto pb-2">
-                    {productImages.map((image, index) => (
+                    {productImages.map((img, index) => (
                       <button
                         key={index}
                         onClick={() => setSelectedImage(index)}
@@ -269,13 +316,22 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
                             : "border-gray-200 hover:border-gray-300"
                         }`}
                       >
-                        <Image
-                          src={urlFor(image).width(160).height(160).url()}
-                          alt={`${productTitle} ${index + 1}`}
-                          width={80}
-                          height={80}
-                          className="w-full h-full object-cover"
-                        />
+                        {img.type === "url" ? (
+                          /* eslint-disable-next-line @next/next/no-img-element */
+                          <img
+                            src={img.url}
+                            alt={`${productTitle} ${index + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <Image
+                            src={urlFor(img.image).width(160).height(160).url()}
+                            alt={`${productTitle} ${index + 1}`}
+                            width={80}
+                            height={80}
+                            className="w-full h-full object-cover"
+                          />
+                        )}
                       </button>
                     ))}
                   </div>

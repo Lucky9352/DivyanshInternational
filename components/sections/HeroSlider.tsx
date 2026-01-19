@@ -24,6 +24,7 @@ import {
   PeanutIcon,
 } from "@/components/assets/Decorations";
 import { urlForImage } from "@/lib/sanity/image";
+import { getGoogleDriveImageUrl } from "@/lib/utils";
 
 // =============================================================================
 // ZOD VALIDATION SCHEMAS
@@ -50,6 +51,7 @@ const HeroSlideSchema = z.object({
   secondaryCta: CTASchema.optional().nullable(),
   videoUrl: z.string().nullable().optional(),
   posterImage: z.unknown().optional().nullable(),
+  posterImageUrl: z.string().optional().nullable(),
   posterUrl: z.string().optional().nullable(),
   stats: z.array(HeroStatsSchema).optional().nullable(),
 });
@@ -404,7 +406,12 @@ interface FallbackBackgroundProps {
 }
 
 function FallbackBackground({ slide }: FallbackBackgroundProps) {
-  const posterUrl = slide.posterImage ? urlForImage(slide.posterImage).url() : slide.posterUrl;
+  // Priority: posterImageUrl (Google Drive) > posterImage (Sanity) > posterUrl (legacy)
+  const posterUrl = slide.posterImageUrl
+    ? getGoogleDriveImageUrl(slide.posterImageUrl)
+    : slide.posterImage
+      ? urlForImage(slide.posterImage).url()
+      : slide.posterUrl;
 
   return (
     <div

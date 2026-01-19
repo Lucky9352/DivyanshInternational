@@ -144,21 +144,58 @@ export default defineType({
       ],
     }),
     defineField({
+      name: "heroImageUrl",
+      title: "Hero Image URL",
+      type: "url",
+      group: "media",
+      description:
+        "Google Drive URL for hero image (used if no uploaded image). Paste the full share URL.",
+      validation: (Rule) => Rule.uri({ scheme: ["https", "http"] }),
+    }),
+    defineField({
       name: "gallery",
       title: "Image Gallery",
       type: "array",
       group: "media",
       of: [
         {
-          type: "image",
-          options: { hotspot: true },
+          type: "object",
+          title: "Gallery Image",
           fields: [
-            {
+            defineField({
+              name: "image",
+              title: "Image (Sanity Upload)",
+              type: "image",
+              options: { hotspot: true },
+            }),
+            defineField({
+              name: "imageUrl",
+              title: "Image URL (Google Drive)",
+              type: "url",
+              description:
+                "Google Drive URL (used if no uploaded image). Paste the full share URL.",
+              validation: (Rule) => Rule.uri({ scheme: ["https", "http"] }),
+            }),
+            defineField({
               name: "alt",
-              type: "string",
               title: "Alt Text",
-            },
+              type: "string",
+            }),
           ],
+          preview: {
+            select: {
+              title: "alt",
+              media: "image",
+              imageUrl: "imageUrl",
+            },
+            prepare({ title, media, imageUrl }) {
+              return {
+                title: title || "Gallery Image",
+                subtitle: imageUrl ? "Has URL" : media ? "Has Image" : "No image",
+                media,
+              };
+            },
+          },
         },
       ],
     }),

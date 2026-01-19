@@ -28,6 +28,14 @@ export default defineType({
       ],
     }),
     defineField({
+      name: "heroImageUrl",
+      title: "Hero Image URL",
+      type: "url",
+      description:
+        "Google Drive URL for hero image (used if no uploaded image). Paste the full share URL.",
+      validation: (Rule) => Rule.uri({ scheme: ["https", "http"] }),
+    }),
+    defineField({
       name: "brandCopy",
       title: "Brand Copy",
       type: "text",
