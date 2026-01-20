@@ -124,21 +124,38 @@ export default function AboutPosterSlider({ sliderData }: AboutPosterSliderProps
       <AnimatePresence mode="wait">
         <motion.div
           key={activeSlide}
-          className="relative w-full"
+          className="relative w-full h-full flex items-center justify-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
         >
           {imageUrl ? (
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img
-              src={imageUrl}
-              alt={currentPoster?.alt ?? "Promotional poster"}
-              className="w-full h-auto block"
-            />
+            <div className="relative w-full h-[85vh] max-h-[900px] min-h-[500px] flex items-center justify-center p-4">
+              {/* Blurred background wrapper for clipping */}
+              <div className="absolute inset-0 overflow-hidden rounded-lg">
+                <div
+                  className="absolute inset-0 scale-110 pointer-events-none"
+                  style={{
+                    backgroundImage: `url(${imageUrl})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    filter: "blur(5px)",
+                    opacity: 1,
+                  }}
+                />
+              </div>
+
+              {/* Main Image - constrained by height */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={imageUrl}
+                alt={currentPoster?.alt ?? "Promotional poster"}
+                className="relative z-10 w-auto h-full max-h-full object-contain shadow-2xl rounded-lg"
+              />
+            </div>
           ) : (
-            <div className="w-full min-h-[60vh] bg-linear-to-br from-bg to-paper flex items-center justify-center">
+            <div className="w-full h-[60vh] flex items-center justify-center bg-sand/20">
               <p className="text-text-muted">Loading poster...</p>
             </div>
           )}

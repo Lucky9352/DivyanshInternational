@@ -270,7 +270,7 @@ export default function AboutContent({
         }
       />
 
-      <div className="bg-linear-to-b from-ivory via-cashew-cream to-beige min-h-screen pt-32 pb-20 relative">
+      <div className="bg-ivory min-h-screen pt-32 pb-20 relative">
         {/* Decorative Background Icons */}
         <DecorativeBackground variant="side-balanced" />
 
@@ -287,7 +287,7 @@ export default function AboutContent({
               <div
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-[600px] h-[300px] opacity-20"
                 style={{
-                  background: "linear-gradient(135deg, #f5f0e8 0%, #efe3d2 50%, #e8dcc8 100%)",
+                  background: "#f5f0e8",
                   borderRadius: "60% 40% 55% 45% / 55% 60% 40% 45%",
                   filter: "blur(40px)",
                 }}
@@ -362,7 +362,7 @@ export default function AboutContent({
               <div
                 className="absolute -inset-4 -z-10"
                 style={{
-                  background: "linear-gradient(135deg, #f5f0e8 0%, #efe3d2 50%, #e8dcc8 100%)",
+                  background: "#f5f0e8",
                   borderRadius: "45% 55% 50% 50% / 50% 45% 55% 50%",
                   transform: "rotate(2deg)",
                 }}
@@ -435,7 +435,7 @@ export default function AboutContent({
               <div
                 className="absolute -inset-6 -z-10"
                 style={{
-                  background: "linear-gradient(135deg, #f5f0e8 0%, #efe3d2 50%, #e8dcc8 100%)",
+                  background: "#f5f0e8",
                   borderRadius: "55% 45% 50% 50% / 50% 55% 45% 50%",
                   transform: "rotate(2deg)",
                 }}
@@ -513,7 +513,7 @@ export default function AboutContent({
               <div
                 className="absolute -inset-6 -z-10"
                 style={{
-                  background: "linear-gradient(135deg, #f5f0e8 0%, #efe3d2 50%, #e8dcc8 100%)",
+                  background: "#f5f0e8",
                   borderRadius: "50% 50% 45% 55% / 45% 50% 50% 55%",
                 }}
               />
@@ -541,7 +541,7 @@ export default function AboutContent({
                     transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
                   >
                     <div className="absolute -top-3 -left-3 z-10">
-                      <div className="w-8 h-8 rounded-full bg-linear-to-br from-gold to-almond-gold flex items-center justify-center text-white font-bold text-[8px] shadow-md ring-2 ring-white">
+                      <div className="w-8 h-8 rounded-full bg-gold flex items-center justify-center text-white font-bold text-[8px] shadow-md ring-2 ring-white">
                         Partners
                       </div>
                     </div>
@@ -575,7 +575,7 @@ export default function AboutContent({
                     transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
                   >
                     <div className="absolute -top-3 -left-3 z-10">
-                      <div className="w-8 h-8 rounded-full bg-linear-to-br from-gold to-almond-gold flex items-center justify-center text-white font-bold text-[10px] shadow-md ring-2 ring-white">
+                      <div className="w-8 h-8 rounded-full bg-gold flex items-center justify-center text-white font-bold text-[10px] shadow-md ring-2 ring-white">
                         Retail
                       </div>
                     </div>

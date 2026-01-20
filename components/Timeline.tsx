@@ -47,7 +47,7 @@ export default function Timeline({ entries }: TimelineProps) {
   return (
     <div className="relative py-12 overflow-hidden">
       {/* Central Line (Desktop) */}
-      <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-linear-to-b from-gold/30 via-gold to-gold/30 hidden md:block -translate-x-1/2" />
+      <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-ivory from-gold/30 via-gold to-gold/30 hidden md:block -translate-x-1/2" />
 
       <div className="space-y-16 md:space-y-0">
         {sortedEntries.map((entry, index) => {
@@ -79,7 +79,7 @@ export default function Timeline({ entries }: TimelineProps) {
                   <div
                     className="absolute -inset-4 md:-inset-6"
                     style={{
-                      background: "linear-gradient(135deg, #f5f0e8 0%, #efe3d2 50%, #e8dcc8 100%)",
+                      background: "#f5f0e8",
                       borderRadius: isEven
                         ? "60% 40% 55% 45% / 55% 60% 40% 45%"
                         : "40% 60% 45% 55% / 45% 40% 60% 55%",
@@ -130,7 +130,7 @@ export default function Timeline({ entries }: TimelineProps) {
                       <div
                         className="w-full h-full flex items-center justify-center"
                         style={{
-                          background: "linear-gradient(135deg, #f5f0e8 0%, #efe3d2 100%)",
+                          background: "#f5f0e8",
                         }}
                       >
                         <div className="text-gold/20">
@@ -158,7 +158,7 @@ export default function Timeline({ entries }: TimelineProps) {
               {/* Center Timeline Element - Numbered Circle */}
               <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center z-20">
                 <motion.div
-                  className="w-10 h-10 rounded-full bg-linear-to-br from-gold to-gold-dark flex items-center justify-center text-white font-bold text-lg shadow-lg ring-4 ring-white"
+                  className="w-10 h-10 rounded-full bg-ivoryr from-gold to-gold-dark flex items-center justify-center text-white font-bold text-lg shadow-lg ring-4 ring-white"
                   initial={{ opacity: 0, scale: 0 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: false, amount: 0.5 }}
@@ -239,7 +239,7 @@ export default function Timeline({ entries }: TimelineProps) {
 
               {/* Mobile Step Number */}
               <div className="md:hidden absolute top-0 left-1/2 -translate-x-1/2 -translate-y-6">
-                <div className="w-8 h-8 rounded-full bg-linear-to-br from-gold to-gold-dark flex items-center justify-center text-white font-bold text-sm shadow-lg">
+                <div className="w-8 h-8 rounded-full bg-ivoryr from-gold to-gold-dark flex items-center justify-center text-white font-bold text-sm shadow-lg">
                   {stepNumber}
                 </div>
               </div>

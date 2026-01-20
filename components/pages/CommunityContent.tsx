@@ -183,7 +183,7 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
   const tradeEvents = community.tradeEvents ?? [];
 
   return (
-    <div className="bg-linear-to-b from-ivory via-cashew-cream to-beige min-h-screen pt-32 pb-20 relative">
+    <div className="bg-ivory from-ivory via-cashew-cream to-beige min-h-screen pt-32 pb-20 relative">
       {/* Decorative Background */}
       <DecorativeBackground variant="scattered" />
 
@@ -200,7 +200,7 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
             <div
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-[600px] h-[300px] opacity-20"
               style={{
-                background: "linear-gradient(135deg, #f5f0e8 0%, #efe3d2 50%, #e8dcc8 100%)",
+                background: "#f5f0e8",
                 borderRadius: "60% 40% 55% 45% / 55% 60% 40% 45%",
                 filter: "blur(40px)",
               }}
@@ -264,7 +264,7 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
             <div
               className="absolute -inset-4 -z-10"
               style={{
-                background: "linear-gradient(135deg, #f5f0e8 0%, #efe3d2 50%, #e8dcc8 100%)",
+                background: "#f5f0e8",
                 borderRadius: "55% 45% 50% 50% / 50% 55% 45% 50%",
                 transform: "rotate(-2deg)",
               }}
@@ -329,7 +329,7 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
                 <div
                   className="absolute -inset-4 -z-10"
                   style={{
-                    background: "linear-gradient(135deg, #f5f0e8 0%, #efe3d2 50%, #e8dcc8 100%)",
+                    background: "#f5f0e8",
                     borderRadius: "55% 45% 50% 50% / 50% 55% 45% 50%",
                     transform: "rotate(-2deg)",
                   }}
@@ -360,7 +360,7 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
                 <div
                   className="absolute -inset-3 -z-10"
                   style={{
-                    background: "linear-gradient(135deg, #f5f0e8 0%, #efe3d2 50%, #e8dcc8 100%)",
+                    background: "#f5f0e8",
                     borderRadius: "45% 55% 50% 50% / 50% 45% 55% 50%",
                     transform: "rotate(3deg)",
                   }}
@@ -388,7 +388,7 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
             <div
               className="absolute -inset-6 -z-10"
               style={{
-                background: "linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 50%, #f5f5f5 100%)",
+                background: "#e8f5e9",
                 borderRadius: "50% 50% 45% 55% / 45% 50% 50% 55%",
                 transform: "rotate(1deg)",
               }}
@@ -447,7 +447,7 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
             <div
               className="absolute -inset-6 -z-10"
               style={{
-                background: "linear-gradient(135deg, #f5f0e8 0%, #efe3d2 50%, #e8dcc8 100%)",
+                background: "#f5f0e8",
                 borderRadius: "45% 55% 50% 50% / 50% 45% 55% 50%",
                 transform: "rotate(-1deg)",
               }}
@@ -522,7 +522,7 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
                   <div
                     className="absolute -inset-4 -z-10"
                     style={{
-                      background: "linear-gradient(135deg, #f5f0e8 0%, #efe3d2 50%, #e8dcc8 100%)",
+                      background: "#f5f0e8",
                       borderRadius: "55% 45% 50% 50% / 50% 55% 45% 50%",
                       transform: "rotate(-2deg)",
                     }}
@@ -558,7 +558,7 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
                   <div
                     className="absolute -inset-4 -z-10"
                     style={{
-                      background: "linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 50%, #f5f5f5 100%)",
+                      background: "#e8f5e9",
                       borderRadius: "45% 55% 50% 50% / 50% 45% 55% 50%",
                       transform: "rotate(2deg)",
                     }}
@@ -642,7 +642,7 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
             <div
               className="absolute -inset-6 -z-10"
               style={{
-                background: "linear-gradient(135deg, #f5f0e8 0%, #efe3d2 50%, #e8dcc8 100%)",
+                background: "#f5f0e8",
                 borderRadius: "55% 45% 50% 50% / 50% 55% 45% 50%",
                 transform: "rotate(-2deg)",
               }}
@@ -721,7 +721,7 @@ function TradeEventCard({ event, index }: TradeEventCardProps) {
       <div
         className="absolute -inset-2 -z-10"
         style={{
-          background: "linear-gradient(135deg, #f5f0e8 0%, #efe3d2 50%, #e8dcc8 100%)",
+          background: "#f5f0e8",
           borderRadius:
             index % 2 === 0
               ? "55% 45% 50% 50% / 50% 55% 45% 50%"
@@ -732,7 +732,7 @@ function TradeEventCard({ event, index }: TradeEventCardProps) {
 
       <div className="bg-white/95 backdrop-blur-sm p-6 rounded-2xl border border-sand shadow-md hover:shadow-lg transition-all duration-300">
         <div className="flex items-start space-x-4">
-          <div className="shrink-0 w-12 h-12 bg-linear-to-br from-almond-gold to-gold-dark rounded-full flex items-center justify-center text-white font-bold shadow-md">
+          <div className="shrink-0 w-12 h-12 bg-ivoryr from-almond-gold to-gold-dark rounded-full flex items-center justify-center text-white font-bold shadow-md">
             📅
           </div>
           <div className="flex-1">

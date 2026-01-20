@@ -265,7 +265,7 @@ function CertificateCard({ certificate }: CertificateCardProps) {
       variants={scaleIn}
     >
       {/* Shine Effect */}
-      <div className="absolute inset-0 bg-linear-to-br from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+      <div className="absolute inset-0 bg-ivoryr from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
       <div
         className="absolute top-0 right-0 p-2 opacity-70 group-hover:opacity-100 transition-opacity duration-500"
@@ -361,7 +361,7 @@ function SegmentCard({ segment }: SegmentCardProps) {
       className="min-h-[100px] flex flex-col items-center justify-center gap-2 rounded-xl border border-border bg-white text-center px-4 py-4 hover:shadow-lg hover:border-gold/50 hover:-translate-y-1 transition-all duration-300 group"
       variants={fadeInUp}
     >
-      <div className="w-10 h-10 rounded-lg bg-linear-to-br from-gold/20 to-amber-100 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+      <div className="w-10 h-10 rounded-lg bg-ivoryr from-gold/20 to-amber-100 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
         {renderIcon()}
       </div>
       <span className="text-sm font-semibold text-text-muted group-hover:text-gold-dark transition-colors">

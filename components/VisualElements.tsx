@@ -170,7 +170,7 @@ export default function VisualElements({
       {elements.map((element, index) => (
         <div
           key={index}
-          className={`absolute ${positions[index % positions.length]} ${element.size} bg-linear-to-br ${element.color} rounded-full transform ${element.rotation} ${element.opacity}`}
+          className={`absolute ${positions[index % positions.length]} ${element.size} bg-ivoryr ${element.color} rounded-full transform ${element.rotation} ${element.opacity}`}
           aria-hidden="true"
         />
       ))}
@@ -200,29 +200,29 @@ export function ProductVisual({ productType, size = "md", className = "" }: Prod
           className={`${baseSize} bg-white rounded-lg flex items-center justify-center ${className}`}
           aria-hidden="true"
         >
-          <div className="w-3/4 h-3/4 bg-linear-to-br from-amber-200 to-amber-400 rounded-sm"></div>
+          <div className="w-3/4 h-3/4 bg-ivoryr from-amber-200 to-amber-400 rounded-sm"></div>
         </div>
       );
     case "almonds":
       return (
         <div
-          className={`${baseSize} bg-linear-to-br from-amber-300 to-amber-500 rounded-full transform rotate-12 flex items-center justify-center ${className}`}
+          className={`${baseSize} bg-ivoryr from-amber-300 to-amber-500 rounded-full transform rotate-12 flex items-center justify-center ${className}`}
           aria-hidden="true"
         >
-          <div className="w-3/4 h-1/2 bg-linear-to-br from-amber-100 to-amber-200 rounded-full"></div>
+          <div className="w-3/4 h-1/2 bg-ivoryr from-amber-100 to-amber-200 rounded-full"></div>
         </div>
       );
     case "nuts":
       return (
         <div
-          className={`${baseSize} bg-linear-to-br from-amber-300 to-amber-500 rounded-full transform rotate-12 ${className}`}
+          className={`${baseSize} bg-ivoryr from-amber-300 to-amber-500 rounded-full transform rotate-12 ${className}`}
           aria-hidden="true"
         ></div>
       );
     default:
       return (
         <div
-          className={`${baseSize} bg-linear-to-br from-amber-200 to-amber-400 rounded-full ${className}`}
+          className={`${baseSize} bg-ivoryr from-amber-200 to-amber-400 rounded-full ${className}`}
           aria-hidden="true"
         ></div>
       );

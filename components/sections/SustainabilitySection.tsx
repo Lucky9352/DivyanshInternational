@@ -264,7 +264,7 @@ function PillarCard({ pillar, index }: PillarCardProps) {
 
       {/* Icon */}
       <div
-        className={`w-14 h-14 rounded-xl bg-linear-to-br ${bgColor} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
+        className={`w-14 h-14 rounded-xl bg-ivoryr ${bgColor} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
       >
         {Icon ? <Icon className={`w-7 h-7 ${iconColor}`} strokeWidth={1.5} /> : null}
       </div>
@@ -277,7 +277,7 @@ function PillarCard({ pillar, index }: PillarCardProps) {
 
       {/* Hover decoration */}
       <motion.div
-        className="absolute bottom-0 left-0 right-0 h-0.5 bg-linear-to-r from-transparent via-gold to-transparent opacity-0 group-hover:opacity-100"
+        className="absolute bottom-0 left-0 right-0 h-0.5 bg-gold from-transparent via-gold to-transparent opacity-0 group-hover:opacity-100"
         transition={{ duration: 0.3 }}
       />
     </motion.article>

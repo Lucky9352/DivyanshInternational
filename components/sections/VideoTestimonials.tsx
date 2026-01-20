@@ -272,7 +272,7 @@ function TestimonialCard({ testimonial, index }: TestimonialCardProps) {
 
       {/* Quote Icon */}
       <div
-        className={`w-12 h-12 rounded-xl bg-linear-to-br ${color.avatar} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
+        className={`w-12 h-12 rounded-xl bg-ivoryr ${color.avatar} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
       >
         <Quote className={`w-6 h-6 ${color.text}`} />
       </div>
@@ -285,7 +285,7 @@ function TestimonialCard({ testimonial, index }: TestimonialCardProps) {
       {/* Author Info */}
       <footer className="flex items-center gap-3 pt-4 border-t border-border">
         <div
-          className={`w-10 h-10 rounded-full bg-linear-to-br ${color.avatar} flex items-center justify-center`}
+          className={`w-10 h-10 rounded-full bg-ivoryr ${color.avatar} flex items-center justify-center`}
         >
           <span className={`text-sm font-bold ${color.text}`}>{testimonial.author.charAt(0)}</span>
         </div>
@@ -297,7 +297,7 @@ function TestimonialCard({ testimonial, index }: TestimonialCardProps) {
 
       {/* Hover decoration */}
       <motion.div
-        className={`absolute bottom-0 left-0 right-0 h-0.5 bg-linear-to-r ${color.quote} opacity-0 group-hover:opacity-100`}
+        className={`absolute bottom-0 left-0 right-0 h-0.5 bg-gold ${color.quote} opacity-0 group-hover:opacity-100`}
         transition={{ duration: 0.3 }}
       />
     </motion.article>
