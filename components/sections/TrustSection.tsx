@@ -13,6 +13,16 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { z } from "zod";
+import DecorativeBackground from "@/components/ui/DecorativeBackground";
+import {
+  ShoppingCart,
+  Building2,
+  UtensilsCrossed,
+  Factory,
+  CheckCircle,
+  Shield,
+  Award,
+} from "lucide-react";
 
 import type { SanityImageSource } from "@sanity/image-url";
 import { urlForImage } from "@/lib/sanity/image";
@@ -89,7 +99,7 @@ const staggerContainer = {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.05, // Very fast stagger
+      staggerChildren: 0.05,
     },
   },
 };
@@ -107,7 +117,7 @@ const staggerContainerDelayed = {
 
 const scaleIn = {
   hidden: { opacity: 0, scale: 0.95 },
-  show: { opacity: 1, scale: 1, transition: { duration: 0.4 } }, // Faster
+  show: { opacity: 1, scale: 1, transition: { duration: 0.4 } },
 };
 
 const fadeInUp = {
@@ -124,7 +134,6 @@ export default function TrustSection({
   sectionSettings,
   routing,
 }: TrustSectionProps) {
-  // Validate props in development
   if (process.env.NODE_ENV === "development") {
     validateProps({ initialCertificates, sectionSettings, routing });
   }
@@ -143,72 +152,86 @@ export default function TrustSection({
   const sectionId = routing?.trustSectionId;
 
   return (
-    <section id={sectionId} className="py-20 bg-ivory" aria-labelledby="trust-heading">
-      <div className="container mx-auto px-4 md:px-6 lg:px-10">
-        <div className="section-shell p-8 md:p-12 border border-[#efe3d2]">
-          {/* Section Header */}
-          {sectionSettings ? <SectionHeader settings={sectionSettings} /> : null}
+    <section id={sectionId} className="py-16 bg-bg relative" aria-labelledby="trust-heading">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `radial-gradient(circle at 1px 1px, #d4a853 1px, transparent 0)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+      </div>
 
-          {/* Certificates Grid */}
-          {displayCertificates.length > 0 ? (
-            <CertificatesGrid certificates={displayCertificates} />
-          ) : null}
+      {/* Floating Decorations */}
+      <DecorativeBackground variant="side-balanced" />
 
-          {/* Partner Segments Grid */}
-          {segments.length > 0 ? <SegmentsGrid segments={segments} /> : null}
+      <div className="container mx-auto px-4 md:px-6 lg:px-10 relative z-10">
+        {/* Centered Header */}
+        <div className="text-center mb-16 max-w-3xl mx-auto">
+          {/* Icon */}
+          <motion.div
+            className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-50 text-gold mb-6"
+            initial={{ scale: 0, rotate: -180 }}
+            whileInView={{ scale: 1, rotate: 0 }}
+            viewport={{ once: true }}
+            transition={{ type: "spring", stiffness: 200, damping: 15 }}
+          >
+            <Shield className="w-8 h-8" />
+          </motion.div>
+
+          {sectionSettings?.eyebrow && (
+            <motion.div
+              className="flex items-center justify-center gap-2 mb-4"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <span className="h-px w-8 bg-gold" />
+              <span className="uppercase tracking-[0.3em] text-sm text-gold-dark font-semibold">
+                {sectionSettings.eyebrow}
+              </span>
+              <span className="h-px w-8 bg-gold" />
+            </motion.div>
+          )}
+
+          {sectionSettings?.title && (
+            <motion.h2
+              id="trust-heading"
+              className="text-3xl md:text-4xl lg:text-5xl font-bold text-deep-brown mb-6 font-heading leading-tight"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              {sectionSettings.title}
+            </motion.h2>
+          )}
+
+          {sectionSettings?.description && (
+            <motion.p
+              className="text-lg text-text-muted leading-relaxed"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              {sectionSettings.description}
+            </motion.p>
+          )}
         </div>
+
+        {/* Certificates Grid */}
+        {displayCertificates.length > 0 ? (
+          <CertificatesGrid certificates={displayCertificates} />
+        ) : null}
+
+        {/* Partner Segments Grid */}
+        {segments.length > 0 ? <SegmentsGrid segments={segments} /> : null}
       </div>
     </section>
-  );
-}
-
-// =============================================================================
-// HELPER COMPONENTS
-// =============================================================================
-
-interface SectionHeaderProps {
-  settings: SectionSettings;
-}
-
-function SectionHeader({ settings }: SectionHeaderProps) {
-  return (
-    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 mb-10">
-      <div className="flex-1">
-        {settings.eyebrow ? (
-          <motion.p
-            className="uppercase tracking-[0.4em] text-xs text-(--color-muted) mb-4 font-bold"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-          >
-            {settings.eyebrow}
-          </motion.p>
-        ) : null}
-        {settings.title ? (
-          <motion.h2
-            className="text-3xl font-semibold text-(--color-graphite)"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-          >
-            {settings.title}
-          </motion.h2>
-        ) : null}
-      </div>
-      {settings.description ? (
-        <motion.div
-          className="text-(--color-slate) max-w-xl"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          <p>{settings.description}</p>
-        </motion.div>
-      ) : null}
-    </div>
   );
 }
 
@@ -250,7 +273,7 @@ function CertificateCard({ certificate }: CertificateCardProps) {
         aria-hidden="true"
       >
         {certificate.imageUrl ? (
-          <div className="w-16 h-16 relative grayscale group-hover:grayscale-0 transition-all duration-500">
+          <div className="w-16 h-16 relative transition-all duration-500">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={getGoogleDriveImageUrl(certificate.imageUrl) || ""}
@@ -259,7 +282,7 @@ function CertificateCard({ certificate }: CertificateCardProps) {
             />
           </div>
         ) : certificate.image ? (
-          <div className="w-16 h-16 relative grayscale group-hover:grayscale-0 transition-all duration-500">
+          <div className="w-16 h-16 relative transition-all duration-500">
             <Image
               src={urlForImage(certificate.image).url()}
               alt=""
@@ -274,7 +297,7 @@ function CertificateCard({ certificate }: CertificateCardProps) {
       <p className="text-sm uppercase tracking-[0.3em] text-gold-dark mb-2 font-bold group-hover:text-gold transition-colors">
         {certificate.label}
       </p>
-      <p className="text-(--color-graphite) font-medium group-hover:text-deep-brown transition-colors">
+      <p className="text-deep-brown font-medium group-hover:text-brown-light transition-colors">
         {certificate.description}
       </p>
     </motion.article>
@@ -318,13 +341,33 @@ interface SegmentCardProps {
   segment: string;
 }
 
+// Icon mapping outside component to avoid creating during render
+
 function SegmentCard({ segment }: SegmentCardProps) {
+  const lower = segment.toLowerCase();
+
+  const renderIcon = () => {
+    const iconProps = { className: "w-5 h-5 text-gold-dark", strokeWidth: 1.5 };
+    if (lower.includes("retail")) return <ShoppingCart {...iconProps} />;
+    if (lower.includes("professional") || lower.includes("purchase"))
+      return <Building2 {...iconProps} />;
+    if (lower.includes("hospitality")) return <UtensilsCrossed {...iconProps} />;
+    if (lower.includes("food") || lower.includes("processing") || lower.includes("wellness"))
+      return <Factory {...iconProps} />;
+    return <CheckCircle {...iconProps} />;
+  };
+
   return (
     <motion.div
-      className="min-h-[80px] flex items-center justify-center rounded-xl border border-[#efe3d2] bg-white/80 text-center px-4 text-sm font-semibold text-(--color-slate) hover:bg-white hover:shadow-lg hover:border-gold/50 hover:-translate-y-1 transition-all duration-300"
+      className="min-h-[100px] flex flex-col items-center justify-center gap-2 rounded-xl border border-border bg-white text-center px-4 py-4 hover:shadow-lg hover:border-gold/50 hover:-translate-y-1 transition-all duration-300 group"
       variants={fadeInUp}
     >
-      {segment}
+      <div className="w-10 h-10 rounded-lg bg-linear-to-br from-gold/20 to-amber-100 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+        {renderIcon()}
+      </div>
+      <span className="text-sm font-semibold text-text-muted group-hover:text-gold-dark transition-colors">
+        {segment}
+      </span>
     </motion.div>
   );
 }

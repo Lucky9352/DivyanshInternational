@@ -15,14 +15,7 @@ import { useEffect, useState, useCallback, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { z } from "zod";
-import {
-  LeafIcon,
-  NutIcon,
-  AlmondIcon,
-  CashewIcon,
-  WalnutIcon,
-  PeanutIcon,
-} from "@/components/assets/Decorations";
+import { LeafIcon } from "@/components/assets/Decorations";
 import { urlForImage } from "@/lib/sanity/image";
 import { getGoogleDriveImageUrl } from "@/lib/utils";
 
@@ -279,11 +272,8 @@ export default function HeroSlider({
         )}
       </button>
 
-      {/* Floating Dry Fruits Decorations */}
-      <DecorativeBackground />
-
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 md:px-6 lg:px-10 py-16 md:py-24">
+      <div className="relative z-10 container mx-auto px-4 md:px-6 lg:px-10 py-16">
         <div className="grid lg:grid-cols-[1fr_0.4fr] gap-8 lg:gap-12 items-start min-h-[60vh]">
           {/* Text Content */}
           <div className="flex flex-col">
@@ -387,7 +377,7 @@ function VideoBackground({
         )}
       </AnimatePresence>
       {/* Light warm overlay */}
-      <div className="absolute inset-0 bg-linear-to-br from-ivory/80 via-cashew-cream/70 to-beige/60" />
+      <div className="absolute inset-0 bg-linear-to-br from-bg/80 via-paper/70 to-border/60" />
       {/* Subtle texture */}
       <div
         className="absolute inset-0 opacity-20"
@@ -415,14 +405,14 @@ function FallbackBackground({ slide }: FallbackBackgroundProps) {
 
   return (
     <div
-      className="w-full h-full bg-cover bg-center bg-no-repeat bg-linear-to-br from-ivory to-beige"
+      className="w-full h-full bg-cover bg-center bg-no-repeat bg-linear-to-br from-bg to-paper"
       style={{
         backgroundImage: posterUrl ? `url(${posterUrl})` : undefined,
       }}
     >
       {!posterUrl ? (
-        <div className="absolute inset-0 flex items-center justify-center bg-linear-to-br from-ivory to-beige">
-          <div className="text-center text-(--color-slate)">
+        <div className="absolute inset-0 flex items-center justify-center bg-linear-to-br from-bg to-paper">
+          <div className="text-center text-text-muted">
             <svg
               className="w-16 h-16 mx-auto mb-4 opacity-50"
               fill="none"
@@ -444,7 +434,6 @@ function FallbackBackground({ slide }: FallbackBackgroundProps) {
     </div>
   );
 }
-
 interface SlideContentProps {
   slide: HeroSlide;
   onNavigate: (target: string) => void;
@@ -477,13 +466,13 @@ function SlideContent({ slide, onNavigate }: SlideContentProps) {
           }}
           className="flex items-center gap-3 mb-4 md:mb-6"
         >
-          <span className="h-px w-8 md:w-12 bg-almond-gold" aria-hidden="true" />
+          <span className="h-px w-8 md:w-12 bg-gold" aria-hidden="true" />
           <p className="uppercase tracking-[0.2em] md:tracking-[0.4em] text-[10px] md:text-xs text-text-muted font-semibold">
             {slide.eyebrow ?? ""}
           </p>
         </motion.div>
 
-        <div className="mb-4 md:mb-6 leading-tight font-heading text-[#1a120b] drop-shadow-md overflow-hidden min-h-[1.2em]">
+        <div className="mb-4 md:mb-6 leading-tight font-heading text-deep-brown drop-shadow-md overflow-hidden min-h-[1.2em]">
           <motion.h1
             className="text-4xl md:text-6xl lg:text-7xl font-bold"
             variants={{
@@ -502,12 +491,12 @@ function SlideContent({ slide, onNavigate }: SlideContentProps) {
           }}
           className="mb-4 md:mb-6"
         >
-          <p className="text-xs md:text-sm text-almond-gold font-bold tracking-wide uppercase border-l-4 border-almond-gold pl-4 py-1 inline-block drop-shadow-sm">
+          <p className="text-xs md:text-sm text-gold font-bold tracking-wide uppercase border-l-4 border-gold pl-4 py-1 inline-block drop-shadow-sm">
             {slide.badge}
           </p>
         </motion.div>
 
-        <div className="space-y-3 md:space-y-4 text-base md:text-lg text-[#2c241b] max-w-2xl mb-8 md:mb-10 leading-relaxed font-semibold">
+        <div className="space-y-3 md:space-y-4 text-base md:text-lg text-deep-brown max-w-2xl mb-8 md:mb-10 leading-relaxed font-semibold">
           {(slide.paragraphs ?? []).map((paragraph, index) => (
             <motion.p
               key={`${slide._id}-paragraph-${index}`}
@@ -533,7 +522,7 @@ function SlideContent({ slide, onNavigate }: SlideContentProps) {
             <button
               type="button"
               onClick={() => onNavigate(slide.primaryCta!.target)}
-              className="px-6 py-3 md:px-8 md:py-4 rounded-full text-sm md:text-base font-bold bg-linear-to-r from-almond-gold to-gold-dark text-white transition-all shadow-lg hover:shadow-xl hover:scale-105 duration-300"
+              className="px-6 py-3 md:px-8 md:py-4 rounded-full text-sm md:text-base font-bold bg-gold text-white transition-all shadow-lg hover:shadow-xl hover:bg-gold-dark hover:scale-105 duration-300"
             >
               {slide.primaryCta.label}
             </button>
@@ -578,15 +567,15 @@ function StatsPanel({ slideId, stats }: StatsPanelProps) {
             className="p-4 transition-all duration-300 group hover:translate-x-2"
           >
             <div className="flex justify-between items-start mb-1">
-              <p className="text-4xl font-bold text-[#1a120b] group-hover:text-almond-gold transition-colors font-heading drop-shadow-md">
+              <p className="text-4xl font-bold text-deep-brown group-hover:text-gold transition-colors font-heading drop-shadow-md">
                 {stat.value}
               </p>
-              <LeafIcon className="w-5 h-5 text-almond-gold drop-shadow-sm" />
+              <LeafIcon className="w-5 h-5 text-gold drop-shadow-sm" />
             </div>
-            <p className="text-xs uppercase tracking-[0.3em] text-[#3e2f23] mb-1 font-bold drop-shadow-sm">
+            <p className="text-xs uppercase tracking-[0.3em] text-deep-brown mb-1 font-bold drop-shadow-sm">
               {stat.label}
             </p>
-            <p className="text-sm text-[#2c241b] italic font-semibold drop-shadow-sm">
+            <p className="text-sm text-deep-brown italic font-semibold drop-shadow-sm">
               {stat.detail}
             </p>
           </motion.div>
@@ -623,7 +612,7 @@ function SliderControls({
         className={`p-2.5 rounded-full backdrop-blur-md border transition-all shadow-sm ${
           isFirst
             ? "bg-white/50 border-gray-100 text-gray-400 cursor-not-allowed"
-            : "bg-white/90 border-gray-200 text-deep-brown hover:bg-almond-gold hover:border-almond-gold hover:text-white hover:shadow-md"
+            : "bg-white/90 border-border text-deep-brown hover:bg-gold hover:border-gold hover:text-white hover:shadow-md"
         }`}
         aria-label={accessibility?.prevSlideAria ?? "Previous slide"}
         aria-disabled={isFirst}
@@ -640,7 +629,7 @@ function SliderControls({
       </button>
       <span className="text-sm font-medium text-text-muted tabular-nums min-w-[60px] text-center">
         {String(activeSlide + 1).padStart(2, slideNumberPadding)}
-        <span className="text-almond-gold mx-1">/</span>
+        <span className="text-gold mx-1">/</span>
         {slides.length.toString().padStart(2, slideNumberPadding)}
       </span>
       <button
@@ -665,99 +654,6 @@ function SliderControls({
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>
       </button>
-    </div>
-  );
-}
-
-function DecorativeBackground() {
-  return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-      {/* Almonds */}
-      <motion.div
-        animate={{ rotate: [0, 10, -10, 0], y: [0, -15, 0], x: [0, 10, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-        className="absolute top-20 right-[15%] opacity-20"
-      >
-        <AlmondIcon className="w-32 h-32 text-almond-gold" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, -12, 12, 0], y: [0, 12, 0] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "linear", delay: 1 }}
-        className="absolute bottom-32 left-[10%] opacity-20"
-      >
-        <AlmondIcon className="w-40 h-40" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, 15, -15, 0], x: [0, -12, 0] }}
-        transition={{ duration: 11, repeat: Infinity, ease: "linear", delay: 2 }}
-        className="absolute top-1/3 left-[5%] opacity-15"
-      >
-        <AlmondIcon className="w-28 h-28" />
-      </motion.div>
-
-      {/* Cashews */}
-      <motion.div
-        animate={{ rotate: [0, 14, -14, 0], y: [0, -10, 0] }}
-        transition={{ duration: 9, repeat: Infinity, ease: "linear", delay: 1.5 }}
-        className="absolute top-1/4 right-[8%] opacity-20"
-      >
-        <CashewIcon className="w-36 h-36" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, -11, 11, 0], x: [0, 8, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "linear", delay: 3 }}
-        className="absolute bottom-1/4 right-[20%] opacity-15"
-      >
-        <CashewIcon className="w-30 h-30" />
-      </motion.div>
-
-      {/* Walnuts */}
-      <motion.div
-        animate={{ rotate: [0, 360], scale: [1, 1.1, 1] }}
-        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-        className="absolute top-1/2 right-[25%] opacity-15"
-      >
-        <WalnutIcon className="w-24 h-24" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, -8, 8, 0], y: [0, 10, 0] }}
-        transition={{ duration: 13, repeat: Infinity, ease: "linear", delay: 2.5 }}
-        className="absolute bottom-1/3 left-[15%] opacity-20"
-      >
-        <WalnutIcon className="w-32 h-32" />
-      </motion.div>
-
-      {/* Peanuts */}
-      <motion.div
-        animate={{ rotate: [0, 12, -12, 0], x: [0, -10, 0] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "linear", delay: 3.5 }}
-        className="absolute top-2/3 right-[12%] opacity-15"
-      >
-        <PeanutIcon className="w-26 h-26" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, -15, 15, 0], y: [0, -8, 0] }}
-        transition={{ duration: 14, repeat: Infinity, ease: "linear", delay: 4.5 }}
-        className="absolute top-1/4 left-[20%] opacity-15"
-      >
-        <PeanutIcon className="w-22 h-22" />
-      </motion.div>
-
-      {/* Large Background Elements */}
-      <motion.div
-        animate={{ y: [0, -20, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-        className="absolute -top-20 -right-20 opacity-5"
-      >
-        <LeafIcon className="w-96 h-96 text-pistachio-green" />
-      </motion.div>
-      <motion.div
-        animate={{ y: [0, -20, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "linear", delay: 1 }}
-        className="absolute -bottom-32 -left-20 opacity-5"
-      >
-        <NutIcon className="w-120 h-120 text-deep-brown" />
-      </motion.div>
     </div>
   );
 }

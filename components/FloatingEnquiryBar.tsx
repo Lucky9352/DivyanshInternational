@@ -157,7 +157,7 @@ export default function FloatingEnquiryBar({
               </button>
               <button
                 onClick={handleSubmit}
-                className="flex-1 sm:flex-none px-6 py-2.5 bg-linear-to-r from-gold to-gold-dark hover:brightness-110 text-white rounded-lg font-bold shadow-lg shadow-gold/20 transition-all hover:scale-105 active:scale-95 focus:outline-2 focus:outline-white focus:outline-offset-2 flex items-center justify-center gap-2"
+                className="flex-1 sm:flex-none px-6 py-2.5 bg-gold hover:bg-gold-dark text-white rounded-lg font-bold shadow-lg shadow-gold/20 transition-all hover:scale-105 active:scale-95 focus:outline-2 focus:outline-white focus:outline-offset-2 flex items-center justify-center gap-2"
               >
                 <span>{labels?.submitEnquiry || "Request Quote"}</span>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

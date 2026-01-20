@@ -242,7 +242,7 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
       <div className="relative z-10">
         {/* Breadcrumb */}
         <div className="container mx-auto px-4 md:px-6 lg:px-8 py-4">
-          <nav className="flex items-center gap-2 text-sm text-(--color-muted)">
+          <nav className="flex items-center gap-2 text-sm text-text-muted">
             <Link
               href={labels.navigation.homeUrl || "/"}
               className="hover:text-gold transition-colors"
@@ -274,7 +274,7 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
             <div className="grid lg:grid-cols-2 gap-8 p-6 md:p-8">
               {/* Product Images */}
               <div className="space-y-4">
-                <div className="rounded-2xl overflow-hidden bg-gray-50 border border-gray-100">
+                <div className="rounded-2xl overflow-hidden bg-ivory border border-sand">
                   {productImages[selectedImage] ? (
                     productImages[selectedImage].type === "url" ? (
                       /* eslint-disable-next-line @next/next/no-img-element */
@@ -317,7 +317,7 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
                         className={`shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
                           selectedImage === index
                             ? "border-gold shadow-md scale-105"
-                            : "border-gray-200 hover:border-gray-300"
+                            : "border-sand hover:border-gold/50"
                         }`}
                       >
                         {img.type === "url" ? (
@@ -345,19 +345,19 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
               {/* Product Details */}
               <div className="space-y-6">
                 <div className="flex items-center gap-2">
-                  <div className="flex text-yellow-400">
+                  <div className="flex text-gold">
                     {"★★★★★".split("").map((c, i) => (
                       <span key={i}>{c}</span>
                     ))}
                   </div>
-                  <span className="text-sm text-gray-600">({product.rating || "4.8"})</span>
+                  <span className="text-sm text-text-muted">({product.rating || "4.8"})</span>
                 </div>
 
                 <div>
                   <h1 className="text-3xl font-bold text-deep-brown mb-2">
                     {heroHeading || productTitle}
                   </h1>
-                  <p className="text-(--color-muted) uppercase tracking-wide text-sm mb-2">
+                  <p className="text-text-muted uppercase tracking-wide text-sm mb-2">
                     {product.category}
                   </p>
                   {ctaLine ? <p className="text-gold font-medium text-lg">{ctaLine}</p> : null}
@@ -377,7 +377,7 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
                       </span>
                     ) : null}
                     {pricing.discount ? (
-                      <span className="bg-red-100 text-red-600 text-sm px-3 py-1 rounded-full font-medium">
+                      <span className="bg-red-50 text-red-700 text-sm px-3 py-1 rounded-full font-medium border border-red-100">
                         {pricing.discount}% OFF
                       </span>
                     ) : null}
@@ -385,7 +385,7 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
                 ) : null}
 
                 {/* Short Descriptions */}
-                <div className="space-y-3 text-gray-700 leading-relaxed">
+                <div className="space-y-3 text-text-muted leading-relaxed">
                   {description ? <p>{description}</p> : null}
                   {product.introParagraphs?.map((p, i) => (
                     <p key={i}>{getLocalized(p, language)}</p>
@@ -393,13 +393,13 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
                 </div>
 
                 {/* Specs Box */}
-                <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                <div className="bg-ivory rounded-xl p-4 border border-sand">
                   <h3 className="font-semibold text-deep-brown mb-3">Specifications</h3>
                   <div className="space-y-2">
                     {specs.map((spec, index) => (
                       <div key={index} className="flex justify-between text-sm">
-                        <span className="text-gray-600">{spec.label}:</span>
-                        <span className="font-medium text-gray-900">{spec.value}</span>
+                        <span className="text-text-muted">{spec.label}:</span>
+                        <span className="font-medium text-deep-brown">{spec.value}</span>
                       </div>
                     ))}
                   </div>
@@ -425,8 +425,8 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
             </div>
 
             {/* Tabs */}
-            <div className="border-t border-gray-200">
-              <div className="flex border-b border-gray-200 overflow-x-auto">
+            <div className="border-t border-sand">
+              <div className="flex border-b border-sand overflow-x-auto">
                 {(["description", "packaging", "forms"] as const).map((tab) => (
                   <button
                     key={tab}
@@ -434,7 +434,7 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
                     className={`px-6 py-4 font-medium text-sm transition-colors whitespace-nowrap ${
                       activeTab === tab
                         ? "border-b-2 border-gold text-gold"
-                        : "text-gray-600 hover:text-deep-brown"
+                        : "text-text-muted hover:text-deep-brown"
                     }`}
                   >
                     {tab.charAt(0).toUpperCase() + tab.slice(1)}{" "}
@@ -456,7 +456,9 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
                           {section.items?.map((item, i) => (
                             <li key={i} className="flex items-start gap-2">
                               <span className="w-1.5 h-1.5 bg-gold rounded-full mt-2.5 shrink-0" />
-                              <span className="text-gray-700">{getLocalized(item, language)}</span>
+                              <span className="text-text-muted">
+                                {getLocalized(item, language)}
+                              </span>
                             </li>
                           ))}
                         </ul>
@@ -484,7 +486,7 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
                           {product.varieties.map((v, i) => (
                             <div
                               key={i}
-                              className={`rounded-xl p-4 border border-gray-100 hover:shadow-md transition-all bg-linear-to-br ${v.color || "from-white to-gray-50"}`}
+                              className={`rounded-xl p-4 border border-sand hover:shadow-md transition-all bg-linear-to-br ${v.color || "from-white to-ivory"}`}
                             >
                               <div className="flex items-center gap-3 mb-2">
                                 <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-xs">
@@ -494,12 +496,12 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
                                   <h4 className="font-semibold text-deep-brown text-sm">
                                     {v.name}
                                   </h4>
-                                  <span className="text-xs px-2 py-0.5 bg-white/50 rounded-full border border-gray-200">
+                                  <span className="text-xs px-2 py-0.5 bg-white/50 rounded-full border border-sand">
                                     {v.grade}
                                   </span>
                                 </div>
                               </div>
-                              <p className="text-xs text-gray-600">{v.description}</p>
+                              <p className="text-xs text-text-muted">{v.description}</p>
                             </div>
                           ))}
                         </div>
@@ -514,7 +516,7 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
                           {product.applications.map((app, i) => (
                             <li key={i} className="flex items-start gap-2">
                               <span className="w-1.5 h-1.5 bg-gold rounded-full mt-2.5 shrink-0" />
-                              <span className="text-gray-700">{app}</span>
+                              <span className="text-text-muted">{app}</span>
                             </li>
                           ))}
                         </ul>
@@ -541,33 +543,33 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
                       ].map((card, i) => (
                         <div
                           key={i}
-                          className="bg-gray-50 rounded-xl p-6 text-center border border-gray-100"
+                          className="bg-ivory rounded-xl p-6 text-center border border-sand"
                         >
                           <div className="text-4xl mb-3">{card.icon}</div>
                           <h3 className="font-semibold text-deep-brown">{card.title}</h3>
-                          <p className="text-sm text-gray-500">{card.desc}</p>
+                          <p className="text-sm text-text-muted">{card.desc}</p>
                         </div>
                       ))}
                     </div>
 
-                    <div className="bg-white border border-gray-200 rounded-xl p-6">
+                    <div className="bg-white border border-sand rounded-xl p-6">
                       <h3 className="font-semibold text-lg mb-4">Standard Dimensions</h3>
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm">
-                        <div className="p-3 bg-gray-50 rounded-lg">
-                          <div className="font-medium text-gray-900">10 KG</div>
-                          <div className="text-gray-500">Carton</div>
+                        <div className="p-3 bg-ivory rounded-lg">
+                          <div className="font-medium text-deep-brown">10 KG</div>
+                          <div className="text-text-muted">Carton</div>
                         </div>
-                        <div className="p-3 bg-gray-50 rounded-lg">
-                          <div className="font-medium text-gray-900">25 KG</div>
-                          <div className="text-gray-500">PP Bag</div>
+                        <div className="p-3 bg-ivory rounded-lg">
+                          <div className="font-medium text-deep-brown">25 KG</div>
+                          <div className="text-text-muted">PP Bag</div>
                         </div>
-                        <div className="p-3 bg-gray-50 rounded-lg">
-                          <div className="font-medium text-gray-900">12 Months</div>
-                          <div className="text-gray-500">Shelf Life</div>
+                        <div className="p-3 bg-ivory rounded-lg">
+                          <div className="font-medium text-deep-brown">12 Months</div>
+                          <div className="text-text-muted">Shelf Life</div>
                         </div>
-                        <div className="p-3 bg-gray-50 rounded-lg">
-                          <div className="font-medium text-gray-900">Ambient</div>
-                          <div className="text-gray-500">Storage</div>
+                        <div className="p-3 bg-ivory rounded-lg">
+                          <div className="font-medium text-deep-brown">Ambient</div>
+                          <div className="text-text-muted">Storage</div>
                         </div>
                       </div>
                     </div>
@@ -580,7 +582,7 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
                     <h3 className="text-xl font-bold text-deep-brown mb-2">
                       Request Documentation
                     </h3>
-                    <p className="text-gray-600 max-w-md mx-auto mb-6">
+                    <p className="text-text-muted max-w-md mx-auto mb-6">
                       We provide COA, Origin Certificates, and Quality Reports for all bulk
                       shipments.
                     </p>

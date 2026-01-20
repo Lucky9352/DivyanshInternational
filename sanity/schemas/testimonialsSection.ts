@@ -6,7 +6,7 @@ export default defineType({
   type: "document",
   groups: [
     { name: "content", title: "Content" },
-    { name: "drone", title: "Drone Diaries" },
+    { name: "drone", title: "Our Facility" },
   ],
   fields: [
     // =========================================================================

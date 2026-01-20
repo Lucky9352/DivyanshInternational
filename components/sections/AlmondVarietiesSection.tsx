@@ -39,7 +39,11 @@ export default function AlmondVarietiesSection({ varieties }: AlmondVarietiesSec
   if (!varieties || varieties.length === 0) return null;
 
   return (
-    <section ref={ref} className="mt-12 mb-8">
+    <section
+      ref={ref}
+      className="py-24 bg-bg relative overflow-hidden"
+      aria-labelledby="varieties-heading"
+    >
       {/* Section Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -53,7 +57,7 @@ export default function AlmondVarietiesSection({ varieties }: AlmondVarietiesSec
         <h2 className="text-2xl md:text-3xl font-bold text-deep-brown mb-3">
           California Almond Varieties
         </h2>
-        <p className="text-gray-600 max-w-2xl mx-auto">
+        <p className="text-text-muted max-w-2xl mx-auto">
           We source the finest California almonds, each variety offering unique characteristics
           perfect for different applications.
         </p>
@@ -93,10 +97,10 @@ function VarietyCard({ variety, index }: { variety: AlmondVariety; index: number
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 group"
+      className="bg-white rounded-2xl overflow-hidden border border-border shadow-sm hover:shadow-lg transition-all duration-300 group"
     >
       {/* Card Header with Name */}
-      <div className="bg-linear-to-r from-amber-50 to-orange-50 px-5 py-4 border-b border-amber-100">
+      <div className="bg-bg px-5 py-4 border-b border-border">
         <div className="flex items-center justify-between">
           <h3 className="text-xl font-bold text-deep-brown">
             {variety.name}
@@ -113,7 +117,7 @@ function VarietyCard({ variety, index }: { variety: AlmondVariety; index: number
       </div>
 
       {/* Image Section */}
-      <div className="relative bg-linear-to-br from-amber-50 to-orange-50 overflow-hidden">
+      <div className="relative bg-amber-50 overflow-hidden">
         {imageUrl && !isPlaceholder ? (
           isProxyUrl ? (
             /* eslint-disable-next-line @next/next/no-img-element */
@@ -156,7 +160,7 @@ function VarietyCard({ variety, index }: { variety: AlmondVariety; index: number
                 <span className="text-xs font-semibold text-amber-700 uppercase tracking-wide">
                   Shell
                 </span>
-                <p className="text-sm text-gray-700 leading-snug">{variety.shell}</p>
+                <p className="text-sm text-text-light leading-snug">{variety.shell}</p>
               </div>
             </div>
           ) : null}
@@ -170,16 +174,16 @@ function VarietyCard({ variety, index }: { variety: AlmondVariety; index: number
                 <span className="text-xs font-semibold text-orange-700 uppercase tracking-wide">
                   Nut
                 </span>
-                <p className="text-sm text-gray-700 leading-snug">{variety.nut}</p>
+                <p className="text-sm text-text-light leading-snug">{variety.nut}</p>
               </div>
             </div>
           ) : null}
         </div>
 
         {/* Footer Info */}
-        <div className="pt-3 border-t border-gray-100 flex flex-wrap gap-2">
+        <div className="pt-3 border-t border-border flex flex-wrap gap-2">
           {variety.classification ? (
-            <span className="inline-flex items-center px-2.5 py-1 bg-gray-100 text-gray-700 text-xs font-medium rounded-md">
+            <span className="inline-flex items-center px-2.5 py-1 bg-bg text-text-muted text-xs font-medium rounded-md border border-border">
               <svg className="w-3 h-3 mr-1 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
                 <path
                   fillRule="evenodd"

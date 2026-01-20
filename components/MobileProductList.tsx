@@ -132,7 +132,7 @@ export default function MobileProductList({
               </div>
 
               {productDescription ? (
-                <p className="text-sm text-gray-600 leading-relaxed line-clamp-2">
+                <p className="text-sm text-text-muted leading-relaxed line-clamp-2">
                   {productDescription}
                 </p>
               ) : null}

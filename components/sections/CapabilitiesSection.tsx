@@ -21,6 +21,7 @@ import {
   PeanutIcon,
   NutIcon,
 } from "@/components/assets/Decorations";
+import DecorativeBackground from "@/components/ui/DecorativeBackground";
 import { urlForImage } from "@/lib/sanity/image";
 import { getGoogleDriveImageUrl } from "@/lib/utils";
 
@@ -138,11 +139,11 @@ export default function CapabilitiesSection({
   return (
     <section
       id={sectionId}
-      className="py-20 bg-linear-to-b from-ivory to-cashew-cream relative overflow-hidden"
+      className="py-20 bg-paper relative"
       aria-labelledby="capabilities-heading"
     >
       {/* Floating Decorations */}
-      <DecorativeBackground />
+      <DecorativeBackground variant="scattered" />
 
       <div className="container mx-auto px-4 md:px-6 lg:px-10 relative z-10">
         {/* Section Header */}
@@ -188,7 +189,7 @@ function SectionHeader({ settings }: SectionHeaderProps) {
       ) : null}
       {settings.title ? (
         <motion.h2
-          className="text-3xl md:text-5xl font-bold text-(--color-graphite) mb-6 font-heading leading-tight"
+          className="text-3xl md:text-5xl font-bold text-deep-brown mb-6 font-heading leading-tight"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -199,7 +200,7 @@ function SectionHeader({ settings }: SectionHeaderProps) {
       ) : null}
       {settings.description ? (
         <motion.div
-          className="text-lg text-(--color-slate) leading-relaxed"
+          className="text-lg text-text-muted leading-relaxed"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -239,14 +240,14 @@ interface CapabilityCardProps {
 function CapabilityCard({ capability }: CapabilityCardProps) {
   return (
     <motion.div
-      className="bg-linear-to-br from-white to-ivory p-6 h-full rounded-3xl border-2 border-gold-light shadow-lg hover:shadow-xl hover:border-almond-gold transition-all duration-300"
+      className="bg-white p-6 h-full rounded-3xl border-2 border-border shadow-lg hover:shadow-xl hover:border-gold transition-all duration-300"
       variants={fadeInUp}
     >
-      <div className="text-sm uppercase tracking-[0.3em] text-(--color-muted) mb-4 font-bold">
+      <div className="text-sm uppercase tracking-[0.3em] text-text-muted mb-4 font-bold">
         {capability.metric}
       </div>
       <motion.h3
-        className="text-xl font-bold text-(--color-graphite) mb-3"
+        className="text-xl font-bold text-deep-brown mb-3"
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -254,7 +255,7 @@ function CapabilityCard({ capability }: CapabilityCardProps) {
       >
         {capability.title}
       </motion.h3>
-      <p className="text-(--color-slate)">{capability.description}</p>
+      <p className="text-text-muted">{capability.description}</p>
     </motion.div>
   );
 }
@@ -268,7 +269,7 @@ interface CertificatesSectionProps {
 function CertificatesSection({ certificates, title, description }: CertificatesSectionProps) {
   return (
     <motion.div
-      className="mt-20 border-t border-sand pt-16"
+      className="mt-20 border-t border-border pt-16"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
@@ -288,7 +289,7 @@ function CertificatesSection({ certificates, title, description }: CertificatesS
         ) : null}
         {description ? (
           <motion.p
-            className="text-(--color-slate) max-w-2xl mx-auto"
+            className="text-text-muted max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -333,7 +334,7 @@ function CertificateCard({ certificate }: CertificateCardProps) {
 
   return (
     <motion.div className="flex flex-col items-center gap-3 group" variants={scaleIn}>
-      <div className="w-24 h-24 relative bg-white rounded-full shadow-sm border border-sand p-4 flex items-center justify-center overflow-hidden">
+      <div className="w-24 h-24 relative bg-white rounded-full shadow-sm border border-border p-4 flex items-center justify-center overflow-hidden">
         {driveImageUrl ? (
           <div className="relative w-full h-full">
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -351,100 +352,9 @@ function CertificateCard({ certificate }: CertificateCardProps) {
           <span className="text-lg font-bold text-deep-brown">{certificate.name}</span>
         )}
       </div>
-      <span className="text-xs font-bold tracking-wider text-(--color-muted) group-hover:text-gold transition-colors">
+      <span className="text-xs font-bold tracking-wider text-text-muted group-hover:text-gold transition-colors">
         {certificate.label}
       </span>
     </motion.div>
-  );
-}
-
-function DecorativeBackground() {
-  return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-      <motion.div
-        animate={{ rotate: [0, 10, -10, 0], y: [0, -12, 0] }}
-        transition={{ duration: 9, repeat: Infinity, ease: "linear" }}
-        className="absolute top-20 right-10 opacity-15"
-      >
-        <AlmondIcon className="w-32 h-32" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, -12, 12, 0], x: [0, 10, 0] }}
-        transition={{ duration: 11, repeat: Infinity, ease: "linear", delay: 2 }}
-        className="absolute bottom-20 left-10 opacity-15"
-      >
-        <CashewIcon className="w-28 h-28" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, 360], scale: [1, 1.1, 1] }}
-        transition={{ duration: 16, repeat: Infinity, ease: "linear" }}
-        className="absolute top-1/2 right-1/4 opacity-12"
-      >
-        <WalnutIcon className="w-26 h-26" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, 14, -14, 0], y: [0, 10, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "linear", delay: 4 }}
-        className="absolute bottom-1/3 right-20 opacity-15"
-      >
-        <PeanutIcon className="w-24 h-24" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, -11, 11, 0], x: [0, -10, 0] }}
-        transition={{ duration: 13, repeat: Infinity, ease: "linear", delay: 6 }}
-        className="absolute top-1/4 left-20 opacity-12"
-      >
-        <NutIcon className="w-22 h-22" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, 13, -13, 0], y: [0, 10, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "linear", delay: 8 }}
-        className="absolute bottom-1/4 left-1/3 opacity-15"
-      >
-        <AlmondIcon className="w-26 h-26" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, -14, 14, 0], x: [0, 12, 0] }}
-        transition={{ duration: 14, repeat: Infinity, ease: "linear", delay: 9 }}
-        className="absolute top-1/3 right-1/3 opacity-12"
-      >
-        <CashewIcon className="w-24 h-24" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, 12, -12, 0], y: [0, -10, 0] }}
-        transition={{ duration: 11, repeat: Infinity, ease: "linear", delay: 10 }}
-        className="absolute bottom-1/3 left-1/4 opacity-15"
-      >
-        <PeanutIcon className="w-22 h-22" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, -11, 11, 0], x: [0, 10, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "linear", delay: 11 }}
-        className="absolute top-5 left-1/4 opacity-10"
-      >
-        <AlmondIcon className="w-20 h-20" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, 13, -13, 0], y: [0, 8, 0] }}
-        transition={{ duration: 13, repeat: Infinity, ease: "linear", delay: 12 }}
-        className="absolute bottom-5 right-1/4 opacity-12"
-      >
-        <CashewIcon className="w-22 h-22" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, 360], scale: [1, 1.1, 1] }}
-        transition={{ duration: 19, repeat: Infinity, ease: "linear", delay: 4 }}
-        className="absolute top-1/2 left-5 opacity-8"
-      >
-        <WalnutIcon className="w-18 h-18" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, -360], scale: [1, 1.08, 1] }}
-        transition={{ duration: 21, repeat: Infinity, ease: "linear", delay: 5 }}
-        className="absolute bottom-1/2 right-5 opacity-8"
-      >
-        <PeanutIcon className="w-18 h-18" />
-      </motion.div>
-    </div>
   );
 }

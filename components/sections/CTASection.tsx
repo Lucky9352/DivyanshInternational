@@ -3,18 +3,15 @@
 /**
  * CTA Section Component
  *
- * Displays call-to-action cards for walkthrough and pricing inquiries.
- * Uses framer-motion for animations - requires client component.
- *
- * All content is passed via props from parent components that fetch from Sanity CMS.
- * Data is validated with Zod schemas for runtime type safety.
+ * Full-width call-to-action section with centered form.
  */
 
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { z } from "zod";
+import { Send, Mail, ArrowRight, Sparkles } from "lucide-react";
 
-import { AlmondIcon, CashewIcon, WalnutIcon, PeanutIcon } from "@/components/assets/Decorations";
+import DecorativeBackground from "@/components/ui/DecorativeBackground";
 
 // =============================================================================
 // ZOD VALIDATION SCHEMAS
@@ -52,7 +49,7 @@ const CTASectionPropsSchema = z.object({
 });
 
 // =============================================================================
-// TYPE DEFINITIONS (Inferred from Zod Schemas)
+// TYPE DEFINITIONS
 // =============================================================================
 
 type WalkthroughCTA = z.infer<typeof WalkthroughCTASchema>;
@@ -88,7 +85,6 @@ function validateProps(props: unknown): void {
 // =============================================================================
 
 export default function CTASection({ initialCTA, routing }: CTASectionProps) {
-  // Validate props in development
   if (process.env.NODE_ENV === "development") {
     validateProps({ initialCTA, routing });
   }
@@ -100,31 +96,91 @@ export default function CTASection({ initialCTA, routing }: CTASectionProps) {
 
   if (!cta) return null;
 
+  // Use pricing data if available, otherwise use walkthrough
+  const activeData = cta.pricing ?? cta.walkthrough;
+  if (!activeData) return null;
+
   return (
-    <section
-      id={sectionId}
-      className="py-20 bg-linear-to-b from-ivory to-beige relative overflow-hidden"
-      aria-labelledby="cta-heading"
-    >
+    <section id={sectionId} className="py-16 bg-paper relative" aria-labelledby="cta-heading">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `radial-gradient(circle at 1px 1px, #d4a853 1px, transparent 0)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+      </div>
+
       {/* Floating Decorations */}
-      <DecorativeBackground />
+      <DecorativeBackground variant="scattered" />
 
-      <div
-        className={`container mx-auto px-4 md:px-6 lg:px-10 relative z-10 ${
-          cta.walkthrough ? "grid lg:grid-cols-2 gap-8" : "flex justify-center"
-        }`}
-      >
-        {/* Walkthrough CTA Card */}
-        {cta.walkthrough ? (
-          <WalkthroughCard walkthrough={cta.walkthrough} contactPath={contactPath} />
-        ) : null}
+      <div className="container mx-auto px-4 md:px-6 lg:px-10 relative z-10">
+        {/* Centered Header */}
+        <div className="text-center mb-12 max-w-3xl mx-auto">
+          {/* Icon */}
+          <motion.div
+            className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-50 text-gold mb-6"
+            initial={{ scale: 0, rotate: -180 }}
+            whileInView={{ scale: 1, rotate: 0 }}
+            viewport={{ once: true }}
+            transition={{ type: "spring", stiffness: 200, damping: 15 }}
+          >
+            <Send className="w-8 h-8" />
+          </motion.div>
 
-        {/* Pricing CTA Card */}
+          <motion.div
+            className="flex items-center justify-center gap-2 mb-4"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <Sparkles className="w-4 h-4 text-gold" />
+            <span className="uppercase tracking-[0.3em] text-sm text-gold-dark font-semibold">
+              {activeData.subtitle}
+            </span>
+            <Sparkles className="w-4 h-4 text-gold" />
+          </motion.div>
+
+          <motion.h2
+            id="cta-heading"
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-deep-brown mb-6 font-heading leading-tight"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
+            {activeData.title}
+          </motion.h2>
+
+          <motion.p
+            className="text-lg text-text-muted leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            {activeData.description}
+          </motion.p>
+        </div>
+
+        {/* Action Area */}
         {cta.pricing ? (
-          <div className={cta.walkthrough ? "w-full" : "w-full max-w-2xl"}>
-            <PricingCard pricing={cta.pricing} contactPath={contactPath} tradeType={tradeType} />
-          </div>
+          <PricingForm pricing={cta.pricing} contactPath={contactPath} tradeType={tradeType} />
+        ) : cta.walkthrough ? (
+          <WalkthroughButton walkthrough={cta.walkthrough} contactPath={contactPath} />
         ) : null}
+
+        {/* Quick Contact Options */}
+        <motion.div
+          className="mt-12 flex flex-wrap justify-center gap-4"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        ></motion.div>
       </div>
     </section>
   );
@@ -134,12 +190,12 @@ export default function CTASection({ initialCTA, routing }: CTASectionProps) {
 // HELPER COMPONENTS
 // =============================================================================
 
-interface WalkthroughCardProps {
+interface WalkthroughButtonProps {
   walkthrough: WalkthroughCTA;
   contactPath: string;
 }
 
-function WalkthroughCard({ walkthrough, contactPath }: WalkthroughCardProps) {
+function WalkthroughButton({ walkthrough, contactPath }: WalkthroughButtonProps) {
   const router = useRouter();
 
   const handleClick = () => {
@@ -147,52 +203,32 @@ function WalkthroughCard({ walkthrough, contactPath }: WalkthroughCardProps) {
   };
 
   return (
-    <div className="bg-linear-to-br from-white to-cashew-cream p-8 rounded-3xl border-2 border-gold-light shadow-xl hover:shadow-2xl transition-all duration-300">
-      <motion.p
-        className="uppercase tracking-[0.4em] text-xs text-(--color-muted) mb-4 font-bold"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-      >
-        {walkthrough.subtitle}
-      </motion.p>
-      <motion.h3
-        className="text-2xl font-bold text-(--color-graphite) mb-4"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-      >
-        {walkthrough.title}
-      </motion.h3>
-      <motion.div
-        className="text-(--color-slate) mb-6"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-      >
-        <p>{walkthrough.description}</p>
-      </motion.div>
+    <motion.div
+      className="text-center"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: 0.3 }}
+    >
       <button
         type="button"
         onClick={handleClick}
-        className="px-8 py-3 rounded-full bg-linear-to-r from-almond-gold to-gold-dark text-white font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105"
+        className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gold text-white font-semibold text-lg hover:shadow-xl hover:bg-gold-dark transition-all duration-300 hover:scale-105"
       >
         {walkthrough.buttonText}
+        <ArrowRight className="w-5 h-5" />
       </button>
-    </div>
+    </motion.div>
   );
 }
 
-interface PricingCardProps {
+interface PricingFormProps {
   pricing: PricingCTA;
   contactPath: string;
   tradeType: string;
 }
 
-function PricingCard({ pricing, contactPath, tradeType }: PricingCardProps) {
+function PricingForm({ pricing, contactPath, tradeType }: PricingFormProps) {
   const router = useRouter();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -207,138 +243,35 @@ function PricingCard({ pricing, contactPath, tradeType }: PricingCardProps) {
   };
 
   return (
-    <div className="bg-linear-to-br from-white to-cashew-cream p-8 rounded-3xl border-2 border-gold-light shadow-xl hover:shadow-2xl transition-all duration-300">
-      <motion.p
-        className="uppercase tracking-[0.4em] text-xs text-(--color-muted) mb-4 font-bold"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-      >
-        {pricing.subtitle}
-      </motion.p>
-      <motion.h3
-        className="text-2xl font-bold text-(--color-graphite) mb-4"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-      >
-        {pricing.title}
-      </motion.h3>
-      <motion.div
-        className="text-(--color-slate) mb-6"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.1 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-      >
-        <p>{pricing.description}</p>
-      </motion.div>
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-        <label htmlFor="cta-email" className="sr-only">
-          Email Address
-        </label>
-        <input
-          id="cta-email"
-          name="email"
-          type="email"
-          placeholder={pricing.emailPlaceholder}
-          className="px-4 py-3 border border-sand rounded-full focus:outline-2 focus:outline-gold"
-          required
-          autoComplete="email"
-        />
+    <motion.form
+      className="max-w-xl mx-auto"
+      onSubmit={handleSubmit}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: 0.3 }}
+    >
+      <div className="flex flex-col sm:flex-row gap-3">
+        <div className="relative flex-1">
+          <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted" />
+          <input
+            id="cta-email"
+            name="email"
+            type="email"
+            placeholder={pricing.emailPlaceholder ?? "Enter your business email"}
+            className="w-full pl-12 pr-4 py-4 border-2 border-border rounded-full focus:outline-none focus:border-gold bg-white text-lg"
+            required
+            autoComplete="email"
+          />
+        </div>
         <button
           type="submit"
-          className="px-8 py-3 rounded-full bg-linear-to-r from-deep-brown to-raisin-purple text-white font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105"
+          className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-deep-brown text-white font-semibold text-lg hover:shadow-xl hover:bg-raisin-purple transition-all duration-300 hover:scale-105 whitespace-nowrap"
         >
           {pricing.buttonText}
+          <ArrowRight className="w-5 h-5" />
         </button>
-      </form>
-    </div>
-  );
-}
-
-function DecorativeBackground() {
-  return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-      <motion.div
-        animate={{ rotate: [0, 14, -14, 0], y: [0, 12, 0] }}
-        transition={{ duration: 11, repeat: Infinity, ease: "linear" }}
-        className="absolute top-20 right-20 opacity-15"
-      >
-        <AlmondIcon className="w-28 h-28" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, -12, 12, 0], x: [0, 10, 0] }}
-        transition={{ duration: 13, repeat: Infinity, ease: "linear", delay: 2 }}
-        className="absolute bottom-20 left-20 opacity-15"
-      >
-        <CashewIcon className="w-26 h-26" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, 360], scale: [1, 1.1, 1] }}
-        transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-        className="absolute top-1/2 left-1/4 opacity-12"
-      >
-        <WalnutIcon className="w-24 h-24" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, 13, -13, 0], y: [0, -10, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "linear", delay: 4 }}
-        className="absolute bottom-1/3 right-1/4 opacity-15"
-      >
-        <PeanutIcon className="w-22 h-22" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, -12, 12, 0], x: [0, 10, 0] }}
-        transition={{ duration: 13, repeat: Infinity, ease: "linear", delay: 6 }}
-        className="absolute top-1/3 left-1/3 opacity-12"
-      >
-        <AlmondIcon className="w-26 h-26" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, 14, -14, 0], y: [0, 12, 0] }}
-        transition={{ duration: 11, repeat: Infinity, ease: "linear", delay: 7 }}
-        className="absolute bottom-20 left-1/4 opacity-15"
-      >
-        <CashewIcon className="w-24 h-24" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, 360], scale: [1, 1.1, 1] }}
-        transition={{ duration: 18, repeat: Infinity, ease: "linear", delay: 2 }}
-        className="absolute top-1/4 right-1/3 opacity-12"
-      >
-        <WalnutIcon className="w-22 h-22" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, -11, 11, 0], y: [0, -10, 0] }}
-        transition={{ duration: 11, repeat: Infinity, ease: "linear", delay: 8 }}
-        className="absolute top-5 left-1/4 opacity-10"
-      >
-        <AlmondIcon className="w-20 h-20" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, 12, -12, 0], x: [0, 10, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "linear", delay: 9 }}
-        className="absolute bottom-5 right-1/4 opacity-12"
-      >
-        <PeanutIcon className="w-22 h-22" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, -360], scale: [1, 1.12, 1] }}
-        transition={{ duration: 20, repeat: Infinity, ease: "linear", delay: 3 }}
-        className="absolute top-1/2 left-5 opacity-8"
-      >
-        <CashewIcon className="w-18 h-18" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, 360], scale: [1, 1.08, 1] }}
-        transition={{ duration: 22, repeat: Infinity, ease: "linear", delay: 4 }}
-        className="absolute bottom-1/2 right-5 opacity-8"
-      >
-        <WalnutIcon className="w-18 h-18" />
-      </motion.div>
-    </div>
+      </div>
+    </motion.form>
   );
 }

@@ -118,6 +118,12 @@ export default defineType({
           rows: 3,
           validation: (Rule) => Rule.required(),
         },
+        {
+          name: "backgroundImageUrl",
+          type: "url",
+          title: "Background Image URL",
+          description: "Optional background image for the section",
+        },
       ],
     }),
 
@@ -143,6 +149,106 @@ export default defineType({
           title: "Description",
           rows: 3,
           validation: (Rule) => Rule.required(),
+        },
+        {
+          name: "infographicImageUrl",
+          type: "url",
+          title: "Infographic Image URL",
+          description: "Visual infographic for sustainability messaging",
+        },
+      ],
+    }),
+
+    // =========================================================================
+    // FEATURED BANNER SECTION
+    // =========================================================================
+    defineField({
+      name: "featuredBanner",
+      title: "Featured Banner Section",
+      type: "object",
+      group: "media",
+      description: "Full-width visual banner between sections",
+      fields: [
+        {
+          name: "imageUrl",
+          type: "url",
+          title: "Banner Image URL",
+          description: "Large banner image (facility photo, team, etc.)",
+          validation: (Rule) => Rule.uri({ scheme: ["http", "https"] }),
+        },
+        {
+          name: "title",
+          type: "string",
+          title: "Overlay Title",
+          description: "Optional text overlay on the banner",
+        },
+        {
+          name: "subtitle",
+          type: "string",
+          title: "Overlay Subtitle",
+          description: "Optional subtitle/tagline",
+        },
+      ],
+    }),
+
+    // =========================================================================
+    // DRONE DIARIES SECTION
+    // =========================================================================
+    defineField({
+      name: "droneDiaries",
+      title: "Drone Diaries (Video Gallery)",
+      type: "object",
+      group: "media",
+      description: "Aerial tour and behind-the-scenes video gallery",
+      fields: [
+        { name: "eyebrow", type: "string", title: "Eyebrow" },
+        {
+          name: "title",
+          type: "string",
+          title: "Title",
+          validation: (Rule) => Rule.required(),
+        },
+        {
+          name: "description",
+          type: "text",
+          title: "Description",
+          rows: 2,
+        },
+        {
+          name: "videos",
+          title: "Videos",
+          type: "array",
+          of: [
+            {
+              type: "object",
+              fields: [
+                {
+                  name: "title",
+                  type: "string",
+                  title: "Video Title",
+                  validation: (Rule) => Rule.required(),
+                },
+                {
+                  name: "description",
+                  type: "text",
+                  title: "Video Description",
+                  rows: 2,
+                },
+                {
+                  name: "videoUrl",
+                  type: "url",
+                  title: "Video URL (YouTube/Vimeo)",
+                  validation: (Rule) => Rule.uri({ scheme: ["http", "https"] }),
+                },
+                {
+                  name: "thumbnailUrl",
+                  type: "url",
+                  title: "Thumbnail Image URL",
+                  description: "Custom thumbnail (optional)",
+                },
+              ],
+            },
+          ],
         },
       ],
     }),

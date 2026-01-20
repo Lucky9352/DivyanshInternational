@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { NutIcon } from "@/components/assets/Decorations";
 import TextReveal from "@/components/ui/TextReveal";
+import DecorativeBackground from "@/components/ui/DecorativeBackground";
 import { z } from "zod";
 
 // =============================================================================
@@ -50,7 +51,21 @@ export default function SpiralQuote({ initialQuote, labels }: SpiralQuoteProps) 
   const aboutUrl = labels.navigation?.aboutUrl || "/about";
 
   return (
-    <section className="py-24 bg-ivory overflow-hidden relative">
+    <section className="py-16 bg-bg relative">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `radial-gradient(circle at 1px 1px, #d4a853 1px, transparent 0)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+      </div>
+
+      {/* Floating Decorations */}
+      <DecorativeBackground variant="minimal" />
+
       <div className="container mx-auto px-4 md:px-6 lg:px-10 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Spiral Animation */}
@@ -72,9 +87,9 @@ export default function SpiralQuote({ initialQuote, labels }: SpiralQuoteProps) 
             />
 
             <Link href={aboutUrl} className="relative z-20 group cursor-pointer">
-              <div className="w-48 h-48 rounded-full bg-deep-brown flex items-center justify-center relative overflow-hidden transition-transform duration-500 group-hover:scale-105">
-                <NutIcon className="w-24 h-24 text-gold opacity-20 absolute" />
-                <p className="text-white text-center px-4 font-heading text-xl relative z-10 group-hover:scale-110 transition-transform">
+              <div className="w-48 h-48 rounded-full bg-deep-brown flex items-center justify-center relative overflow-hidden transition-transform duration-500 group-hover:scale-105 shadow-xl">
+                <NutIcon className="w-20 h-20 text-gold/30 absolute" />
+                <p className="text-ivory text-center px-6 font-heading text-xl leading-tight relative z-10 group-hover:scale-110 transition-transform drop-shadow-md">
                   {buttonText}
                 </p>
               </div>
@@ -103,7 +118,7 @@ export default function SpiralQuote({ initialQuote, labels }: SpiralQuoteProps) 
               </TextReveal>
             </div>
             <motion.p
-              className="text-lg text-(--color-slate) italic mb-8"
+              className="text-lg text-(--color-slate) italic"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.1 }}
@@ -111,27 +126,6 @@ export default function SpiralQuote({ initialQuote, labels }: SpiralQuoteProps) 
             >
               — {initialQuote.author}
             </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.1 }}
-              transition={{ duration: 0.6 }}
-            >
-              <Link
-                href={initialQuote.linkUrl}
-                className="inline-flex items-center gap-2 text-deep-brown font-semibold border-b-2 border-gold pb-1 hover:text-gold transition-colors"
-              >
-                {initialQuote.linkText}
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
-                </svg>
-              </Link>
-            </motion.div>
           </div>
         </div>
       </div>

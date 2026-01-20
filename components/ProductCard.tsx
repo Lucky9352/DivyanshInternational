@@ -134,10 +134,10 @@ export default function ProductCard({ product, onAddToEnquiry, labels }: Product
     <motion.div
       whileHover={{ y: -8, scale: 1.02 }}
       transition={{ duration: 0.3, ease: "linear" }}
-      className="group relative flex flex-col h-full bg-linear-to-br from-white via-ivory to-cashew-cream rounded-3xl border-2 border-gold-light shadow-lg hover:shadow-2xl hover:border-almond-gold transition-all duration-300 overflow-hidden"
+      className="group relative flex flex-col h-full bg-white rounded-3xl border-2 border-gold-light shadow-lg hover:shadow-2xl hover:border-almond-gold transition-all duration-300 overflow-hidden"
     >
       {/* Premium shine effect */}
-      <div className="absolute inset-0 bg-linear-to-br from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+      <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
 
       <Link href={`/products/${productSlug}`} className="block flex-1 p-6 space-y-4">
         {/* Hero Image */}
@@ -159,7 +159,7 @@ export default function ProductCard({ product, onAddToEnquiry, labels }: Product
             />
           ) : (
             <div className="min-h-[200px] flex items-center justify-center bg-beige rounded-2xl border border-dashed border-deep-brown">
-              <span className="text-xs uppercase tracking-[0.3em] text-(--color-muted)">
+              <span className="text-xs uppercase tracking-[0.3em] text-text-muted">
                 {labels?.productCard?.placeholderText || "Product Image"}
               </span>
             </div>
@@ -167,7 +167,7 @@ export default function ProductCard({ product, onAddToEnquiry, labels }: Product
         </div>
 
         {/* Header content */}
-        <span className="inline-flex items-center px-3 py-1 text-xs uppercase tracking-[0.3em] text-(--color-muted) bg-white rounded-full border border-[#efe3d2] mb-4">
+        <span className="inline-flex items-center px-3 py-1 text-xs uppercase tracking-[0.3em] text-text-muted bg-white rounded-full border border-sand mb-4">
           {product.category}
         </span>
         <motion.h3
@@ -179,10 +179,10 @@ export default function ProductCard({ product, onAddToEnquiry, labels }: Product
         >
           {heroHeading || productTitle}
         </motion.h3>
-        <p className="text-(--color-muted) text-sm mb-4 leading-relaxed line-clamp-3">{intro}</p>
+        <p className="text-text-muted text-sm mb-4 leading-relaxed line-clamp-3">{intro}</p>
 
         {/* Product Specifications Card */}
-        <div className="space-y-3 bg-linear-to-br from-ivory to-white p-4 rounded-2xl border border-sand mb-4">
+        <div className="space-y-3 bg-ivory p-4 rounded-2xl border border-sand mb-4">
           <h4 className="text-xs font-bold text-deep-brown uppercase tracking-wider mb-2">
             {specsTitle}
           </h4>
@@ -193,7 +193,7 @@ export default function ProductCard({ product, onAddToEnquiry, labels }: Product
               <span className="text-almond-gold font-semibold text-xs uppercase tracking-wider min-w-[50px]">
                 {varietyLabel}
               </span>
-              <span className="text-(--color-slate) text-xs font-medium">
+              <span className="text-text-muted text-xs font-medium">
                 {(varietySection.items || [])
                   .slice(0, 2)
                   .map((item) => {
@@ -212,7 +212,7 @@ export default function ProductCard({ product, onAddToEnquiry, labels }: Product
               <span className="text-almond-gold font-semibold text-xs uppercase tracking-wider min-w-[50px]">
                 {appLabel}
               </span>
-              <span className="text-(--color-slate) text-xs font-medium">
+              <span className="text-text-muted text-xs font-medium">
                 {product.applications.slice(0, 3).join(", ")}
                 {product.applications.length > 3 ? "..." : ""}
               </span>
@@ -225,7 +225,7 @@ export default function ProductCard({ product, onAddToEnquiry, labels }: Product
               <span className="text-almond-gold font-semibold text-xs uppercase tracking-wider min-w-[50px]">
                 {packLabel}
               </span>
-              <span className="text-(--color-slate) text-xs font-medium">
+              <span className="text-text-muted text-xs font-medium">
                 {(packagingSection.items || [])
                   .slice(0, 2)
                   .map((item) => {
@@ -243,14 +243,14 @@ export default function ProductCard({ product, onAddToEnquiry, labels }: Product
               <span className="text-almond-gold font-semibold text-xs uppercase tracking-wider min-w-[50px]">
                 {moqLabel}
               </span>
-              <span className="text-(--color-slate) text-xs font-medium">{product.MOQ}</span>
+              <span className="text-text-muted text-xs font-medium">{product.MOQ}</span>
             </div>
           ) : null}
         </div>
 
         {/* Quick Items List */}
         {quickItems.length > 0 ? (
-          <ul className="space-y-2 text-sm text-(--color-slate)">
+          <ul className="space-y-2 text-sm text-text-muted">
             {quickItems.map((item, idx) => (
               <li key={idx} className="flex gap-2">
                 <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-gold mt-2" />
@@ -265,7 +265,7 @@ export default function ProductCard({ product, onAddToEnquiry, labels }: Product
       <div className="px-6 pb-6 mt-auto flex flex-col sm:flex-row gap-2">
         <button
           onClick={onAddToEnquiry}
-          className="w-full bg-linear-to-r from-almond-gold to-gold-dark hover:shadow-lg text-white px-4 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105 focus:outline-2 focus:outline-gold-dark focus:outline-offset-2"
+          className="w-full bg-gold hover:bg-gold-dark hover:shadow-lg text-white px-4 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105 focus:outline-2 focus:outline-gold-dark focus:outline-offset-2"
           aria-label={`${labels?.common?.addToEnquiry || "Add to Enquiry"} - ${productTitle}`}
         >
           {labels?.common?.addToEnquiry || "Add to Enquiry"}

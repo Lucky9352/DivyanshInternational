@@ -1233,11 +1233,30 @@ export type HomePage = {
     eyebrow?: string;
     title?: string;
     description?: string;
+    backgroundImageUrl?: string;
   };
   sustainabilitySection?: {
     eyebrow?: string;
     title?: string;
     description?: string;
+    infographicImageUrl?: string;
+  };
+  featuredBanner?: {
+    imageUrl?: string;
+    title?: string;
+    subtitle?: string;
+  };
+  droneDiaries?: {
+    eyebrow?: string;
+    title?: string;
+    description?: string;
+    videos?: Array<{
+      title?: string;
+      description?: string;
+      videoUrl?: string;
+      thumbnailUrl?: string;
+      _key: string;
+    }>;
   };
   trustSection?: {
     eyebrow?: string;

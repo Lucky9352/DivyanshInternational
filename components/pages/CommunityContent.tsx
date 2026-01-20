@@ -21,6 +21,7 @@ import {
   WalnutIcon,
   PeanutIcon,
 } from "@/components/assets/Decorations";
+import DecorativeBackground from "@/components/ui/DecorativeBackground";
 import VideoShowcase from "@/components/ui/VideoShowcase";
 import type { SanityImageSource } from "@sanity/image-url";
 
@@ -182,9 +183,9 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
   const tradeEvents = community.tradeEvents ?? [];
 
   return (
-    <div className="bg-linear-to-b from-ivory via-cashew-cream to-beige min-h-screen pt-32 pb-20 relative overflow-hidden">
+    <div className="bg-linear-to-b from-ivory via-cashew-cream to-beige min-h-screen pt-32 pb-20 relative">
       {/* Decorative Background */}
-      <DecorativeBackground />
+      <DecorativeBackground variant="scattered" />
 
       <div className="container mx-auto px-4 md:px-6 lg:px-10 relative z-10">
         {/* Header */}
@@ -748,54 +749,5 @@ function TradeEventCard({ event, index }: TradeEventCardProps) {
         </div>
       </div>
     </motion.div>
-  );
-}
-
-function DecorativeBackground() {
-  return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-      <motion.div
-        animate={{ y: [0, -20, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-        className="absolute top-20 right-0 text-gold/5"
-      >
-        <LeafIcon className="w-96 h-96" />
-      </motion.div>
-      <motion.div
-        animate={{ y: [0, -20, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "linear", delay: 1 }}
-        className="absolute bottom-40 left-0 text-gold/5"
-      >
-        <NutIcon className="w-80 h-80" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, 360] }}
-        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        className="absolute top-1/3 right-1/4 opacity-10"
-      >
-        <AlmondIcon className="w-32 h-32" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, -360] }}
-        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-        className="absolute bottom-1/4 left-1/3 opacity-10"
-      >
-        <CashewIcon className="w-28 h-28" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, 360] }}
-        transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
-        className="absolute top-1/2 left-1/4 opacity-8"
-      >
-        <WalnutIcon className="w-24 h-24" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, -360] }}
-        transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-        className="absolute bottom-1/3 right-1/3 opacity-12"
-      >
-        <PeanutIcon className="w-26 h-26" />
-      </motion.div>
-    </div>
   );
 }

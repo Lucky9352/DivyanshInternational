@@ -207,7 +207,7 @@ export default function ProductModal({
               className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl flex flex-col"
             >
               {/* Header */}
-              <div className="sticky top-0 bg-white/95 backdrop-blur-md border-b border-gray-100 p-4 md:p-6 flex justify-between items-center z-10">
+              <div className="sticky top-0 bg-white/95 backdrop-blur-md border-b border-sand p-4 md:p-6 flex justify-between items-center z-10">
                 <h2
                   id="product-modal-title"
                   className="text-xl md:text-2xl font-bold text-deep-brown truncate pr-4"
@@ -216,7 +216,7 @@ export default function ProductModal({
                 </h2>
                 <button
                   onClick={onClose}
-                  className="p-2 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-900 transition-colors focus:ring-2 focus:ring-gold"
+                  className="p-2 rounded-full hover:bg-sand/30 text-text-muted hover:text-deep-brown transition-colors focus:ring-2 focus:ring-gold"
                   aria-label={labels.productModal?.closeAria || "Close"}
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -233,7 +233,7 @@ export default function ProductModal({
               {/* Content */}
               <div className="p-6 space-y-8">
                 {/* Media Section */}
-                <div className="rounded-2xl overflow-hidden bg-gray-50 aspect-video relative group shadow-inner border border-gray-100">
+                <div className="rounded-2xl overflow-hidden bg-ivory aspect-video relative group shadow-inner border border-sand">
                   {product.microVideo ? (
                     <video
                       src={product.microVideo}
@@ -252,7 +252,7 @@ export default function ProductModal({
                       sizes="(max-width: 768px) 100vw, 800px"
                     />
                   ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center text-center text-gray-400">
+                    <div className="w-full h-full flex flex-col items-center justify-center text-center text-text-muted/60">
                       <div className="text-4xl mb-2">📸</div>
                       <div className="text-xs uppercase tracking-widest font-medium">
                         {labels.productModal?.placeholder || "No Image Available"}
@@ -274,7 +274,7 @@ export default function ProductModal({
                 {product.gallery && product.gallery.length > 0 ? (
                   <div className="grid grid-cols-4 md:grid-cols-5 gap-3">
                     {product.heroImage ? (
-                      <div className="relative aspect-square rounded-lg overflow-hidden border border-gray-200 cursor-pointer">
+                      <div className="relative aspect-square rounded-lg overflow-hidden border border-sand cursor-pointer">
                         <Image
                           src={urlFor(product.heroImage).width(200).url()}
                           alt={productTitle}
@@ -286,7 +286,7 @@ export default function ProductModal({
                     {product.gallery.map((image, index) => (
                       <div
                         key={index}
-                        className="relative aspect-square rounded-lg overflow-hidden border border-gray-200 cursor-pointer"
+                        className="relative aspect-square rounded-lg overflow-hidden border border-sand cursor-pointer"
                       >
                         <Image
                           src={urlFor(image).width(200).url()}
@@ -306,14 +306,14 @@ export default function ProductModal({
                   ) : null}
 
                   {product.introParagraphs?.length ? (
-                    <div className="space-y-4 text-gray-600 leading-relaxed">
+                    <div className="space-y-4 text-text-muted leading-relaxed">
                       {product.introParagraphs.slice(0, 2).map((paragraph, idx) => (
                         <p key={idx}>{getLocalized(paragraph, language)}</p>
                       ))}
                     </div>
                   ) : (
                     productDescription && (
-                      <p className="text-gray-600 leading-relaxed">{productDescription}</p>
+                      <p className="text-text-muted leading-relaxed">{productDescription}</p>
                     )
                   )}
                 </div>
@@ -324,14 +324,17 @@ export default function ProductModal({
                     {product.listSections.slice(0, 4).map((section, idx) => (
                       <div
                         key={idx}
-                        className="bg-orange-50/50 rounded-xl p-5 border border-orange-100"
+                        className="bg-amber-50/50 rounded-xl p-5 border border-gold/20"
                       >
-                        <h4 className="font-semibold text-deep-brown mb-3 border-b border-orange-100 pb-2">
+                        <h4 className="font-semibold text-deep-brown mb-3 border-b border-gold/10 pb-2">
                           {getLocalized(section.title, language)}
                         </h4>
                         <ul className="space-y-2">
                           {section.items?.slice(0, 5).map((item, i) => (
-                            <li key={i} className="flex gap-2.5 items-start text-sm text-gray-700">
+                            <li
+                              key={i}
+                              className="flex gap-2.5 items-start text-sm text-text-muted"
+                            >
                               <span
                                 aria-hidden="true"
                                 className="mt-1.5 h-1.5 w-1.5 rounded-full bg-gold shrink-0"
@@ -353,7 +356,7 @@ export default function ProductModal({
               </div>
 
               {/* Footer CTAs */}
-              <div className="sticky bottom-0 bg-white border-t border-gray-100 p-4 md:p-6 flex flex-col sm:flex-row gap-4 mt-auto">
+              <div className="sticky bottom-0 bg-white border-t border-sand p-4 md:p-6 flex flex-col sm:flex-row gap-4 mt-auto">
                 <button
                   onClick={handleAddToEnquiry}
                   className="flex-1 bg-gold hover:bg-gold-dark text-white px-6 py-3.5 rounded-xl font-bold transition-all shadow-md hover:shadow-lg focus:ring-4 focus:ring-gold/30 active:scale-95"

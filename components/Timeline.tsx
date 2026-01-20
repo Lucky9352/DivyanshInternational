@@ -95,7 +95,7 @@ export default function Timeline({ entries }: TimelineProps) {
                     <LeafIcon className="w-12 h-12" />
                   </div>
                   <div
-                    className={`absolute ${isEven ? "-bottom-4 -right-6" : "-bottom-4 -left-6"} text-almond-gold/30 hidden md:block`}
+                    className={`absolute ${isEven ? "-bottom-4 -right-6" : "-bottom-4 -left-6"} text-gold/30 hidden md:block`}
                     style={{ transform: `rotate(${isEven ? 45 : -45}deg)` }}
                   >
                     <AlmondIcon className="w-10 h-10" />
@@ -158,7 +158,7 @@ export default function Timeline({ entries }: TimelineProps) {
               {/* Center Timeline Element - Numbered Circle */}
               <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center z-20">
                 <motion.div
-                  className="w-10 h-10 rounded-full bg-linear-to-br from-gold to-almond-gold flex items-center justify-center text-white font-bold text-lg shadow-lg ring-4 ring-white"
+                  className="w-10 h-10 rounded-full bg-linear-to-br from-gold to-gold-dark flex items-center justify-center text-white font-bold text-lg shadow-lg ring-4 ring-white"
                   initial={{ opacity: 0, scale: 0 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: false, amount: 0.5 }}
@@ -188,7 +188,7 @@ export default function Timeline({ entries }: TimelineProps) {
                     transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
                   >
                     <div className={`inline-block ${isEven ? "" : "md:ml-auto"}`}>
-                      <DecorativeIcon className="w-12 h-12 text-almond-gold/60" />
+                      <DecorativeIcon className="w-12 h-12 text-gold/60" />
                     </div>
                   </motion.div>
 
@@ -223,7 +223,7 @@ export default function Timeline({ entries }: TimelineProps) {
                   {/* Description - fades up from bottom */}
                   {entry.description ? (
                     <motion.p
-                      className="text-(--color-slate) leading-relaxed text-base md:text-lg max-w-md mx-auto md:mx-0"
+                      className="text-text-muted leading-relaxed text-base md:text-lg max-w-md mx-auto md:mx-0"
                       style={{ marginLeft: isEven ? undefined : "auto" }}
                       variants={{
                         hidden: { opacity: 0, y: 30 },
@@ -239,7 +239,7 @@ export default function Timeline({ entries }: TimelineProps) {
 
               {/* Mobile Step Number */}
               <div className="md:hidden absolute top-0 left-1/2 -translate-x-1/2 -translate-y-6">
-                <div className="w-8 h-8 rounded-full bg-linear-to-br from-gold to-almond-gold flex items-center justify-center text-white font-bold text-sm shadow-lg">
+                <div className="w-8 h-8 rounded-full bg-linear-to-br from-gold to-gold-dark flex items-center justify-center text-white font-bold text-sm shadow-lg">
                   {stepNumber}
                 </div>
               </div>

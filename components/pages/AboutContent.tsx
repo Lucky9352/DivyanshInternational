@@ -23,6 +23,7 @@ import {
   WalnutIcon,
   PeanutIcon,
 } from "@/components/assets/Decorations";
+import DecorativeBackground from "@/components/ui/DecorativeBackground";
 import InfographicsSection from "@/components/sections/InfographicsSection";
 
 // =============================================================================
@@ -252,9 +253,9 @@ export default function AboutContent({
   }
 
   return (
-    <div className="bg-linear-to-b from-ivory via-cashew-cream to-beige min-h-screen pt-32 pb-20 relative overflow-hidden">
+    <div className="bg-linear-to-b from-ivory via-cashew-cream to-beige min-h-screen pt-32 pb-20 relative">
       {/* Decorative Background Icons */}
-      <DecorativeBackground />
+      <DecorativeBackground variant="side-balanced" />
 
       <div className="container mx-auto px-4 md:px-6 lg:px-10">
         {/* Header */}
@@ -276,7 +277,7 @@ export default function AboutContent({
             />
 
             <motion.p
-              className="uppercase tracking-[0.4em] text-xs text-(--color-muted) mb-4"
+              className="uppercase tracking-[0.4em] text-xs text-text-muted mb-4"
               variants={{
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0 },
@@ -296,7 +297,7 @@ export default function AboutContent({
               {about.header.title}
             </motion.h1>
             <motion.p
-              className="text-lg text-(--color-slate) max-w-3xl mx-auto leading-relaxed"
+              className="text-lg text-text-muted max-w-3xl mx-auto leading-relaxed"
               variants={{
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0 },
@@ -375,7 +376,7 @@ export default function AboutContent({
                   {about.anjeerStory.title}
                 </motion.h2>
 
-                <div className="space-y-6 text-lg text-(--color-slate) leading-relaxed">
+                <div className="space-y-6 text-lg text-text-muted leading-relaxed">
                   {about.anjeerStory.paragraphs[0] ? (
                     <motion.p
                       variants={{
@@ -447,7 +448,7 @@ export default function AboutContent({
                 {about.philosophySection.title}
               </motion.h2>
 
-              <div className="max-w-4xl mx-auto space-y-6 text-lg text-(--color-slate) leading-relaxed">
+              <div className="max-w-4xl mx-auto space-y-6 text-lg text-text-muted leading-relaxed">
                 <motion.p
                   className="text-xl font-semibold text-almond-gold"
                   variants={{
@@ -541,7 +542,7 @@ export default function AboutContent({
                         </p>
                       ))}
                     </div>
-                    <p className="text-sm text-(--color-slate)">
+                    <p className="text-sm text-text-muted">
                       {about.brandsSection.partners.description}
                     </p>
                   </div>
@@ -589,7 +590,7 @@ export default function AboutContent({
                         />
                       </svg>
                     </a>
-                    <p className="text-sm text-(--color-slate)">
+                    <p className="text-sm text-text-muted">
                       {about.brandsSection.retail.description}
                     </p>
                   </div>
@@ -603,7 +604,7 @@ export default function AboutContent({
         {timelineEntries.length > 0 && about.journeySection ? (
           <section className="mb-16" aria-labelledby="journey-heading">
             <div className="text-center mb-12">
-              <p className="uppercase tracking-[0.4em] text-xs text-(--color-muted) mb-3">
+              <p className="uppercase tracking-[0.4em] text-xs text-text-muted mb-3">
                 {about.journeySection.eyebrow}
               </p>
               <h2
@@ -669,85 +670,5 @@ function DecorativeCorners() {
         <AlmondIcon className="w-20 h-20 text-gold-dark" />
       </motion.div>
     </>
-  );
-}
-
-function DecorativeBackground() {
-  return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-      {/* Primary floating icons */}
-      <motion.div
-        animate={{ y: [0, -20, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-        className="absolute top-20 right-0 text-gold/5"
-      >
-        <LeafIcon className="w-96 h-96" />
-      </motion.div>
-      <motion.div
-        animate={{ y: [0, -20, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "linear", delay: 1 }}
-        className="absolute bottom-40 left-0 text-gold/5"
-      >
-        <NutIcon className="w-80 h-80" />
-      </motion.div>
-
-      {/* Scattered nut icons */}
-      <motion.div
-        animate={{ rotate: [0, 10, -10, 0], y: [0, -15, 0] }}
-        transition={{ duration: 9, repeat: Infinity, ease: "linear" }}
-        className="absolute top-1/4 left-10 text-gold/10"
-      >
-        <AlmondIcon className="w-32 h-32" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, -12, 12, 0], x: [0, 10, 0] }}
-        transition={{ duration: 11, repeat: Infinity, ease: "linear", delay: 2 }}
-        className="absolute top-2/3 right-20 text-gold-dark/10"
-      >
-        <AlmondIcon className="w-28 h-28" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, 15, -15, 0], y: [0, 12, 0] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "linear", delay: 1.5 }}
-        className="absolute top-1/2 right-10 text-gold/8"
-      >
-        <CashewIcon className="w-24 h-24" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, -10, 10, 0], x: [0, -8, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "linear", delay: 3 }}
-        className="absolute bottom-1/4 left-20 text-gold-dark/8"
-      >
-        <CashewIcon className="w-30 h-30" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, 360], scale: [1, 1.1, 1] }}
-        transition={{ duration: 16, repeat: Infinity, ease: "linear" }}
-        className="absolute top-1/3 right-1/4 opacity-12"
-      >
-        <NutIcon className="w-20 h-20" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, -10, 10, 0], y: [0, 8, 0] }}
-        transition={{ duration: 13, repeat: Infinity, ease: "linear", delay: 4 }}
-        className="absolute top-3/4 right-1/3 opacity-15"
-      >
-        <WalnutIcon className="w-26 h-26" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, 15, -15, 0], x: [0, -10, 0] }}
-        transition={{ duration: 11, repeat: Infinity, ease: "linear", delay: 3.5 }}
-        className="absolute bottom-1/3 right-16 opacity-15"
-      >
-        <PeanutIcon className="w-22 h-22" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, -13, 13, 0], y: [0, 12, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "linear", delay: 5 }}
-        className="absolute top-1/4 left-10 opacity-12"
-      >
-        <PeanutIcon className="w-26 h-26" />
-      </motion.div>
-    </div>
   );
 }

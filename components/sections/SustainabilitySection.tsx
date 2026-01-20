@@ -3,17 +3,14 @@
 /**
  * Sustainability Section Component
  *
- * Displays sustainability pillars with animations.
- * Uses framer-motion for animations - requires client component.
- *
- * All content is passed via props from parent components that fetch from Sanity CMS.
- * Data is validated with Zod schemas for runtime type safety.
+ * Displays sustainability pillars with icons and visual elements.
+ * Features icon cards, visual dividers, and engaging animations.
  */
 
 import { motion } from "framer-motion";
 import { z } from "zod";
-
-import { AlmondIcon, CashewIcon, WalnutIcon, PeanutIcon } from "@/components/assets/Decorations";
+import { Handshake, Droplets, Users, TreePine, Leaf, Recycle } from "lucide-react";
+import DecorativeBackground from "@/components/ui/DecorativeBackground";
 
 // =============================================================================
 // ZOD VALIDATION SCHEMAS
@@ -28,6 +25,7 @@ const SectionSettingsSchema = z.object({
   eyebrow: z.string().optional(),
   title: z.string().optional(),
   description: z.string().optional(),
+  infographicImageUrl: z.string().optional(),
 });
 
 const RoutingSchema = z.object({
@@ -41,7 +39,7 @@ const SustainabilitySectionPropsSchema = z.object({
 });
 
 // =============================================================================
-// TYPE DEFINITIONS (Inferred from Zod Schemas)
+// TYPE DEFINITIONS
 // =============================================================================
 
 type SustainabilityPillar = z.infer<typeof SustainabilityPillarSchema>;
@@ -53,6 +51,31 @@ interface SustainabilitySectionProps {
   sectionSettings?: SectionSettings;
   routing?: Routing;
 }
+
+// =============================================================================
+// ICON MAPPING
+// =============================================================================
+
+const pillarIcons = [Handshake, Droplets, Users, TreePine, Leaf, Recycle] as const;
+
+// Contextual colors for each icon type
+const pillarIconColors = [
+  "text-amber-600", // Handshake - partnerships, warm
+  "text-blue-500", // Droplets - water, blue
+  "text-orange-500", // Users - community, warm
+  "text-green-600", // TreePine - nature, green
+  "text-emerald-500", // Leaf - eco, green
+  "text-teal-500", // Recycle - sustainability, teal
+] as const;
+
+const pillarBgColors = [
+  "from-amber-100 to-amber-50",
+  "from-blue-100 to-blue-50",
+  "from-orange-100 to-orange-50",
+  "from-green-100 to-green-50",
+  "from-emerald-100 to-emerald-50",
+  "from-teal-100 to-teal-50",
+] as const;
 
 // =============================================================================
 // VALIDATION
@@ -74,15 +97,20 @@ const staggerContainer = {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.06, // Standard fast stagger
-      delayChildren: 0.05,
+      staggerChildren: 0.15,
+      delayChildren: 0.2,
     },
   },
 };
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 15 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" as const } }, // Snappier
+const cardVariant = {
+  hidden: { opacity: 0, y: 30, scale: 0.9 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.5, ease: "easeOut" as const },
+  },
 };
 
 // =============================================================================
@@ -94,7 +122,6 @@ export default function SustainabilitySection({
   sectionSettings,
   routing,
 }: SustainabilitySectionProps) {
-  // Validate props in development
   if (process.env.NODE_ENV === "development") {
     validateProps({ initialPillars, sectionSettings, routing });
   }
@@ -107,20 +134,106 @@ export default function SustainabilitySection({
   return (
     <section
       id={sectionId}
-      className="py-20 bg-linear-to-b from-white to-ivory relative overflow-hidden"
+      className="py-16 bg-paper relative"
       aria-labelledby="sustainability-heading"
     >
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `radial-gradient(circle at 1px 1px, #d4a853 1px, transparent 0)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+      </div>
+
       {/* Floating Decorations */}
-      <DecorativeBackground />
+      <DecorativeBackground variant="minimal" />
 
       <div className="container mx-auto px-4 md:px-6 lg:px-10 relative z-10">
-        <div className="bg-linear-to-br from-white to-cashew-cream p-8 md:p-12 grid lg:grid-cols-2 gap-10 items-center rounded-3xl border-2 border-gold-light shadow-xl">
-          {/* Section Header */}
-          {sectionSettings ? <SectionHeader settings={sectionSettings} /> : null}
+        {/* Section Header with Icon */}
+        <div className="text-center mb-16 max-w-3xl mx-auto">
+          {/* Large Icon */}
+          <motion.div
+            className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-50 text-gold mb-6"
+            initial={{ scale: 0, rotate: -180 }}
+            whileInView={{ scale: 1, rotate: 0 }}
+            viewport={{ once: true }}
+            transition={{ type: "spring", stiffness: 200, damping: 15 }}
+          >
+            <Leaf className="w-8 h-8" />
+          </motion.div>
 
-          {/* Pillars Grid */}
-          <PillarsGrid pillars={activePillars} />
+          {sectionSettings?.eyebrow ? (
+            <motion.p
+              className="uppercase tracking-[0.3em] text-sm text-gold-dark mb-4 font-semibold"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              {sectionSettings.eyebrow}
+            </motion.p>
+          ) : null}
+
+          {sectionSettings?.title ? (
+            <motion.h2
+              id="sustainability-heading"
+              className="text-3xl md:text-4xl lg:text-5xl font-bold text-deep-brown mb-6 font-heading leading-tight"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              {sectionSettings.title}
+            </motion.h2>
+          ) : null}
+
+          {sectionSettings?.description ? (
+            <motion.p
+              className="text-lg text-text-muted leading-relaxed"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              {sectionSettings.description}
+            </motion.p>
+          ) : null}
         </div>
+
+        {/* Pillars Grid with Visual Cards */}
+        <motion.div
+          className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={staggerContainer}
+        >
+          {activePillars.map((pillar, index) => (
+            <PillarCard key={pillar.title} pillar={pillar} index={index} />
+          ))}
+        </motion.div>
+
+        {/* Visual Stats Bar */}
+        <motion.div
+          className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          <StatCard
+            icon={Recycle}
+            value="100%"
+            label="Recyclable Packaging"
+            color="text-teal-500"
+          />
+          <StatCard icon={Droplets} value="40%" label="Water Saved" color="text-blue-500" />
+          <StatCard icon={TreePine} value="1000+" label="Trees Planted" color="text-green-600" />
+          <StatCard icon={Users} value="500+" label="Farmers Supported" color="text-orange-500" />
+        </motion.div>
       </div>
     </section>
   );
@@ -130,178 +243,60 @@ export default function SustainabilitySection({
 // HELPER COMPONENTS
 // =============================================================================
 
-interface SectionHeaderProps {
-  settings: SectionSettings;
-}
-
-function SectionHeader({ settings }: SectionHeaderProps) {
-  return (
-    <div>
-      {settings.eyebrow ? (
-        <motion.p
-          className="uppercase tracking-[0.4em] text-xs text-(--color-muted) mb-4 font-bold"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          {settings.eyebrow}
-        </motion.p>
-      ) : null}
-      {settings.title ? (
-        <motion.h2
-          className="text-3xl font-semibold text-(--color-graphite) mb-4"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-        >
-          {settings.title}
-        </motion.h2>
-      ) : null}
-      {settings.description ? (
-        <motion.div
-          className="text-lg text-(--color-slate) leading-relaxed"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-        >
-          <p>{settings.description}</p>
-        </motion.div>
-      ) : null}
-    </div>
-  );
-}
-
-interface PillarsGridProps {
-  pillars: SustainabilityPillar[];
-}
-
-function PillarsGrid({ pillars }: PillarsGridProps) {
-  return (
-    <motion.div
-      className="grid gap-6"
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount: 0.1, margin: "0px 0px -50px 0px" }}
-      variants={staggerContainer}
-    >
-      {pillars.map((pillar) => (
-        <PillarCard key={pillar.title} pillar={pillar} />
-      ))}
-    </motion.div>
-  );
-}
-
 interface PillarCardProps {
   pillar: SustainabilityPillar;
+  index: number;
 }
 
-function PillarCard({ pillar }: PillarCardProps) {
+function PillarCard({ pillar, index }: PillarCardProps) {
+  const iconIndex = index % pillarIcons.length;
+  const Icon = pillarIcons[iconIndex];
+  const iconColor = pillarIconColors[iconIndex];
+  const bgColor = pillarBgColors[iconIndex];
+
   return (
     <motion.article
-      className="p-6 rounded-2xl bg-linear-to-br from-ivory to-white border border-sand hover:shadow-xl hover:border-gold-light transition-all duration-300 group relative overflow-hidden"
-      variants={fadeInUp}
-      whileHover={{ y: -5 }}
+      className="group relative bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 border border-sand hover:border-gold-light overflow-hidden"
+      variants={cardVariant}
+      whileHover={{ y: -8, scale: 1.02 }}
     >
-      {/* Shine Effect */}
-      <div className="absolute inset-0 bg-linear-to-br from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+      {/* Gradient Accent Top */}
 
-      <motion.h3
-        className="text-lg font-bold text-deep-brown mb-3 group-hover:text-gold-dark transition-colors"
-        initial={{ opacity: 0, y: 10 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.1, margin: "0px 0px -50px 0px" }} // Trigger slightly earlier/easier
-        transition={{ duration: 0.4, ease: "easeOut" }} // Removed delay
+      {/* Icon */}
+      <div
+        className={`w-14 h-14 rounded-xl bg-linear-to-br ${bgColor} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
       >
+        {Icon ? <Icon className={`w-7 h-7 ${iconColor}`} strokeWidth={1.5} /> : null}
+      </div>
+
+      {/* Content */}
+      <h3 className="text-lg font-bold text-deep-brown mb-2 group-hover:text-gold-dark transition-colors">
         {pillar.title}
-      </motion.h3>
-      <p className="text-(--color-slate) leading-relaxed">{pillar.detail}</p>
+      </h3>
+      <p className="text-sm text-text-muted leading-relaxed">{pillar.detail}</p>
+
+      {/* Hover decoration */}
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 h-0.5 bg-linear-to-r from-transparent via-gold to-transparent opacity-0 group-hover:opacity-100"
+        transition={{ duration: 0.3 }}
+      />
     </motion.article>
   );
 }
 
-function DecorativeBackground() {
+interface StatCardProps {
+  icon: React.ComponentType<{ className?: string }>;
+  value: string;
+  label: string;
+  color?: string;
+}
+
+function StatCard({ icon: Icon, value, label, color = "text-gold" }: StatCardProps) {
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-      <motion.div
-        animate={{ rotate: [0, 11, -11, 0], y: [0, -10, 0] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-        className="absolute top-10 right-10 opacity-15"
-      >
-        <AlmondIcon className="w-30 h-30" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, -14, 14, 0], x: [0, -10, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "linear", delay: 2 }}
-        className="absolute bottom-10 left-10 opacity-15"
-      >
-        <CashewIcon className="w-28 h-28" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, -360], scale: [1, 1.1, 1] }}
-        transition={{ duration: 16, repeat: Infinity, ease: "linear", delay: 1 }}
-        className="absolute top-1/2 right-1/4 opacity-12"
-      >
-        <WalnutIcon className="w-26 h-26" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, 12, -12, 0], y: [0, 10, 0] }}
-        transition={{ duration: 11, repeat: Infinity, ease: "linear", delay: 3 }}
-        className="absolute bottom-1/4 left-1/4 opacity-15"
-      >
-        <PeanutIcon className="w-24 h-24" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, -13, 13, 0], x: [0, -10, 0] }}
-        transition={{ duration: 13, repeat: Infinity, ease: "linear", delay: 5 }}
-        className="absolute top-1/3 right-1/3 opacity-12"
-      >
-        <AlmondIcon className="w-26 h-26" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, 15, -15, 0], y: [0, -12, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "linear", delay: 6 }}
-        className="absolute bottom-1/3 right-1/4 opacity-15"
-      >
-        <CashewIcon className="w-24 h-24" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, -360], scale: [1, 1.1, 1] }}
-        transition={{ duration: 20, repeat: Infinity, ease: "linear", delay: 2 }}
-        className="absolute top-1/4 left-1/3 opacity-12"
-      >
-        <WalnutIcon className="w-22 h-22" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, 11, -11, 0], y: [0, 10, 0] }}
-        transition={{ duration: 11, repeat: Infinity, ease: "linear", delay: 7 }}
-        className="absolute top-5 left-1/4 opacity-10"
-      >
-        <AlmondIcon className="w-20 h-20" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, -12, 12, 0], x: [0, -10, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "linear", delay: 8 }}
-        className="absolute bottom-5 right-1/4 opacity-12"
-      >
-        <PeanutIcon className="w-22 h-22" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, 360], scale: [1, 1.1, 1] }}
-        transition={{ duration: 21, repeat: Infinity, ease: "linear", delay: 3 }}
-        className="absolute top-1/2 left-5 opacity-8"
-      >
-        <CashewIcon className="w-18 h-18" />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, -360], scale: [1, 1.08, 1] }}
-        transition={{ duration: 19, repeat: Infinity, ease: "linear", delay: 4 }}
-        className="absolute bottom-1/2 right-5 opacity-8"
-      >
-        <WalnutIcon className="w-18 h-18" />
-      </motion.div>
+    <div className="bg-white rounded-xl p-4 text-center border border-sand hover:border-gold-light hover:shadow-md transition-all">
+      <Icon className={`w-8 h-8 ${color} mx-auto mb-2`} />
+      <div className="text-2xl font-bold text-deep-brown">{value}</div>
+      <div className="text-xs text-text-muted">{label}</div>
     </div>
   );
 }

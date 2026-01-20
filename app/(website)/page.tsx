@@ -2,13 +2,13 @@ import Script from "next/script";
 import { z } from "zod";
 
 import HeroSlider from "@/components/sections/HeroSlider";
-import CapabilitiesSection from "@/components/sections/CapabilitiesSection";
 import ProductShowcase from "@/components/sections/ProductShowcase";
-import ProcessSection from "@/components/sections/ProcessSection";
 import VideoTestimonialsSection from "@/components/sections/VideoTestimonials";
 import SustainabilitySection from "@/components/sections/SustainabilitySection";
 import TrustSection from "@/components/sections/TrustSection";
 import CTASection from "@/components/sections/CTASection";
+import FeaturedBanner from "@/components/sections/FeaturedBanner";
+import DroneDiaries from "@/components/sections/DroneDiaries";
 
 import SpiralQuote from "@/components/SpiralQuote";
 import AnimationWrapper from "@/components/ui/AnimationWrapper";
@@ -19,7 +19,6 @@ import { client } from "@/lib/sanity/client";
 import {
   productsQuery,
   heroSlidesQuery,
-  capabilitiesQuery,
   certificatesQuery,
   testimonialsQuery,
   processQuery as processStepsQuery,
@@ -68,11 +67,12 @@ const homePageSchema = z
   .object({
     heroStats: z.unknown().optional(),
     spiralQuoteSection: z.unknown().optional(),
-    capabilitiesSection: z.unknown().optional(),
     processSection: z.unknown().optional(),
     productShowcaseSection: z.unknown().optional(),
     sustainabilitySection: z.unknown().optional(),
     trustSection: z.unknown().optional(),
+    featuredBanner: z.unknown().optional(),
+    droneDiaries: z.unknown().optional(),
   })
   .passthrough()
   .nullable();
@@ -100,7 +100,6 @@ async function getData() {
     const [
       products,
       heroSlides,
-      capabilities,
       certificates,
       testimonials,
       processSteps,
@@ -113,7 +112,6 @@ async function getData() {
     ] = await Promise.all([
       client.fetch(productsQuery),
       client.fetch(heroSlidesQuery),
-      client.fetch(capabilitiesQuery),
       client.fetch(certificatesQuery),
       client.fetch(testimonialsQuery),
       client.fetch(processStepsQuery),
@@ -145,7 +143,6 @@ async function getData() {
     return {
       products: arrayDataSchema.safeParse(products).success ? products : [],
       heroSlides: arrayDataSchema.safeParse(heroSlides).success ? heroSlides : [],
-      capabilities: arrayDataSchema.safeParse(capabilities).success ? capabilities : [],
       certificates: arrayDataSchema.safeParse(certificates).success ? certificates : [],
       testimonials: arrayDataSchema.safeParse(testimonials).success ? testimonials : [],
       processSteps: arrayDataSchema.safeParse(processSteps).success ? processSteps : [],
@@ -165,7 +162,6 @@ async function getData() {
     return {
       products: [],
       heroSlides: [],
-      capabilities: [],
       certificates: [],
       testimonials: [],
       processSteps: [],
@@ -187,10 +183,8 @@ export default async function Home() {
   const {
     products,
     heroSlides,
-    capabilities,
     certificates,
     testimonials,
-    processSteps,
     sustainabilityPillars,
     cta,
     quote,
@@ -253,21 +247,7 @@ export default async function Home() {
           />
         </AnimationWrapper>
 
-        <AnimationWrapper delay={0.2}>
-          <CapabilitiesSection
-            initialCapabilities={capabilities}
-            sectionSettings={homePage?.capabilitiesSection}
-          />
-        </AnimationWrapper>
-
-        <AnimationWrapper delay={0.1}>
-          <ProcessSection
-            initialProcessSteps={processSteps}
-            sectionSettings={homePage?.processSection}
-            routing={siteSettings?.routing}
-          />
-        </AnimationWrapper>
-
+        {/* Product Showcase */}
         <AnimationWrapper delay={0.1}>
           <ProductShowcase
             initialProducts={products}
@@ -276,22 +256,12 @@ export default async function Home() {
           />
         </AnimationWrapper>
 
+        {/* Featured Visual Banner */}
         <AnimationWrapper delay={0.1}>
-          <VideoTestimonialsSection
-            initialTestimonials={testimonials}
-            sectionSettings={testimonialsSection}
-            routing={siteSettings?.routing}
-          />
+          <FeaturedBanner bannerData={homePage?.featuredBanner} />
         </AnimationWrapper>
 
-        <AnimationWrapper delay={0.1}>
-          <SustainabilitySection
-            initialPillars={sustainabilityPillars}
-            sectionSettings={homePage?.sustainabilitySection}
-            routing={siteSettings?.routing}
-          />
-        </AnimationWrapper>
-
+        {/* Trust & Certifications */}
         <AnimationWrapper delay={0.1}>
           <TrustSection
             initialCertificates={certificates}
@@ -300,6 +270,30 @@ export default async function Home() {
           />
         </AnimationWrapper>
 
+        {/* Drone Diaries Video Gallery */}
+        <AnimationWrapper delay={0.1}>
+          <DroneDiaries sectionData={homePage?.droneDiaries} />
+        </AnimationWrapper>
+
+        {/* Video Testimonials */}
+        <AnimationWrapper delay={0.1}>
+          <VideoTestimonialsSection
+            initialTestimonials={testimonials}
+            sectionSettings={testimonialsSection}
+            routing={siteSettings?.routing}
+          />
+        </AnimationWrapper>
+
+        {/* Sustainability */}
+        <AnimationWrapper delay={0.1}>
+          <SustainabilitySection
+            initialPillars={sustainabilityPillars}
+            sectionSettings={homePage?.sustainabilitySection}
+            routing={siteSettings?.routing}
+          />
+        </AnimationWrapper>
+
+        {/* Final CTA */}
         <AnimationWrapper delay={0.1}>
           <CTASection initialCTA={cta} />
         </AnimationWrapper>

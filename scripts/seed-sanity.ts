@@ -836,7 +836,42 @@ const testimonials = [
     quote:
       "Divyansh delivers the responsiveness and QA rigor we expect from leading processors. RFQs, lab updates and dispatch milestones arrive without chasing.",
     author: "Head Of Purchase",
-    role: " Modern Trade Retailer",
+    role: "Modern Trade Retailer",
+  },
+  {
+    _id: "1",
+    quote:
+      "We've been sourcing California almonds from Divyansh for 8 years now. Consistent sizing, moisture levels within spec, and their documentation is always export-ready.",
+    author: "Vikram Mehta",
+    role: "Export Manager, SpiceTrail Foods",
+  },
+  {
+    _id: "2",
+    quote:
+      "Their walnut kernels meet our stringent bakery standards. The light halves grade has transformed our premium cookie line. Reliable partner for seasonal demand spikes.",
+    author: "Priya Krishnan",
+    role: "Procurement Lead, Artisan Bakers Co.",
+  },
+  {
+    _id: "3",
+    quote:
+      "From inquiry to delivery, Divyansh treats us like partners not just customers. Their team helped us navigate FSSAI compliance for our new product line launch.",
+    author: "Rajesh Agarwal",
+    role: "Director, NutriSnacks Private Ltd",
+  },
+  {
+    _id: "4",
+    quote:
+      "The Kandhari raisins we source for our mithai production are consistently sweet with the perfect texture. They understand the traditional sweets industry requirements.",
+    author: "Suresh Halwai",
+    role: "Owner, Shree Ganesh Sweets",
+  },
+  {
+    _id: "5",
+    quote:
+      "Fast turnaround on custom grading requests sets them apart. When we needed a specific almond size for our chocolate line, they delivered within the week.",
+    author: "Anita Deshmukh",
+    role: "Supply Chain Head, ChocoLux India",
   },
 ];
 
@@ -2041,16 +2076,18 @@ const homePageData = {
       "We adhere to the highest global standards of food safety and quality management.",
   },
   processSection: {
-    eyebrow: "Process DNA",
-    title: "Calibrated to professional-grade precision",
+    eyebrow: "OUR PROCESS",
+    title: "Tailored supply solutions for every business segment",
     description:
-      "Industrial discipline with family-run agility and personalized attention to every order.",
+      "From retail chains to hospitality groups, we provide customized sourcing programs designed for your specific requirements.",
+    backgroundImageUrl: "PLACEHOLDER_PROCESS_BG_URL",
   },
   sustainabilitySection: {
     eyebrow: "Sustainability",
     title: "Building transparent supply chains with shared value",
     description:
       "We extend the value chain beyond purchase to farmer livelihoods, renewable operations, and inclusive hiring.",
+    infographicImageUrl: "PLACEHOLDER_SUSTAINABILITY_INFOGRAPHIC_URL",
   },
   trustSection: {
     eyebrow: "Partners & Certifications",
@@ -2065,13 +2102,47 @@ const homePageData = {
     ],
   },
   productShowcaseSection: {
-    eyebrow: "Product Programs",
-    title: "Bulk dry fruit supply for trade, professional and export buyers",
+    eyebrow: "Our Products",
+    title: "Premium dry fruits for trade, wholesale and export buyers",
     description:
-      "Preview our almond, walnut, pistachio, raisin and desiccated coconut programs built for dependable sourcing. Each profile links to detailed specs and ready-to-share enquiry flows.",
+      "Explore our almond, cashew, walnut, pistachio, raisin and desiccated coconut programs built for dependable sourcing.",
   },
   spiralQuoteSection: {
     buttonText: "Discover Our Story",
+  },
+  featuredBanner: {
+    imageUrl: "PLACEHOLDER_FEATURED_BANNER_URL",
+    title: "25 Years of Excellence",
+    subtitle: "Premium Quality Since 1999",
+  },
+  droneDiaries: {
+    eyebrow: "DRONE DIARIES",
+    title: "An Aerial Tour of Excellence",
+    description:
+      "Experience our state-of-the-art facility from above and witness the scale of our operations",
+    videos: [
+      {
+        _key: "facility-aerial",
+        title: "Facility Overview",
+        description: "Aerial tour of our ISO-certified processing facility in Mullapur, Ludhiana",
+        videoUrl: "PLACEHOLDER_DRONE_VIDEO_1_URL",
+        thumbnailUrl: "PLACEHOLDER_DRONE_THUMB_1_URL",
+      },
+      {
+        _key: "processing-line",
+        title: "Processing Line",
+        description: "See our advanced sorting, grading, and processing equipment in action",
+        videoUrl: "PLACEHOLDER_DRONE_VIDEO_2_URL",
+        thumbnailUrl: "PLACEHOLDER_DRONE_THUMB_2_URL",
+      },
+      {
+        _key: "quality-lab",
+        title: "Quality Control Lab",
+        description: "Our in-house quality testing and certification processes",
+        videoUrl: "PLACEHOLDER_DRONE_VIDEO_3_URL",
+        thumbnailUrl: "PLACEHOLDER_DRONE_THUMB_3_URL",
+      },
+    ],
   },
   videoGallery: {
     eyebrow: "BEHIND THE SCENES",
@@ -2460,7 +2531,7 @@ async function seed() {
 
   const droneSectionData = {
     eyebrow: "AERIAL TOUR",
-    title: "Drone Diaries",
+    title: "Our Facility",
     note: "Experience our world-class facilities from above.",
     videos: [
       {

@@ -42,7 +42,7 @@ export type DistributionMapProps = z.infer<typeof DistributionMapPropsSchema>;
 const LeafletMap = dynamic(() => import("./LeafletMap"), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-full bg-beige animate-pulse flex items-center justify-center text-(--color-muted)">
+    <div className="w-full h-full bg-paper animate-pulse flex items-center justify-center text-text-muted">
       <span className="sr-only">Loading Map...</span>
       <svg className="w-8 h-8 animate-spin text-gold" fill="none" viewBox="0 0 24 24">
         <circle
@@ -90,7 +90,7 @@ export default function DistributionMap({
         ];
 
   return (
-    <div className="relative w-full h-96 bg-beige rounded-lg overflow-hidden shadow-md group isolate">
+    <div className="relative w-full h-96 bg-paper rounded-lg overflow-hidden shadow-md group isolate">
       {heading ? (
         <div className="absolute top-4 left-4 z-1000 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-sm pointer-events-none">
           <h4 className="font-bold text-deep-brown">{heading}</h4>
@@ -98,7 +98,7 @@ export default function DistributionMap({
       ) : null}
 
       {/* Regions Overlay */}
-      <div className="absolute bottom-4 left-4 z-1000 bg-white/95 backdrop-blur-md p-4 rounded-xl shadow-lg border border-sand max-w-[200px] pointer-events-none">
+      <div className="absolute bottom-4 left-4 z-1000 bg-white/95 backdrop-blur-md p-4 rounded-xl shadow-lg border border-border max-w-[200px] pointer-events-none">
         <h5 className="text-sm font-bold text-deep-brown mb-2 uppercase tracking-wider">
           Key Regions
         </h5>
@@ -106,7 +106,7 @@ export default function DistributionMap({
           {displayLocations.map((loc) => (
             <li
               key={loc.name}
-              className="flex items-center gap-2 text-sm font-medium text-(--color-slate)"
+              className="flex items-center gap-2 text-sm font-medium text-text-muted"
             >
               <span className="w-2 h-2 rounded-full bg-gold shrink-0" />
               {loc.name}

@@ -132,8 +132,8 @@ export default function Header({ initialHeader, products, siteSettings }: Header
         animate={{ y: 0 }}
         className={`fixed top-0 left-0 right-0 z-30 transition-all duration-300 ${
           isScrolled
-            ? "bg-white shadow-lg py-2 md:py-3 border-b border-sand"
-            : "bg-linear-to-b from-white to-ivory backdrop-blur-md py-3 md:py-4 shadow-sm"
+            ? "bg-bg/95 shadow-lg py-2 md:py-3 border-b border-border backdrop-blur-md"
+            : "bg-bg/80 backdrop-blur-md py-3 md:py-4 shadow-sm"
         }`}
       >
         <div className="container mx-auto px-4 md:px-6 lg:px-8">
@@ -158,7 +158,7 @@ export default function Header({ initialHeader, products, siteSettings }: Header
                     className="w-12 h-12 md:w-16 md:h-16 rounded-full border-2 border-almond-gold object-cover shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                     priority
                   />
-                  <div className="absolute -inset-1 bg-linear-to-r from-almond-gold to-gold-dark rounded-full opacity-20 blur-sm"></div>
+                  <div className="absolute -inset-1 bg-gold opacity-20 blur-sm rounded-full"></div>
                 </div>
                 <div className="flex flex-col">
                   <span className="text-deep-brown font-bold text-base md:text-xl tracking-wide">
@@ -211,7 +211,7 @@ export default function Header({ initialHeader, products, siteSettings }: Header
 
               <Link
                 href="/contact"
-                className="bg-linear-to-r from-almond-gold to-gold-dark hover:shadow-lg text-white px-6 py-2.5 rounded-full font-semibold transition-all duration-300 hover:scale-105 focus:outline-2 focus:outline-gold-dark focus:outline-offset-2 whitespace-nowrap"
+                className="bg-gold hover:bg-gold-dark hover:shadow-lg text-white px-6 py-2.5 rounded-full font-semibold transition-all duration-300 hover:scale-105 focus:outline-2 focus:outline-gold-dark focus:outline-offset-2 whitespace-nowrap"
               >
                 {tradeButtonText}
               </Link>
