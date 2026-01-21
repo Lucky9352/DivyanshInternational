@@ -806,6 +806,16 @@ html.hydrated {
   }
 }
 
+/* Force YouTube Iframe to contain within container without cropping */
+.video-contain-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
 /* Extra narrow screens (320px and below) */
 @media (max-width: 480px) and (max-aspect-ratio: 3/4) {
   .video-background-iframe {

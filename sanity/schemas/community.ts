@@ -91,7 +91,12 @@ export default defineType({
           of: [{ type: "text", rows: 3 }],
         },
         { name: "quote", type: "text", title: "Quote Text", rows: 3 },
-        { name: "imageUrl", type: "string", title: "Image URL (Google Drive)" },
+        {
+          name: "images",
+          type: "array",
+          title: "Images (Google Drive URLs)",
+          of: [{ type: "string" }],
+        },
       ],
     }),
 

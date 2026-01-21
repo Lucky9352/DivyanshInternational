@@ -44,6 +44,7 @@ const SectionSettingsSchema = z.object({
   description: z.string().optional(),
   certificationsTitle: z.string().optional(),
   certificationsDescription: z.string().optional(),
+  backgroundImageUrl: z.string().optional().nullable(),
 });
 
 const RoutingSchema = z.object({
@@ -127,20 +128,45 @@ export default function CapabilitiesSection({
   const certificates = initialCertificates ?? [];
   const sectionId = routing?.capabilitiesSectionId ?? "capabilities";
 
+  // Prepare background image if available
+  const bgImage = sectionSettings?.backgroundImageUrl
+    ? getGoogleDriveImageUrl(sectionSettings.backgroundImageUrl)
+    : null;
+
   if (capabilities.length === 0) return null;
 
   return (
     <section
       id={sectionId}
-      className="py-20 bg-paper relative"
+      className="py-20 bg-paper relative overflow-hidden"
       aria-labelledby="capabilities-heading"
     >
+      {/* Dynamic Background Image */}
+      {bgImage ? (
+        <div className="absolute inset-0 z-0">
+          <div
+            className="absolute inset-0 w-full h-full pointer-events-none scale-110"
+            style={{
+              backgroundImage: `url(${bgImage})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              filter: "blur(5px)",
+              opacity: 1,
+            }}
+          />
+        </div>
+      ) : null}
+
       {/* Floating Decorations */}
       <DecorativeBackground variant="scattered" />
 
       <div className="container mx-auto px-4 md:px-6 lg:px-10 relative z-10">
         {/* Section Header */}
-        {sectionSettings ? <SectionHeader settings={sectionSettings} /> : null}
+        {sectionSettings ? (
+          <div className="bg-white/60 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-xl border border-white/20 mb-12 max-w-4xl">
+            <SectionHeader settings={sectionSettings} />
+          </div>
+        ) : null}
 
         {/* Capabilities Grid */}
         <CapabilitiesGrid capabilities={capabilities} />
@@ -171,7 +197,7 @@ function SectionHeader({ settings }: SectionHeaderProps) {
     <div className="max-w-3xl mb-12">
       {settings.eyebrow ? (
         <motion.p
-          className="uppercase tracking-[0.4em] text-xs text-(--color-muted) mb-4 font-bold"
+          className="uppercase tracking-[0.4em] text-xs text-gold-dark mb-4 font-bold"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

@@ -45,6 +45,7 @@ const SectionSettingsSchema = z.object({
   title: z.string().optional(),
   description: z.string().optional(),
   partnerSegments: z.array(z.string()).optional(),
+  backgroundImageUrl: z.string().optional(),
 });
 
 const RoutingSchema = z.object({
@@ -150,17 +151,42 @@ export default function TrustSection({
   const segments = sectionSettings?.partnerSegments ?? [];
   const sectionId = routing?.trustSectionId;
 
+  // Prepare background image if available
+  const bgImage = sectionSettings?.backgroundImageUrl
+    ? getGoogleDriveImageUrl(sectionSettings.backgroundImageUrl)
+    : null;
+
   return (
-    <section id={sectionId} className="py-16 bg-bg relative" aria-labelledby="trust-heading">
+    <section
+      id={sectionId}
+      className="py-16 bg-bg relative overflow-hidden"
+      aria-labelledby="trust-heading"
+    >
+      {/* Dynamic Background Image */}
+      {bgImage ? (
+        <div className="absolute inset-0 z-0">
+          <div
+            className="absolute inset-0 w-full h-full pointer-events-none scale-110"
+            style={{
+              backgroundImage: `url(${bgImage})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              filter: "blur(5px)",
+              opacity: 1,
+            }}
+          />
+        </div>
+      ) : null}
+
       {/* Floating Decorations */}
       <DecorativeBackground variant="side-balanced" />
 
       <div className="container mx-auto px-4 md:px-6 lg:px-10 relative z-10">
-        {/* Centered Header */}
-        <div className="text-center mb-16 max-w-3xl mx-auto">
+        {/* Centered Header with Glass Protection */}
+        <div className="text-center mb-16 max-w-4xl mx-auto bg-white/60 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-xl border border-white/20">
           {/* Icon */}
           <motion.div
-            className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-50 text-gold mb-6"
+            className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-50 text-gold mb-6 mx-auto"
             initial={{ scale: 0, rotate: -180 }}
             whileInView={{ scale: 1, rotate: 0 }}
             viewport={{ once: true }}
@@ -200,7 +226,7 @@ export default function TrustSection({
 
           {sectionSettings?.description ? (
             <motion.p
-              className="text-lg text-text-muted leading-relaxed"
+              className="text-lg text-deep-brown/80 leading-relaxed font-medium"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

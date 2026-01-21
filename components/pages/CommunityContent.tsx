@@ -12,12 +12,13 @@
  */
 
 import { getGoogleDriveImageUrl } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { z } from "zod";
 import { LeafIcon, NutIcon, CashewIcon, PeanutIcon } from "@/components/assets/Decorations";
 import DecorativeBackground from "@/components/ui/DecorativeBackground";
 import VideoShowcase from "@/components/ui/VideoShowcase";
 import type { SanityImageSource } from "@sanity/image-url";
+import { useState, useEffect, useCallback } from "react";
 
 // =============================================================================
 // ZOD VALIDATION SCHEMAS
@@ -85,7 +86,7 @@ const CommunityDataSchema = z.object({
       title: z.string(),
       paragraphs: z.array(z.string()),
       quote: z.string(),
-      imageUrl: z.string().optional(),
+      images: z.array(z.string()).optional(),
     })
     .optional(),
   womenEmpowerment: z
@@ -315,149 +316,128 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
           </div>
         ) : null}
 
-        {/* Education & Women Empowerment Grid */}
-        {community.educationSection || community.womenEmpowerment ? (
+        {/* Education Section */}
+        {community.educationSection ? (
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: false, amount: 0.2 }}
-            className="mb-16"
+            className="mb-20"
           >
-            <div className="grid md:grid-cols-2 gap-8 items-start">
-              {/* Education Section */}
-              {community.educationSection ? (
-                <motion.div
-                  className="relative"
-                  variants={{
-                    hidden: { opacity: 0, x: -30 },
-                    visible: { opacity: 1, x: 0 },
-                  }}
-                  transition={{ duration: 0.7, ease: "easeOut" as const }}
-                >
-                  {/* Organic blob background */}
-                  <div
-                    className="absolute -inset-4 -z-10"
-                    style={{
-                      background: "#f5f0e8",
-                      borderRadius: "55% 45% 50% 50% / 50% 55% 45% 50%",
-                      transform: "rotate(-2deg)",
-                    }}
-                  />
+            <motion.div
+              className="relative"
+              variants={{
+                hidden: { opacity: 0, x: -30 },
+                visible: { opacity: 1, x: 0 },
+              }}
+              transition={{ duration: 0.7, ease: "easeOut" as const }}
+            >
+              <div className="rounded-2xl overflow-hidden flex flex-col md:flex-row">
+                {/* Carousel Side */}
+                {community.educationSection.images &&
+                community.educationSection.images.length > 0 ? (
+                  <div className="w-full md:w-1/2 relative flex flex-col justify-center items-center">
+                    <div className="w-full relative flex justify-center items-center">
+                      <EducationCarousel images={community.educationSection.images} />
+                    </div>
+                  </div>
+                ) : null}
 
-                  <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-almond-gold/30 shadow-lg overflow-hidden">
-                    {community.educationSection.imageUrl ? (
-                      <div className="w-full relative">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={getGoogleDriveImageUrl(community.educationSection.imageUrl) || ""}
-                          alt={community.educationSection.title}
-                          className="w-full h-auto transition-transform duration-700 hover:scale-105"
-                        />
-                      </div>
-                    ) : null}
-                    <div className="p-8">
-                      <div className="text-4xl mb-4">{community.educationSection.icon}</div>
-                      <h2 className="text-3xl font-bold text-deep-brown mb-4 font-heading">
-                        {community.educationSection.title}
-                      </h2>
-                      {community.educationSection.paragraphs.map((paragraph, index) => (
-                        <p
+                {/* Content Side */}
+                <div className="p-8 md:p-12 w-full md:w-1/2">
+                  <div className="text-4xl mb-4">{community.educationSection.icon}</div>
+                  <h2 className="text-3xl font-bold text-deep-brown mb-4 font-heading">
+                    {community.educationSection.title}
+                  </h2>
+                  {community.educationSection.paragraphs.map((paragraph, index) => (
+                    <p key={index} className="text-(--color-slate) leading-relaxed mb-4 last:mb-0">
+                      {paragraph}
+                    </p>
+                  ))}
+
+                  {community.educationSection.quote ? (
+                    <div className="mt-8 pt-6 border-t border-almond-gold/20 flex flex-col items-start px-4">
+                      <CashewIcon className="w-6 h-6 text-almond-gold/60 mb-3" />
+                      <p className="text-deep-brown font-semibold text-lg italic">
+                        &quot;{community.educationSection.quote}&quot;
+                      </p>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        ) : null}
+
+        {/* Women Empowerment */}
+        {community.womenEmpowerment ? (
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false, amount: 0.2 }}
+            className="mb-20"
+          >
+            <motion.div
+              className="relative"
+              variants={{
+                hidden: { opacity: 0, x: 30 },
+                visible: { opacity: 1, x: 0 },
+              }}
+              transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" as const }}
+            >
+              <div className="rounded-2xl overflow-hidden flex flex-col md:flex-row-reverse">
+                {/* Image Side */}
+                {community.womenEmpowerment.imageUrl ? (
+                  <div className="w-full md:w-1/2 relative flex items-center justify-center">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={getGoogleDriveImageUrl(community.womenEmpowerment.imageUrl) || ""}
+                      alt={community.womenEmpowerment.title}
+                      className="w-auto h-auto max-w-full hover:scale-[1.02] transition-transform duration-700"
+                    />
+                  </div>
+                ) : null}
+
+                {/* Content Side */}
+                <div className="p-8 md:p-12 w-full md:w-1/2">
+                  <motion.div
+                    className="mb-8"
+                    variants={{
+                      hidden: { opacity: 0, y: 20 },
+                      visible: { opacity: 1, y: 0 },
+                    }}
+                    transition={{ duration: 0.6, ease: "easeOut" as const }}
+                  >
+                    <div className="text-4xl mb-4">{community.womenEmpowerment.icon}</div>
+                    <h2 className="text-3xl md:text-4xl font-bold text-deep-brown mb-4 font-heading">
+                      {community.womenEmpowerment.title}
+                    </h2>
+                  </motion.div>
+                  <div className="space-y-6 text-lg text-(--color-slate) leading-relaxed">
+                    {community.womenEmpowerment.paragraphs.map((paragraph, index) => {
+                      const isLast = index === community.womenEmpowerment!.paragraphs.length - 1;
+                      return (
+                        <motion.p
                           key={index}
-                          className="text-(--color-slate) leading-relaxed mb-4 last:mb-0"
+                          className={isLast ? "font-semibold text-deep-brown" : ""}
+                          variants={{
+                            hidden: { opacity: 0, y: 20 },
+                            visible: { opacity: 1, y: 0 },
+                          }}
+                          transition={{
+                            duration: 0.5,
+                            delay: 0.1 + index * 0.1,
+                            ease: "easeOut" as const,
+                          }}
                         >
                           {paragraph}
-                        </p>
-                      ))}
-
-                      {community.educationSection.quote ? (
-                        <div className="mt-8 pt-6 border-t border-almond-gold/20 flex flex-col items-center text-center">
-                          <CashewIcon className="w-6 h-6 text-almond-gold/60 mb-3" />
-                          <p className="text-deep-brown font-semibold text-lg italic">
-                            &quot;{community.educationSection.quote}&quot;
-                          </p>
-                        </div>
-                      ) : null}
-                    </div>
+                        </motion.p>
+                      );
+                    })}
                   </div>
-                </motion.div>
-              ) : null}
-
-              {/* Women Empowerment */}
-              {community.womenEmpowerment ? (
-                <motion.div
-                  className="relative"
-                  variants={{
-                    hidden: { opacity: 0, x: 30 },
-                    visible: { opacity: 1, x: 0 },
-                  }}
-                  transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" as const }}
-                >
-                  {/* Organic blob background */}
-                  <div
-                    className="absolute -inset-6 -z-10"
-                    style={{
-                      background: "#e8f5e9",
-                      borderRadius: "50% 50% 45% 55% / 45% 50% 50% 55%",
-                      transform: "rotate(1deg)",
-                    }}
-                  />
-
-                  <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-pistachio-green/30 shadow-lg overflow-hidden">
-                    {/* Image Side - Now Top */}
-                    {community.womenEmpowerment.imageUrl ? (
-                      <div className="w-full relative">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={getGoogleDriveImageUrl(community.womenEmpowerment.imageUrl) || ""}
-                          alt={community.womenEmpowerment.title}
-                          className="w-full h-auto transition-transform duration-700 hover:scale-105"
-                        />
-                      </div>
-                    ) : null}
-
-                    {/* Content Side - Now Bottom */}
-                    <div className="p-8">
-                      <motion.div
-                        className="mb-8"
-                        variants={{
-                          hidden: { opacity: 0, y: 20 },
-                          visible: { opacity: 1, y: 0 },
-                        }}
-                        transition={{ duration: 0.6, ease: "easeOut" as const }}
-                      >
-                        <div className="text-4xl mb-4">{community.womenEmpowerment.icon}</div>
-                        <h2 className="text-3xl md:text-4xl font-bold text-deep-brown mb-4 font-heading">
-                          {community.womenEmpowerment.title}
-                        </h2>
-                      </motion.div>
-                      <div className="space-y-6 text-lg text-(--color-slate) leading-relaxed">
-                        {community.womenEmpowerment.paragraphs.map((paragraph, index) => {
-                          const isLast =
-                            index === community.womenEmpowerment!.paragraphs.length - 1;
-                          return (
-                            <motion.p
-                              key={index}
-                              className={isLast ? "font-semibold text-deep-brown" : ""}
-                              variants={{
-                                hidden: { opacity: 0, y: 20 },
-                                visible: { opacity: 1, y: 0 },
-                              }}
-                              transition={{
-                                duration: 0.5,
-                                delay: 0.1 + index * 0.1,
-                                ease: "easeOut" as const,
-                              }}
-                            >
-                              {paragraph}
-                            </motion.p>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              ) : null}
-            </div>
+                </div>
+              </div>
+            </motion.div>
           </motion.div>
         ) : null}
 
@@ -467,193 +447,160 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
             initial="hidden"
             whileInView="visible"
             viewport={{ once: false, amount: 0.2 }}
-            className="mb-16 relative"
+            className="mb-20 relative"
           >
-            {/* Organic blob background */}
-            <div
-              className="absolute -inset-6 -z-10"
-              style={{
-                background: "#f5f0e8",
-                borderRadius: "45% 55% 50% 50% / 50% 45% 55% 50%",
-                transform: "rotate(-1deg)",
-              }}
-            />
+            <div className="rounded-2xl overflow-hidden flex flex-col md:flex-row">
+              {/* Image Side - Left */}
+              {community.childcareSection.imageUrl ? (
+                <div className="w-full md:w-1/2 relative flex items-center justify-center">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={getGoogleDriveImageUrl(community.childcareSection.imageUrl) || ""}
+                    alt={community.childcareSection.title}
+                    className="w-auto h-auto max-w-full hover:scale-[1.02] transition-transform duration-700"
+                  />
+                </div>
+              ) : null}
 
-            <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-gold-light shadow-lg overflow-hidden">
-              <div className="flex flex-col md:flex-row items-center">
-                {/* Image Side - Left */}
-                {community.childcareSection.imageUrl ? (
-                  <div className="w-full md:w-1/2 relative">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={getGoogleDriveImageUrl(community.childcareSection.imageUrl) || ""}
-                      alt={community.childcareSection.title}
-                      className="w-full h-auto transition-transform duration-700 hover:scale-105"
-                    />
-                  </div>
-                ) : null}
-
-                {/* Content Side - Right */}
-                <div className="w-full md:w-1/2 p-10 md:p-12">
-                  <motion.div
-                    className="mb-8"
-                    variants={{
-                      hidden: { opacity: 0, scale: 0.9 },
-                      visible: { opacity: 1, scale: 1 },
-                    }}
-                    transition={{ duration: 0.6, ease: "easeOut" as const }}
-                  >
-                    <div className="text-4xl mb-4">{community.childcareSection.icon}</div>
-                    <h2 className="text-3xl md:text-4xl font-bold text-deep-brown mb-4 font-heading">
-                      {community.childcareSection.title}
-                    </h2>
-                  </motion.div>
-                  <div className="space-y-6 text-lg text-(--color-slate) leading-relaxed">
-                    {community.childcareSection.paragraphs.map((paragraph, index) => (
-                      <motion.p
-                        key={index}
-                        variants={{
-                          hidden: { opacity: 0, y: 20 },
-                          visible: { opacity: 1, y: 0 },
-                        }}
-                        transition={{
-                          duration: 0.5,
-                          delay: 0.1 + index * 0.1,
-                          ease: "easeOut" as const,
-                        }}
-                      >
-                        {paragraph}
-                      </motion.p>
-                    ))}
+              {/* Content Side - Right */}
+              <div className="w-full md:w-1/2 p-10 md:p-12">
+                <motion.div
+                  className="mb-8"
+                  variants={{
+                    hidden: { opacity: 0, scale: 0.9 },
+                    visible: { opacity: 1, scale: 1 },
+                  }}
+                  transition={{ duration: 0.6, ease: "easeOut" as const }}
+                >
+                  <div className="text-4xl mb-4">{community.childcareSection.icon}</div>
+                  <h2 className="text-3xl md:text-4xl font-bold text-deep-brown mb-4 font-heading">
+                    {community.childcareSection.title}
+                  </h2>
+                </motion.div>
+                <div className="space-y-6 text-lg text-(--color-slate) leading-relaxed">
+                  {community.childcareSection.paragraphs.map((paragraph, index) => (
                     <motion.p
-                      className="font-semibold text-almond-gold text-xl"
+                      key={index}
                       variants={{
-                        hidden: { opacity: 0, x: -30 },
-                        visible: { opacity: 1, x: 0 },
+                        hidden: { opacity: 0, y: 20 },
+                        visible: { opacity: 1, y: 0 },
                       }}
-                      transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" as const }}
+                      transition={{
+                        duration: 0.5,
+                        delay: 0.1 + index * 0.1,
+                        ease: "easeOut" as const,
+                      }}
                     >
-                      {community.childcareSection.highlight}
+                      {paragraph}
                     </motion.p>
-                  </div>
+                  ))}
+                  <motion.p
+                    className="font-semibold text-almond-gold text-xl"
+                    variants={{
+                      hidden: { opacity: 0, x: -30 },
+                      visible: { opacity: 1, x: 0 },
+                    }}
+                    transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" as const }}
+                  >
+                    {community.childcareSection.highlight}
+                  </motion.p>
                 </div>
               </div>
             </div>
           </motion.div>
         ) : null}
 
-        {/* Industry Collaboration & Environmental Responsibility */}
-        {community.industryCollaboration || community.environmentalSection ? (
+        {/* Industry Collaboration */}
+        {community.industryCollaboration ? (
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: false, amount: 0.2 }}
-            className="mb-16"
+            className="mb-20"
           >
-            <div className="grid md:grid-cols-2 gap-8 items-start">
-              {/* Industry Collaboration */}
-              {community.industryCollaboration ? (
-                <motion.div
-                  className="relative h-full"
-                  variants={{
-                    hidden: { opacity: 0, x: -40 },
-                    visible: { opacity: 1, x: 0 },
-                  }}
-                  transition={{ duration: 0.7, ease: "easeOut" as const }}
-                >
-                  <div
-                    className="absolute -inset-4 -z-10"
-                    style={{
-                      background: "#f5f0e8",
-                      borderRadius: "55% 45% 50% 50% / 50% 55% 45% 50%",
-                      transform: "rotate(-2deg)",
-                    }}
-                  />
-                  <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-sand shadow-lg overflow-hidden">
-                    {community.industryCollaboration.imageUrl ? (
-                      <div className="w-full relative">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={
-                            getGoogleDriveImageUrl(community.industryCollaboration.imageUrl) || ""
-                          }
-                          alt={community.industryCollaboration.title}
-                          className="w-full h-auto transition-transform duration-700 hover:scale-105"
-                        />
-                      </div>
-                    ) : null}
-                    <div className="p-8">
-                      <div className="text-4xl mb-4">{community.industryCollaboration.icon}</div>
-                      <h2 className="text-2xl md:text-3xl font-bold text-deep-brown mb-4 font-heading">
-                        {community.industryCollaboration.title}
-                      </h2>
-                      {community.industryCollaboration.paragraphs.map((paragraph, index) => (
-                        <p
-                          key={index}
-                          className="text-(--color-slate) leading-relaxed mb-4 last:mb-0"
-                        >
-                          {paragraph}
-                        </p>
-                      ))}
-                    </div>
+            <motion.div
+              className="relative h-full"
+              variants={{
+                hidden: { opacity: 0, x: -40 },
+                visible: { opacity: 1, x: 0 },
+              }}
+              transition={{ duration: 0.7, ease: "easeOut" as const }}
+            >
+              <div className="rounded-2xl overflow-hidden flex flex-col md:flex-row-reverse">
+                {community.industryCollaboration.imageUrl ? (
+                  <div className="w-full md:w-1/2 relative flex items-center justify-center">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={getGoogleDriveImageUrl(community.industryCollaboration.imageUrl) || ""}
+                      alt={community.industryCollaboration.title}
+                      className="w-auto h-auto max-w-full hover:scale-[1.02] transition-transform duration-700"
+                    />
                   </div>
-                </motion.div>
-              ) : null}
+                ) : null}
+                <div className="w-full md:w-1/2 p-8 md:p-12">
+                  <div className="text-4xl mb-4">{community.industryCollaboration.icon}</div>
+                  <h2 className="text-2xl md:text-3xl font-bold text-deep-brown mb-4 font-heading">
+                    {community.industryCollaboration.title}
+                  </h2>
+                  {community.industryCollaboration.paragraphs.map((paragraph, index) => (
+                    <p key={index} className="text-(--color-slate) leading-relaxed mb-4 last:mb-0">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        ) : null}
 
-              {/* Environmental Responsibility */}
-              {community.environmentalSection ? (
-                <motion.div
-                  className="relative h-full"
-                  variants={{
-                    hidden: { opacity: 0, x: 40 },
-                    visible: { opacity: 1, x: 0 },
-                  }}
-                  transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" as const }}
-                >
-                  <div
-                    className="absolute -inset-4 -z-10"
-                    style={{
-                      background: "#e8f5e9",
-                      borderRadius: "45% 55% 50% 50% / 50% 45% 55% 50%",
-                      transform: "rotate(2deg)",
-                    }}
-                  />
-                  <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-leaf-green/30 shadow-lg overflow-hidden">
-                    {community.environmentalSection.imageUrl ? (
-                      <div className="w-full relative">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={
-                            getGoogleDriveImageUrl(community.environmentalSection.imageUrl) || ""
-                          }
-                          alt={community.environmentalSection.title}
-                          className="w-full h-auto transition-transform duration-700 hover:scale-105"
-                        />
-                      </div>
-                    ) : null}
-                    <div className="p-8">
-                      <div className="text-4xl mb-4">{community.environmentalSection.icon}</div>
-                      <h2 className="text-2xl md:text-3xl font-bold text-deep-brown mb-4 font-heading">
-                        {community.environmentalSection.title}
-                      </h2>
-                      <p className="text-(--color-slate) leading-relaxed mb-4">
-                        {community.environmentalSection.introText}
-                      </p>
-                      <ul className="space-y-3 text-(--color-slate)">
-                        {community.environmentalSection.initiatives.map(
-                          (initiative: EnvironmentalInitiative) => (
-                            <li key={initiative._key} className="flex items-start">
-                              <span className="text-almond-gold mr-2">{initiative.icon}</span>
-                              <span>{initiative.text}</span>
-                            </li>
-                          )
-                        )}
-                      </ul>
-                    </div>
+        {/* Environmental Responsibility */}
+        {community.environmentalSection ? (
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false, amount: 0.2 }}
+            className="mb-20"
+          >
+            <motion.div
+              className="relative h-full"
+              variants={{
+                hidden: { opacity: 0, x: 40 },
+                visible: { opacity: 1, x: 0 },
+              }}
+              transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" as const }}
+            >
+              <div className="rounded-2xl overflow-hidden flex flex-col md:flex-row">
+                {community.environmentalSection.imageUrl ? (
+                  <div className="w-full md:w-1/2 relative flex items-center justify-center">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={getGoogleDriveImageUrl(community.environmentalSection.imageUrl) || ""}
+                      alt={community.environmentalSection.title}
+                      className="w-auto h-auto max-w-full hover:scale-[1.02] transition-transform duration-700"
+                    />
                   </div>
-                </motion.div>
-              ) : null}
-            </div>
+                ) : null}
+                <div className="w-full md:w-1/2 p-8 md:p-12">
+                  <div className="text-4xl mb-4">{community.environmentalSection.icon}</div>
+                  <h2 className="text-2xl md:text-3xl font-bold text-deep-brown mb-4 font-heading">
+                    {community.environmentalSection.title}
+                  </h2>
+                  <p className="text-(--color-slate) leading-relaxed mb-4">
+                    {community.environmentalSection.introText}
+                  </p>
+                  <ul className="space-y-3 text-(--color-slate)">
+                    {community.environmentalSection.initiatives.map(
+                      (initiative: EnvironmentalInitiative) => (
+                        <li key={initiative._key} className="flex items-start">
+                          <span className="text-almond-gold mr-2">{initiative.icon}</span>
+                          <span>{initiative.text}</span>
+                        </li>
+                      )
+                    )}
+                  </ul>
+                </div>
+              </div>
+            </motion.div>
           </motion.div>
         ) : null}
 
@@ -699,16 +646,6 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
             viewport={{ once: false, amount: 0.2 }}
             className="mb-16 relative"
           >
-            {/* Organic blob background */}
-            <div
-              className="absolute -inset-6 -z-10"
-              style={{
-                background: "#f5f0e8",
-                borderRadius: "55% 45% 50% 50% / 50% 55% 45% 50%",
-                transform: "rotate(-2deg)",
-              }}
-            />
-
             <div className="bg-white/80 backdrop-blur-md p-10 md:p-12 rounded-2xl border border-sand shadow-lg">
               <motion.div
                 className="text-center mb-8"
@@ -778,27 +715,14 @@ function TradeEventCard({ event, index }: TradeEventCardProps) {
       transition={{ delay: index * 0.1, duration: 0.5, ease: "easeOut" }}
       className="relative"
     >
-      {/* Organic blob background */}
-      <div
-        className="absolute -inset-2 -z-10"
-        style={{
-          background: "#f5f0e8",
-          borderRadius:
-            index % 2 === 0
-              ? "55% 45% 50% 50% / 50% 55% 45% 50%"
-              : "45% 55% 50% 50% / 50% 45% 55% 50%",
-          transform: `rotate(${index % 2 === 0 ? -2 : 2}deg)`,
-        }}
-      />
-
-      <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-sand shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
+      <div className="rounded-2xl transition-all duration-300 overflow-hidden">
         {event.imageUrl ? (
-          <div className="w-full relative border-b border-almond-gold/20">
+          <div className="w-full relative">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={getGoogleDriveImageUrl(event.imageUrl) || ""}
               alt={event.name}
-              className="w-full h-auto transition-transform duration-700 hover:scale-105"
+              className="w-auto h-auto max-w-full mx-auto transition-transform duration-700 hover:scale-105"
             />
           </div>
         ) : null}
@@ -822,5 +746,112 @@ function TradeEventCard({ event, index }: TradeEventCardProps) {
         </div>
       </div>
     </motion.div>
+  );
+}
+
+function EducationCarousel({ images }: { images: string[] }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  const validImages = images.filter((img) => img && img.length > 0);
+
+  const nextSlide = useCallback(() => {
+    setCurrentIndex((prev) => (prev + 1) % validImages.length);
+  }, [validImages.length]);
+
+  const prevSlide = useCallback(() => {
+    setCurrentIndex((prev) => (prev === 0 ? validImages.length - 1 : prev - 1));
+  }, [validImages.length]);
+
+  useEffect(() => {
+    if (validImages.length <= 1 || isPaused) return;
+    const interval = setInterval(nextSlide, 4000);
+    return () => clearInterval(interval);
+  }, [validImages.length, isPaused, nextSlide]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        prevSlide();
+      } else if (e.key === "ArrowRight") {
+        nextSlide();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [nextSlide, prevSlide]);
+
+  if (validImages.length === 0) return null;
+
+  return (
+    <div
+      className="grid place-items-center w-full relative"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
+      <AnimatePresence>
+        <motion.img
+          key={currentIndex}
+          src={getGoogleDriveImageUrl(validImages[currentIndex] ?? "") || ""}
+          alt={`Education slide ${currentIndex + 1}`}
+          className="col-start-1 row-start-1 w-auto h-auto max-w-full object-contain"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
+        />
+      </AnimatePresence>
+
+      {validImages.length > 1 ? (
+        <>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              prevSlide();
+            }}
+            className="absolute left-0 top-1/2 -translate-y-1/2 p-2 text-deep-brown/60 hover:text-deep-brown hover:scale-110 active:scale-95 transition-all z-10"
+            aria-label="Previous image"
+          >
+            <svg
+              className="w-8 h-8 drop-shadow-sm"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2.5}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              nextSlide();
+            }}
+            className="absolute right-0 top-1/2 -translate-y-1/2 p-2 text-deep-brown/60 hover:text-deep-brown hover:scale-110 active:scale-95 transition-all z-10"
+            aria-label="Next image"
+          >
+            <svg
+              className="w-8 h-8 drop-shadow-sm"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2.5}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+        </>
+      ) : null}
+    </div>
   );
 }

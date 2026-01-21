@@ -935,7 +935,7 @@ const communityData = {
   _type: "community",
   header: {
     eyebrow: "BUILDING TOGETHER",
-    title: "Community & CSR",
+    title: "Community",
     subtitle:
       "At Divyansh International, we believe in growing together with our community, supporting sustainable practices, and creating positive impact.",
   },
@@ -948,7 +948,15 @@ const communityData = {
   educationSection: {
     icon: "🎓",
     title: "Giving Back Through Education and Social Participation",
-    imageUrl: "https://drive.google.com/file/d/1cxg9wcr_ppBehgzmIvTAoX4S5M2HYBWo/view?usp=sharing",
+    images: [
+      "https://drive.google.com/file/d/1cxg9wcr_ppBehgzmIvTAoX4S5M2HYBWo/view?usp=sharing",
+      "https://drive.google.com/file/d/11klFEWrkGxOX4AefBLcYmRufEqlct1fV/view?usp=sharing",
+      "https://drive.google.com/file/d/1e2gCan1kk507BfeBSDS6QphlcuoNbx9Y/view?usp=sharing",
+      "https://drive.google.com/file/d/1esJEybubAQM54ahF7uZv2ZTldoSlzQZ-/view?usp=sharing",
+      "https://drive.google.com/file/d/1-HY5ypFuiAVOKTYPkZTXBbCejwfwgqdO/view?usp=sharing",
+      "https://drive.google.com/file/d/10SR7TJ7mDma__XkcF14yDTeRzPwhurn2/view?usp=sharing",
+      "https://drive.google.com/file/d/1YcIPI3EYMRoDCjzLuA08jnc2oet7izjY/view?usp=sharing",
+    ],
     paragraphs: [
       "As part of its broader commitment to social responsibility, Divyansh International actively associates with government schools that serve underprivileged communities. The focus is on consistent involvement rather than one-time support.",
       "The organisation contributes wherever there is a genuine need — participating in initiatives, addressing essential requirements, and supporting learning environments through ongoing engagement. These efforts align with the company’s belief that education is a long-term investment in stronger communities.",
@@ -1303,7 +1311,7 @@ const aboutData = {
       {
         _key: "poster-1",
         imageUrl:
-          "https://drive.google.com/file/d/17nLL3JJTGQbJnbZjHmEzSokG6FXttMr4/view?usp=sharing",
+          "https://drive.google.com/file/d/1UpbsgULb79NGBdSui7tadmu-thKTuyWG/view?usp=sharing",
         alt: "Divyansh International promotional poster 1",
       },
       {
@@ -1386,11 +1394,15 @@ const aboutData = {
       title: "Premium Quality",
       names: ["Sethi Gold", "Sethi Mewa"],
       description: "Premium quality solutions",
+      imageUrl:
+        "https://drive.google.com/file/d/15sEu65zqPJSS0gkZzu5ptftAfR-uaPLR/view?usp=sharing",
     },
     retail: {
       title: "Direct to Consumer",
       name: "The BetterNut.co",
       description: "Premium retail experience",
+      imageUrl:
+        "https://drive.google.com/file/d/1HwTqvNeJ9mJHioRquZuJ9gLmbMNLka0M/view?usp=sharing",
     },
   },
   productRangeSection: {
@@ -2160,12 +2172,14 @@ const homePageData = {
     certificationsTitle: "Certified Excellence",
     certificationsDescription:
       "We adhere to the highest global standards of food safety and quality management.",
+    backgroundImageUrl: "",
   },
   processSection: {
     eyebrow: "OUR PROCESS",
     title: "Quality Built at Every Step",
     description:
       "Our nuts and dry fruits elevate every product, enabling partners to scale with consistency and reliability.",
+    backgroundImageUrl: "",
   },
   sustainabilitySection: {
     eyebrow: "Sustainability",
@@ -2173,6 +2187,8 @@ const homePageData = {
     description:
       "We extend the value chain beyond purchase to farmer livelihoods, renewable operations, and inclusive hiring.",
     infographicImageUrl: "",
+    backgroundImageUrl:
+      "https://drive.google.com/file/d/1y1vzbs-XLG92z37EPKgYrVlMtE_2WMiS/view?usp=sharing",
   },
   trustSection: {
     eyebrow: "Partners & Certifications",
@@ -2185,15 +2201,20 @@ const homePageData = {
       "Hospitality Groups",
       "Food Processing & Wellness Brands",
     ],
+    backgroundImageUrl:
+      "https://drive.google.com/file/d/1J5uUqoSBi6_rhAEpUU5rgNTmOiKtfYz2/view?usp=sharing",
   },
   productShowcaseSection: {
     eyebrow: "Our Products",
     title: "Premium dry fruits for trade, wholesale and export buyers",
     description:
       "Explore our almond, cashew, walnut, pistachio, raisin and desiccated coconut programs built for dependable sourcing.",
+    backgroundImageUrl: "",
   },
   spiralQuoteSection: {
     buttonText: "Discover Our Story",
+    backgroundImageUrl:
+      "https://drive.google.com/file/d/12pzvApQHvuy1iAYxfL5OhalgUieHDY7l/view?usp=sharing",
   },
 
   // =============================================================================
@@ -2215,6 +2236,7 @@ const homePageData = {
     title: "An Aerial Tour of Excellence",
     description:
       "Experience our state-of-the-art facility from above and witness the scale of our operations",
+    backgroundImageUrl: "",
     videos: [
       {
         _key: "facility-aerial",

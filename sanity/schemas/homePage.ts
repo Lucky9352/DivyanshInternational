@@ -92,6 +92,12 @@ export default defineType({
           rows: 2,
           validation: (Rule) => Rule.required(),
         },
+        {
+          name: "backgroundImageUrl",
+          type: "url",
+          title: "Background Image URL",
+          description: "Optional background image (Google Drive or direct URL)",
+        },
       ],
     }),
 
@@ -155,6 +161,12 @@ export default defineType({
           type: "url",
           title: "Infographic Image URL",
           description: "Visual infographic for sustainability messaging",
+        },
+        {
+          name: "backgroundImageUrl",
+          type: "url",
+          title: "Background Image URL",
+          description: "Optional background image (Google Drive or direct URL)",
         },
       ],
     }),
@@ -247,6 +259,12 @@ export default defineType({
           rows: 2,
         },
         {
+          name: "backgroundImageUrl",
+          type: "url",
+          title: "Background Image URL",
+          description: "Optional background image (Google Drive or direct URL)",
+        },
+        {
           name: "videos",
           title: "Videos",
           type: "array",
@@ -314,6 +332,12 @@ export default defineType({
           type: "array",
           of: [{ type: "string" }],
         },
+        {
+          name: "backgroundImageUrl",
+          type: "url",
+          title: "Background Image URL",
+          description: "Optional background image (Google Drive or direct URL)",
+        },
       ],
     }),
 
@@ -340,6 +364,12 @@ export default defineType({
           rows: 3,
           validation: (Rule) => Rule.required(),
         },
+        {
+          name: "backgroundImageUrl",
+          type: "url",
+          title: "Background Image URL",
+          description: "Optional background image (Google Drive or direct URL)",
+        },
       ],
     }),
 
@@ -358,6 +388,12 @@ export default defineType({
           title: "Button Text",
           initialValue: "Discover Our Story",
           validation: (Rule) => Rule.required(),
+        },
+        {
+          name: "backgroundImageUrl",
+          type: "url",
+          title: "Background Image URL",
+          description: "Optional background image (Google Drive or direct URL)",
         },
       ],
     }),

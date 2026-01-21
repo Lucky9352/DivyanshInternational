@@ -1517,6 +1517,13 @@
           }
         },
         "optional": true
+      },
+      "backgroundImageUrl": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
       }
     }
   },
@@ -1633,6 +1640,13 @@
               "optional": true
             }
           }
+        },
+        "optional": true
+      },
+      "backgroundImageUrl": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
         },
         "optional": true
       }
@@ -6324,10 +6338,13 @@
               },
               "optional": true
             },
-            "imageUrl": {
+            "images": {
               "type": "objectAttribute",
               "value": {
-                "type": "string"
+                "type": "array",
+                "of": {
+                  "type": "string"
+                }
               },
               "optional": true
             }
@@ -7410,6 +7427,13 @@
                       "type": "string"
                     },
                     "optional": true
+                  },
+                  "imageUrl": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "string"
+                    },
+                    "optional": true
                   }
                 }
               },
@@ -7435,6 +7459,13 @@
                     "optional": true
                   },
                   "description": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "string"
+                    },
+                    "optional": true
+                  },
+                  "imageUrl": {
                     "type": "objectAttribute",
                     "value": {
                       "type": "string"
@@ -7736,6 +7767,13 @@
                 "type": "string"
               },
               "optional": true
+            },
+            "backgroundImageUrl": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              },
+              "optional": true
             }
           }
         },
@@ -7805,6 +7843,13 @@
               "optional": true
             },
             "infographicImageUrl": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              },
+              "optional": true
+            },
+            "backgroundImageUrl": {
               "type": "objectAttribute",
               "value": {
                 "type": "string"
@@ -7901,6 +7946,13 @@
               },
               "optional": true
             },
+            "backgroundImageUrl": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              },
+              "optional": true
+            },
             "videos": {
               "type": "objectAttribute",
               "value": {
@@ -7991,6 +8043,13 @@
                 }
               },
               "optional": true
+            },
+            "backgroundImageUrl": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              },
+              "optional": true
             }
           }
         },
@@ -8021,6 +8080,13 @@
                 "type": "string"
               },
               "optional": true
+            },
+            "backgroundImageUrl": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              },
+              "optional": true
             }
           }
         },
@@ -8032,6 +8098,13 @@
           "type": "object",
           "attributes": {
             "buttonText": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              },
+              "optional": true
+            },
+            "backgroundImageUrl": {
               "type": "objectAttribute",
               "value": {
                 "type": "string"

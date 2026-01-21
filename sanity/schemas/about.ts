@@ -272,6 +272,7 @@ export default defineType({
               of: [{ type: "string" }],
             },
             { name: "description", type: "string", title: "Description" },
+            { name: "imageUrl", type: "string", title: "Image URL (Google Drive)" },
           ],
         },
         {
@@ -282,6 +283,7 @@ export default defineType({
             { name: "title", type: "string", title: "Title" },
             { name: "name", type: "string", title: "Brand Name" },
             { name: "description", type: "string", title: "Description" },
+            { name: "imageUrl", type: "string", title: "Image URL (Google Drive)" },
           ],
         },
       ],

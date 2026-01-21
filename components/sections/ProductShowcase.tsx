@@ -18,6 +18,7 @@ import { Package } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
 import ProductModal from "@/components/ProductModal";
 import DecorativeBackground from "@/components/ui/DecorativeBackground";
+import { getGoogleDriveImageUrl } from "@/lib/utils";
 
 // =============================================================================
 // TYPE DEFINITIONS
@@ -27,6 +28,7 @@ interface HeaderData {
   eyebrow?: string;
   title?: string;
   description?: string;
+  backgroundImageUrl?: string;
 }
 
 interface ProductShowcaseProps {
@@ -58,6 +60,7 @@ const HeaderDataSchema = z.object({
   eyebrow: z.unknown().optional(),
   title: z.unknown().optional(),
   description: z.unknown().optional(),
+  backgroundImageUrl: z.unknown().optional(),
 });
 
 const ProductShowcasePropsSchema = z.object({
@@ -148,16 +151,45 @@ export default function ProductShowcase({
     }
   }, [selectedProduct, handleAddToEnquiry]);
 
+  // Prepare background image if available
+  const bgImage = headerData?.backgroundImageUrl
+    ? getGoogleDriveImageUrl(headerData.backgroundImageUrl)
+    : null;
+
   if (products.length === 0) return null;
 
   return (
-    <section id={sectionId} className="py-16 bg-bg relative" aria-labelledby="products-heading">
+    <section
+      id={sectionId}
+      className="py-16 bg-bg relative overflow-hidden"
+      aria-labelledby="products-heading"
+    >
+      {/* Dynamic Background Image */}
+      {bgImage ? (
+        <div className="absolute inset-0 z-0">
+          <div
+            className="absolute inset-0 w-full h-full pointer-events-none scale-110"
+            style={{
+              backgroundImage: `url(${bgImage})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              filter: "blur(5px)",
+              opacity: 1,
+            }}
+          />
+        </div>
+      ) : null}
+
       {/* Floating Dry Fruits Decorations */}
       <DecorativeBackground variant="scattered" />
 
       <div className="container mx-auto px-4 md:px-6 lg:px-10 relative z-10">
-        {/* Section Header */}
-        {headerData ? <SectionHeader headerData={headerData} /> : null}
+        {/* Section Header with Glass Protection */}
+        {headerData ? (
+          <div className="text-center mb-16 max-w-4xl mx-auto bg-white/60 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-xl border border-white/20">
+            <SectionHeader headerData={headerData} />
+          </div>
+        ) : null}
 
         {/* Products Grid */}
         <ProductsGrid
@@ -189,10 +221,10 @@ interface SectionHeaderProps {
 
 function SectionHeader({ headerData }: SectionHeaderProps) {
   return (
-    <div className="text-center mb-16 max-w-3xl mx-auto">
+    <div className="text-center max-w-3xl mx-auto">
       {/* Icon */}
       <motion.div
-        className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-50 text-gold mb-6"
+        className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-50 text-gold mb-6 mx-auto"
         initial={{ scale: 0, rotate: -180 }}
         whileInView={{ scale: 1, rotate: 0 }}
         viewport={{ once: true }}
@@ -232,7 +264,7 @@ function SectionHeader({ headerData }: SectionHeaderProps) {
 
       {headerData.description ? (
         <motion.p
-          className="text-lg text-text-muted leading-relaxed"
+          className="text-lg text-deep-brown/80 leading-relaxed font-medium"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

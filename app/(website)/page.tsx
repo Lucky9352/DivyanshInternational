@@ -229,15 +229,13 @@ export default async function Home() {
           }}
         />
 
-        <AnimationWrapper>
-          <HeroSlider
-            initialSlides={heroSlides}
-            stats={homePage?.heroStats}
-            accessibility={siteSettings?.accessibility}
-            heroConfig={siteSettings?.heroConfig}
-            routing={siteSettings?.routing}
-          />
-        </AnimationWrapper>
+        <HeroSlider
+          initialSlides={heroSlides}
+          stats={homePage?.heroStats}
+          accessibility={siteSettings?.accessibility}
+          heroConfig={siteSettings?.heroConfig}
+          routing={siteSettings?.routing}
+        />
 
         {/* Process Flow Section */}
         <AnimationWrapper delay={0.1}>

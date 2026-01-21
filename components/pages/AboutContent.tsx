@@ -13,6 +13,8 @@
 import { motion } from "framer-motion";
 import { z } from "zod";
 
+import { getGoogleDriveImageUrl } from "@/lib/utils";
+
 import Timeline from "@/components/Timeline";
 import DistributionMap from "@/components/DistributionMap";
 import {
@@ -60,12 +62,14 @@ const BrandPartnersSchema = z.object({
   title: z.string(),
   names: z.array(z.string()),
   description: z.string(),
+  imageUrl: z.string().optional(),
 });
 
 const BrandRetailSchema = z.object({
   title: z.string(),
   name: z.string(),
   description: z.string(),
+  imageUrl: z.string().optional(),
 });
 
 const BrandsSectionSchema = z.object({
@@ -546,22 +550,36 @@ export default function AboutContent({
                       </div>
                     </div>
 
-                    <div className="text-center p-8 bg-white rounded-2xl border border-sand shadow-lg relative overflow-hidden">
-                      <WalnutIcon className="w-10 h-10 text-almond-gold/40 mx-auto mb-4" />
+                    <div className="bg-white rounded-2xl border border-sand shadow-lg relative overflow-hidden h-full flex flex-col">
+                      {about.brandsSection.partners.imageUrl ? (
+                        <div className="w-full relative overflow-hidden">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={
+                              getGoogleDriveImageUrl(about.brandsSection.partners.imageUrl) || ""
+                            }
+                            alt={about.brandsSection.partners.title}
+                            className="w-full h-auto object-cover transition-transform duration-700 hover:scale-105"
+                          />
+                        </div>
+                      ) : null}
+                      <div className="p-8 text-center flex-1 flex flex-col">
+                        <WalnutIcon className="w-10 h-10 text-almond-gold/40 mx-auto mb-4" />
 
-                      <h3 className="text-xl font-bold text-almond-gold mb-4">
-                        {about.brandsSection.partners.title}
-                      </h3>
-                      <div className="space-y-2 mb-4">
-                        {about.brandsSection.partners.names.map((name) => (
-                          <p key={name} className="text-lg font-semibold text-deep-brown">
-                            {name}
-                          </p>
-                        ))}
+                        <h3 className="text-xl font-bold text-almond-gold mb-4">
+                          {about.brandsSection.partners.title}
+                        </h3>
+                        <div className="space-y-2 mb-4 flex-1">
+                          {about.brandsSection.partners.names.map((name) => (
+                            <p key={name} className="text-lg font-semibold text-deep-brown">
+                              {name}
+                            </p>
+                          ))}
+                        </div>
+                        <p className="text-sm text-text-muted mt-auto">
+                          {about.brandsSection.partners.description}
+                        </p>
                       </div>
-                      <p className="text-sm text-text-muted">
-                        {about.brandsSection.partners.description}
-                      </p>
                     </div>
                   </motion.div>
 
@@ -580,36 +598,48 @@ export default function AboutContent({
                       </div>
                     </div>
 
-                    <div className="text-center p-8 bg-white rounded-2xl border border-sand shadow-lg relative overflow-hidden">
-                      <PeanutIcon className="w-10 h-10 text-almond-gold/40 mx-auto mb-4" />
-
-                      <h3 className="text-xl font-bold text-almond-gold mb-4">
-                        {about.brandsSection.retail.title}
-                      </h3>
-                      <a
-                        href="https://thebetternut.co/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-lg font-semibold text-deep-brown mb-4 hover:text-gold transition-colors inline-flex items-center gap-1"
-                      >
-                        {about.brandsSection.retail.name}
-                        <svg
-                          className="w-3.5 h-3.5 opacity-60"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                    <div className="bg-white rounded-2xl border border-sand shadow-lg relative overflow-hidden h-full flex flex-col">
+                      {about.brandsSection.retail.imageUrl ? (
+                        <div className="w-full relative overflow-hidden">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={getGoogleDriveImageUrl(about.brandsSection.retail.imageUrl) || ""}
+                            alt={about.brandsSection.retail.title}
+                            className="w-full h-auto object-cover transition-transform duration-700 hover:scale-105"
                           />
-                        </svg>
-                      </a>
-                      <p className="text-sm text-text-muted">
-                        {about.brandsSection.retail.description}
-                      </p>
+                        </div>
+                      ) : null}
+                      <div className="p-8 text-center flex-1 flex flex-col">
+                        <PeanutIcon className="w-10 h-10 text-almond-gold/40 mx-auto mb-4" />
+
+                        <h3 className="text-xl font-bold text-almond-gold mb-4">
+                          {about.brandsSection.retail.title}
+                        </h3>
+                        <a
+                          href="https://thebetternut.co/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-lg font-semibold text-deep-brown mb-4 hover:text-gold transition-colors inline-flex items-center justify-center gap-1 flex-1"
+                        >
+                          {about.brandsSection.retail.name}
+                          <svg
+                            className="w-3.5 h-3.5 opacity-60"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                            />
+                          </svg>
+                        </a>
+                        <p className="text-sm text-text-muted mt-auto">
+                          {about.brandsSection.retail.description}
+                        </p>
+                      </div>
                     </div>
                   </motion.div>
                 </div>

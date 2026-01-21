@@ -71,7 +71,7 @@ const communityDataSchema = z
         title: z.string(),
         paragraphs: z.array(z.string()),
         quote: z.string(),
-        imageUrl: z.string().optional(),
+        images: z.array(z.string()).optional(),
       })
       .optional(),
     womenEmpowerment: z
@@ -169,7 +169,7 @@ interface CommunityDataProp {
     title: string;
     paragraphs: string[];
     quote: string;
-    imageUrl?: string;
+    images?: string[];
   };
   womenEmpowerment?: {
     icon: string;
@@ -217,7 +217,7 @@ interface CommunityDataProp {
 // =============================================================================
 
 const DEFAULT_META = {
-  title: "Community & CSR | Divyansh International",
+  title: "Community | Divyansh International",
   description:
     "Learn about our community initiatives, CSR programs, and trade events. Divyansh International is committed to sustainable practices and community development.",
 } as const;
@@ -231,7 +231,7 @@ export async function generateMetadata(): Promise<Metadata> {
     const org = siteSettings?.organization;
     const seo = siteSettings?.seo;
 
-    const pageTitle = `Community & CSR | ${org?.name ?? "Divyansh International"}`;
+    const pageTitle = `Community | ${org?.name ?? "Divyansh International"}`;
     const pageDescription = DEFAULT_META.description;
 
     return {

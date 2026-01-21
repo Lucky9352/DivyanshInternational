@@ -13,6 +13,7 @@
 import { motion } from "framer-motion";
 import { z } from "zod";
 import DecorativeBackground from "@/components/ui/DecorativeBackground";
+import { getGoogleDriveImageUrl } from "@/lib/utils";
 
 // =============================================================================
 // ZOD VALIDATION SCHEMAS
@@ -32,6 +33,7 @@ const SectionSettingsSchema = z.object({
   eyebrow: z.string().optional(),
   title: z.string().optional(),
   description: z.string().optional(),
+  backgroundImageUrl: z.string().optional(),
 });
 
 // =============================================================================
@@ -206,29 +208,54 @@ export default function ProcessFlowSection({
     sectionSettings?.description ??
     "Our nuts and dry fruits elevate every product, enabling partners to scale with consistency and reliability.";
 
+  // Prepare background image if available
+  const bgImage = sectionSettings?.backgroundImageUrl
+    ? getGoogleDriveImageUrl(sectionSettings.backgroundImageUrl)
+    : null;
+
   return (
-    <section className="relative py-16 md:py-32 bg-paper" aria-labelledby="process-flow-heading">
+    <section
+      className="relative py-16 md:py-32 bg-paper overflow-hidden"
+      aria-labelledby="process-flow-heading"
+    >
+      {/* Dynamic Background Image */}
+      {bgImage ? (
+        <div className="absolute inset-0 z-0">
+          <div
+            className="absolute inset-0 w-full h-full pointer-events-none scale-110"
+            style={{
+              backgroundImage: `url(${bgImage})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              filter: "blur(5px)",
+              opacity: 1,
+            }}
+          />
+        </div>
+      ) : null}
       {/* Background decoration - clean solid */}
       <DecorativeBackground variant="minimal" />
       <div className="absolute inset-0 opacity-5 pointer-events-none"></div>
 
       <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
-        {/* Section Header */}
+        {/* Section Header with Glass Protection */}
         <motion.div
-          className="text-center max-w-3xl mx-auto mb-12 md:mb-20"
+          className="text-center max-w-4xl mx-auto mb-12 md:mb-20 bg-white/60 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-xl border border-white/20"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <p className="uppercase tracking-[0.3em] text-xs text-gold font-bold mb-3">{eyebrow}</p>
+          <p className="uppercase tracking-[0.3em] text-xs text-gold-dark font-bold mb-3">
+            {eyebrow}
+          </p>
           <h2
             id="process-flow-heading"
             className="text-3xl md:text-4xl lg:text-5xl font-bold text-deep-brown mb-4 font-heading"
           >
             {title}
           </h2>
-          <p className="text-lg text-text-muted leading-relaxed">{description}</p>
+          <p className="text-lg text-deep-brown/80 leading-relaxed font-medium">{description}</p>
         </motion.div>
 
         {/* Process Flow - Horizontal Interlocking on Desktop, Vertical on Mobile */}

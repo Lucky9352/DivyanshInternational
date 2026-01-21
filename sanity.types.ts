@@ -263,6 +263,7 @@ export type TestimonialsSection = {
     highlights?: Array<string>;
     note?: string;
   };
+  backgroundImageUrl?: string;
 };
 
 export type Cta = {
@@ -284,6 +285,7 @@ export type Cta = {
     buttonText?: string;
     emailPlaceholder?: string;
   };
+  backgroundImageUrl?: string;
 };
 
 export type SanityFileAssetReference = {
@@ -1016,7 +1018,7 @@ export type Community = {
     title?: string;
     paragraphs?: Array<string>;
     quote?: string;
-    imageUrl?: string;
+    images?: Array<string>;
   };
   womenEmpowerment?: {
     icon?: string;
@@ -1183,11 +1185,13 @@ export type About = {
       title?: string;
       names?: Array<string>;
       description?: string;
+      imageUrl?: string;
     };
     retail?: {
       title?: string;
       name?: string;
       description?: string;
+      imageUrl?: string;
     };
   };
   productRangeSection?: {
@@ -1238,6 +1242,7 @@ export type HomePage = {
     description?: string;
     certificationsTitle?: string;
     certificationsDescription?: string;
+    backgroundImageUrl?: string;
   };
   processSection?: {
     eyebrow?: string;
@@ -1250,6 +1255,7 @@ export type HomePage = {
     title?: string;
     description?: string;
     infographicImageUrl?: string;
+    backgroundImageUrl?: string;
   };
   featuredBanner?: {
     imageUrl?: string;
@@ -1265,6 +1271,7 @@ export type HomePage = {
     eyebrow?: string;
     title?: string;
     description?: string;
+    backgroundImageUrl?: string;
     videos?: Array<{
       title?: string;
       description?: string;
@@ -1278,14 +1285,17 @@ export type HomePage = {
     title?: string;
     description?: string;
     partnerSegments?: Array<string>;
+    backgroundImageUrl?: string;
   };
   productShowcaseSection?: {
     eyebrow?: string;
     title?: string;
     description?: string;
+    backgroundImageUrl?: string;
   };
   spiralQuoteSection?: {
     buttonText?: string;
+    backgroundImageUrl?: string;
   };
   videoGallery?: {
     eyebrow?: string;

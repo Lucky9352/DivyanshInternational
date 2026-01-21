@@ -10,7 +10,7 @@
 import { useState, useCallback, useEffect, useSyncExternalStore } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Video as VideoIcon, ChevronLeft, ChevronRight } from "lucide-react";
-import { getYouTubeEmbedUrl, isYouTubeUrl } from "@/lib/utils";
+import { getYouTubeEmbedUrl, isYouTubeUrl, getGoogleDriveImageUrl } from "@/lib/utils";
 import DecorativeBackground from "@/components/ui/DecorativeBackground";
 
 // =============================================================================
@@ -31,6 +31,7 @@ interface DroneDiariesProps {
     title?: string;
     description?: string;
     videos?: Video[];
+    backgroundImageUrl?: string;
   } | null;
 }
 
@@ -71,12 +72,33 @@ export default function DroneDiaries({ sectionData }: DroneDiariesProps) {
     return () => clearInterval(interval);
   }, [goToNext, validVideos.length]);
 
+  // Prepare background image if available
+  const bgImage = sectionData?.backgroundImageUrl
+    ? getGoogleDriveImageUrl(sectionData.backgroundImageUrl)
+    : null;
+
   if (!sectionData || validVideos.length === 0) return null;
 
   const currentVideo = validVideos[activeIndex];
 
   return (
-    <section className="relative bg-paper" aria-labelledby="drone-diaries-heading">
+    <section className="relative bg-paper overflow-hidden" aria-labelledby="drone-diaries-heading">
+      {/* Dynamic Background Image */}
+      {bgImage ? (
+        <div className="absolute inset-0 z-0">
+          <div
+            className="absolute inset-0 w-full h-full pointer-events-none scale-110"
+            style={{
+              backgroundImage: `url(${bgImage})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              filter: "blur(5px)",
+              opacity: 1,
+            }}
+          />
+        </div>
+      ) : null}
+
       <div className="absolute inset-0 opacity-10 pointer-events-none"></div>
       <div className="absolute top-10 left-10 w-32 h-32 bg-gold/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 right-10 w-40 h-40 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
@@ -87,10 +109,10 @@ export default function DroneDiaries({ sectionData }: DroneDiariesProps) {
       <DecorativeBackground variant="minimal" />
 
       <div className="container mx-auto px-4 md:px-6 lg:px-10 py-16 md:py-24 relative z-10">
-        {/* Section Header */}
-        <div className="text-center mb-10 md:mb-14 max-w-3xl mx-auto">
+        {/* Section Header with Glass Protection */}
+        <div className="text-center mb-10 md:mb-14 max-w-4xl mx-auto bg-white/60 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-xl border border-white/20">
           <motion.div
-            className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gold/10 text-gold mb-6"
+            className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gold/10 text-gold mb-6 mx-auto"
             initial={{ scale: 0, rotate: -180 }}
             whileInView={{ scale: 1, rotate: 0 }}
             viewport={{ once: true }}
@@ -125,7 +147,7 @@ export default function DroneDiaries({ sectionData }: DroneDiariesProps) {
 
           {sectionData.description ? (
             <motion.p
-              className="text-lg text-text-muted leading-relaxed"
+              className="text-lg text-deep-brown/80 leading-relaxed font-medium"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -139,7 +161,7 @@ export default function DroneDiaries({ sectionData }: DroneDiariesProps) {
         {/* Video Slider Container - Like Hero Section */}
         <div className="relative max-w-6xl mx-auto">
           {/* Video Container with Aspect Ratio */}
-          <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl bg-deep-brown">
+          <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black">
             {/* Video Background */}
             <AnimatePresence mode="wait">
               {isClient && currentVideo?.videoUrl && isYouTubeUrl(currentVideo.videoUrl) ? (
@@ -153,7 +175,7 @@ export default function DroneDiaries({ sectionData }: DroneDiariesProps) {
                 >
                   <div className="w-full h-full relative overflow-hidden">
                     <iframe
-                      className="video-background-iframe"
+                      className="video-contain-iframe"
                       src={`${getYouTubeEmbedUrl(currentVideo.videoUrl) || ""}&mute=${isMuted ? 1 : 0}&vq=hd1080&hd=1&quality=high&autoplay=1&loop=1&controls=0&showinfo=0&rel=0&modestbranding=1`}
                       title={currentVideo.title}
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -176,24 +198,26 @@ export default function DroneDiaries({ sectionData }: DroneDiariesProps) {
             </AnimatePresence>
 
             {/* Solid Overlay for Text Readability */}
-            <div className="absolute inset-0 bg-black/40 pointer-events-none" />
+            <div className="absolute inset-0 bg-black/10 pointer-events-none" />
 
-            {/* Video Info Card */}
-            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 z-10">
-              <div className="bg-white/90 backdrop-blur-md rounded-xl p-4 md:p-6 shadow-lg max-w-lg">
+            {/* Video Info Card Overlay (Desktop Only) */}
+            <div className="hidden md:block absolute bottom-6 left-6 z-10 max-w-lg pointer-events-none">
+              <div className="bg-black/40 backdrop-blur-md rounded-xl p-4 md:p-6 shadow-2xl border border-white/10 pointer-events-auto transform transition-all hover:scale-[1.01]">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={`info-${activeIndex}`}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <h3 className="text-lg md:text-xl font-bold text-deep-brown mb-1">
+                    <h3 className="text-lg md:text-xl font-bold text-white! mb-2 shadow-sm">
                       {currentVideo?.title}
                     </h3>
                     {currentVideo?.description ? (
-                      <p className="text-text-muted text-sm">{currentVideo.description}</p>
+                      <p className="text-white/90! text-sm leading-relaxed text-shadow-sm">
+                        {currentVideo.description}
+                      </p>
                     ) : null}
                   </motion.div>
                 </AnimatePresence>
@@ -234,25 +258,45 @@ export default function DroneDiaries({ sectionData }: DroneDiariesProps) {
             </button>
           </div>
 
+          {/* Mobile Info Block (Below Video) */}
+          <div className="block md:hidden mt-6 text-center px-4">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`mobile-info-${activeIndex}`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+              >
+                <h3 className="text-xl font-bold text-deep-brown mb-2">{currentVideo?.title}</h3>
+                {currentVideo?.description ? (
+                  <p className="text-text-muted text-base leading-relaxed">
+                    {currentVideo.description}
+                  </p>
+                ) : null}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
           {/* Navigation Controls - Only if multiple videos */}
           {validVideos.length > 1 ? (
             <>
               {/* Left Arrow */}
               <button
                 onClick={goToPrev}
-                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-6 z-20 p-3 md:p-4 rounded-full shadow-lg border transition-all bg-white/90 border-border text-deep-brown hover:bg-gold hover:border-gold hover:text-white hover:shadow-xl"
+                className="absolute left-0 top-1/2 -translate-y-1/2 translate-x-0 md:-translate-x-2 z-20 p-2 text-white/70 hover:text-white transition-all hover:scale-110 active:scale-95"
                 aria-label="Previous video"
               >
-                <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+                <ChevronLeft className="w-8 h-8 md:w-10 md:h-10 drop-shadow-md" />
               </button>
 
               {/* Right Arrow */}
               <button
                 onClick={goToNext}
-                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-6 z-20 p-3 md:p-4 rounded-full shadow-lg border transition-all bg-white/90 border-border text-deep-brown hover:bg-gold hover:border-gold hover:text-white hover:shadow-xl"
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-0 md:translate-x-2 z-20 p-2 text-white/70 hover:text-white transition-all hover:scale-110 active:scale-95"
                 aria-label="Next video"
               >
-                <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+                <ChevronRight className="w-8 h-8 md:w-10 md:h-10 drop-shadow-md" />
               </button>
 
               {/* Slider Controls - Dots and Counter */}

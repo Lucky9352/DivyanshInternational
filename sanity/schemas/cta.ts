@@ -88,6 +88,12 @@ export default defineType({
         },
       ],
     }),
+    defineField({
+      name: "backgroundImageUrl",
+      type: "url",
+      title: "Background Image URL",
+      description: "Optional background image (Google Drive or direct URL)",
+    }),
   ],
   preview: {
     select: {

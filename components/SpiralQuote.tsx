@@ -7,6 +7,8 @@ import TextReveal from "@/components/ui/TextReveal";
 import DecorativeBackground from "@/components/ui/DecorativeBackground";
 import { z } from "zod";
 
+import { getGoogleDriveImageUrl } from "@/lib/utils";
+
 // =============================================================================
 // ZOD SCHEMAS
 // =============================================================================
@@ -23,6 +25,7 @@ const QuoteSchema = z.object({
 const LabelsSchema = z.object({
   spiralQuoteSection: z.object({
     buttonText: z.string().optional(),
+    backgroundImageUrl: z.string().optional(),
   }),
   navigation: z.object({
     aboutUrl: z.string().optional(),
@@ -50,8 +53,28 @@ export default function SpiralQuote({ initialQuote, labels }: SpiralQuoteProps) 
   const buttonText = labels.spiralQuoteSection?.buttonText || "Discover Our Story";
   const aboutUrl = labels.navigation?.aboutUrl || "/about";
 
+  // Prepare background image if available
+  const bgImage = labels.spiralQuoteSection?.backgroundImageUrl
+    ? getGoogleDriveImageUrl(labels.spiralQuoteSection.backgroundImageUrl)
+    : null;
+
   return (
-    <section className="py-10 bg-bg relative">
+    <section className="py-10 bg-bg relative overflow-hidden">
+      {/* Dynamic Background Image */}
+      {bgImage ? (
+        <div className="absolute inset-0 z-0">
+          <div
+            className="absolute inset-0 w-full h-full pointer-events-none scale-110"
+            style={{
+              backgroundImage: `url(${bgImage})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              filter: "blur(5px)",
+              opacity: 1,
+            }}
+          />
+        </div>
+      ) : null}
       {/* Floating Decorations */}
       <DecorativeBackground variant="minimal" />
 
@@ -86,8 +109,8 @@ export default function SpiralQuote({ initialQuote, labels }: SpiralQuoteProps) 
             </Link>
           </div>
 
-          {/* Quote */}
-          <div className="text-center lg:text-left">
+          {/* Quote with Glass Protection */}
+          <div className="text-center lg:text-left bg-white/60 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-xl border border-white/20">
             <motion.span
               className="text-6xl text-gold font-serif leading-none block mb-2"
               initial={{ opacity: 0, scale: 0.5 }}
@@ -107,7 +130,7 @@ export default function SpiralQuote({ initialQuote, labels }: SpiralQuoteProps) 
               </TextReveal>
             </div>
             <motion.p
-              className="text-lg text-(--color-slate) italic"
+              className="text-lg text-deep-brown/70 italic font-medium"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.1 }}

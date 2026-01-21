@@ -89,7 +89,8 @@ export const ctaQuery = groq`
       "description": coalesce(description, ""),
       "buttonText": coalesce(buttonText, "Contact Sales"),
       "emailPlaceholder": coalesce(emailPlaceholder, "Enter your email")
-    }
+    },
+    backgroundImageUrl
   }
 `;
 
@@ -240,7 +241,8 @@ export const testimonialsSectionQuery = groq`
       },
       highlights,
       note
-    }
+    },
+    backgroundImageUrl
   }
 `;
 
@@ -444,7 +446,7 @@ export const communityQuery = groq`
     corePhilosophy,
     educationSection {
       ...,
-      imageUrl
+      images
     },
     womenEmpowerment {
       ...,
