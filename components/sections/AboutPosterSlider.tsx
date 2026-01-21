@@ -117,7 +117,7 @@ export default function AboutPosterSlider({ sliderData }: AboutPosterSliderProps
 
   return (
     <section
-      className="relative w-full pt-20 md:pt-24 overflow-hidden bg-bg"
+      className="relative w-full pt-16 md:pt-20 overflow-hidden bg-white"
       aria-label="Promotional posters"
     >
       {/* Poster Images - using img tag like ProductCard for Google Drive URLs */}
@@ -131,27 +131,13 @@ export default function AboutPosterSlider({ sliderData }: AboutPosterSliderProps
           transition={{ duration: 0.5, ease: "easeInOut" }}
         >
           {imageUrl ? (
-            <div className="relative w-full h-[85vh] max-h-[900px] min-h-[500px] flex items-center justify-center p-4">
-              {/* Blurred background wrapper for clipping */}
-              <div className="absolute inset-0 overflow-hidden rounded-lg">
-                <div
-                  className="absolute inset-0 scale-110 pointer-events-none"
-                  style={{
-                    backgroundImage: `url(${imageUrl})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    filter: "blur(5px)",
-                    opacity: 1,
-                  }}
-                />
-              </div>
-
-              {/* Main Image - constrained by height */}
+            <div className="relative w-full h-auto flex items-center justify-center">
+              {/* Main Image - Scaled horizontally to take the area */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={imageUrl}
                 alt={currentPoster?.alt ?? "Promotional poster"}
-                className="relative z-10 w-auto h-full max-h-full object-contain shadow-2xl rounded-lg"
+                className="relative z-10 w-full h-auto object-cover shadow-lg"
               />
             </div>
           ) : (
