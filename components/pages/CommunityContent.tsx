@@ -185,7 +185,7 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
   const tradeEvents = community.tradeEvents ?? [];
 
   return (
-    <div className="bg-paper min-h-screen pt-32 pb-20 relative">
+    <div className="bg-paper min-h-screen pt-[72px] md:pt-24 pb-16 md:pb-24 relative">
       {/* Decorative Background */}
       <DecorativeBackground variant="scattered" />
 
@@ -196,7 +196,7 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
             initial="hidden"
             whileInView="visible"
             viewport={{ once: false, amount: 0.3 }}
-            className="text-center mb-20 relative"
+            className="text-center mb-16 md:mb-24 relative"
           >
             {/* Decorative blob in background */}
             <div
@@ -260,7 +260,7 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
             initial="hidden"
             whileInView="visible"
             viewport={{ once: false, amount: 0.2 }}
-            className="mb-16 relative"
+            className="mb-16 md:mb-24 relative"
           >
             {/* Organic blob background */}
             <div
@@ -312,7 +312,7 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
 
         {/* Employee Stories - Moved to 2nd position */}
         {community.employeeStories ? (
-          <div className="mb-20">
+          <div className="mb-16 md:mb-24">
             <VideoShowcase data={community.employeeStories} />
           </div>
         ) : null}
@@ -323,7 +323,7 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
             initial="hidden"
             whileInView="visible"
             viewport={{ once: false, amount: 0.2 }}
-            className="mb-20"
+            className="mb-16 md:mb-24"
           >
             <motion.div
               className="relative"
@@ -376,7 +376,7 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
             initial="hidden"
             whileInView="visible"
             viewport={{ once: false, amount: 0.2 }}
-            className="mb-20"
+            className="mb-16 md:mb-24"
           >
             <motion.div
               className="relative"
@@ -449,7 +449,7 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
             initial="hidden"
             whileInView="visible"
             viewport={{ once: false, amount: 0.2 }}
-            className="mb-20 relative"
+            className="mb-16 md:mb-24 relative"
           >
             <div className="rounded-2xl overflow-hidden flex flex-col md:flex-row">
               {/* Image Side - Left */}
@@ -519,7 +519,7 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
             initial="hidden"
             whileInView="visible"
             viewport={{ once: false, amount: 0.2 }}
-            className="mb-20"
+            className="mb-16 md:mb-24"
           >
             <motion.div
               className="relative h-full"
@@ -563,7 +563,7 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
             initial="hidden"
             whileInView="visible"
             viewport={{ once: false, amount: 0.2 }}
-            className="mb-20"
+            className="mb-16 md:mb-24"
           >
             <motion.div
               className="relative h-full"
@@ -615,10 +615,10 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
             initial="hidden"
             whileInView="visible"
             viewport={{ once: false, amount: 0.2 }}
-            className="mb-20"
+            className="mb-16 md:mb-24"
           >
             <motion.div
-              className="text-center mb-12"
+              className="text-center mb-16 md:mb-24"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0 },
@@ -649,7 +649,7 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
             initial="hidden"
             whileInView="visible"
             viewport={{ once: false, amount: 0.2 }}
-            className="mb-16 relative"
+            className="mb-16 md:mb-24 relative"
           >
             <div className="bg-white/80 backdrop-blur-md p-10 md:p-12 rounded-2xl border border-sand shadow-lg">
               <motion.div

@@ -274,7 +274,7 @@ export default function HeroSlider({
       </button>
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 md:px-6 lg:px-10 py-16">
+      <div className="relative z-10 container mx-auto px-4 md:px-6 lg:px-10 py-16 md:py-24">
         <div className="grid lg:grid-cols-[1fr_0.4fr] gap-8 lg:gap-12 items-start min-h-[60vh]">
           {/* Text Content */}
           <div className="flex flex-col bg-white/50 backdrop-blur-md rounded-2xl p-6 md:p-8 shadow-2xl border border-white/20">

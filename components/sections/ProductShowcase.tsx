@@ -162,7 +162,7 @@ export default function ProductShowcase({
   return (
     <section
       id={sectionId}
-      className="py-16 bg-bg relative overflow-hidden"
+      className="py-16 md:py-24 bg-bg relative overflow-hidden"
       aria-labelledby="products-heading"
     >
       {/* Dynamic Background Image */}
@@ -184,7 +184,7 @@ export default function ProductShowcase({
       <div className="container mx-auto px-4 md:px-6 lg:px-10 relative z-10">
         {/* Section Header with Glass Protection */}
         {headerData ? (
-          <div className="text-center mb-16 max-w-4xl mx-auto bg-white/60 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-xl border border-white/20">
+          <div className="text-center mb-16 md:mb-24 max-w-4xl mx-auto bg-white/60 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-xl border border-white/20">
             <SectionHeader headerData={headerData} />
           </div>
         ) : null}

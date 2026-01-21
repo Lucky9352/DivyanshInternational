@@ -1,6 +1,8 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
+import { useEffect } from "react";
+import { useLenis } from "lenis/react";
 import Link from "next/link";
 import { z } from "zod";
 import LanguageSwitcher from "./LanguageSwitcher";
@@ -69,6 +71,34 @@ export default function MobileMenu({
   }
 
   useLanguage();
+  const lenis = useLenis();
+
+  // Body scroll lock
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+
+    if (isOpen) {
+      html.style.overflow = "hidden";
+      body.style.overflow = "hidden";
+      body.style.overscrollBehavior = "contain";
+      lenis?.stop();
+    } else {
+      html.style.overflow = "unset";
+      body.style.overflow = "unset";
+      body.style.overscrollBehavior = "unset";
+      lenis?.start();
+    }
+
+    return () => {
+      html.style.overflow = "unset";
+      body.style.overflow = "unset";
+      body.style.overscrollBehavior = "unset";
+      lenis?.start();
+    };
+  }, [isOpen, lenis]);
+  const { dir } = useLanguage();
+  const isRTL = dir === "rtl";
 
   return (
     <AnimatePresence>
@@ -87,19 +117,22 @@ export default function MobileMenu({
 
           {/* Mobile Menu Panel */}
           <motion.nav
-            initial={{ x: "100%", opacity: 0 }}
+            initial={{ x: isRTL ? "-100%" : "100%", opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            exit={{ x: "100%", opacity: 0 }}
+            exit={{ x: isRTL ? "-100%" : "100%", opacity: 0 }}
             transition={{
               type: "spring",
               stiffness: 300,
               damping: 30,
               opacity: { duration: 0.2 },
             }}
-            className="fixed top-0 right-0 bottom-0 w-[280px] sm:w-[320px] bg-white z-50 shadow-2xl overflow-y-auto border-l border-sand"
+            className={`fixed top-0 bottom-0 w-[280px] sm:w-[320px] bg-white z-50 shadow-2xl overflow-y-auto border-sand ${
+              isRTL ? "left-0 border-r" : "right-0 border-l"
+            }`}
             role="dialog"
             aria-modal="true"
             aria-label="Mobile Navigation"
+            data-lenis-prevent
           >
             <div className="p-6">
               {/* Header: Lang Switcher + Close Button */}
@@ -126,7 +159,7 @@ export default function MobileMenu({
                 {menuItems.map((item, index) => (
                   <motion.li
                     key={item.url}
-                    initial={{ opacity: 0, x: -20 }}
+                    initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{
                       delay: 0.1 + index * 0.05,
@@ -165,7 +198,7 @@ export default function MobileMenu({
                       return (
                         <motion.li
                           key={slug}
-                          initial={{ opacity: 0, x: -20 }}
+                          initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{
                             delay: 0.3 + menuItems.length * 0.05 + index * 0.04,

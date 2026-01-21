@@ -45,7 +45,7 @@ export default function Timeline({ entries }: TimelineProps) {
   const sortedEntries = [...entries].sort((a, b) => a.year - b.year);
 
   return (
-    <div className="relative py-12 overflow-hidden">
+    <div className="relative py-16 md:py-24 overflow-hidden">
       {/* Central Line (Desktop) */}
       <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gold/30 hidden md:block -translate-x-1/2" />
 

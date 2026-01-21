@@ -46,8 +46,8 @@ export default function InfographicsSection({ capabilities }: InfographicsSectio
   if (!capabilities || capabilities.length === 0) return null;
 
   return (
-    <section className="mb-24 relative" aria-labelledby="infographics-heading">
-      <div className="text-center mb-12">
+    <section className="py-16 md:py-24 relative" aria-labelledby="infographics-heading">
+      <div className="text-center mb-16 md:mb-24">
         <h2
           id="infographics-heading"
           className="text-3xl md:text-4xl font-bold text-deep-brown font-heading mb-4"

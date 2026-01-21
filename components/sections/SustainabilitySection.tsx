@@ -142,7 +142,7 @@ export default function SustainabilitySection({
   return (
     <section
       id={sectionId}
-      className="py-16 bg-paper relative overflow-hidden"
+      className="py-16 md:py-24 bg-paper relative overflow-hidden"
       aria-labelledby="sustainability-heading"
     >
       {/* Dynamic Background Image */}
@@ -163,7 +163,7 @@ export default function SustainabilitySection({
 
       <div className="container mx-auto px-4 md:px-6 lg:px-10 relative z-10">
         {/* Section Header with Icon - Glass Protected */}
-        <div className="text-center mb-16 max-w-4xl mx-auto bg-white/60 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-xl border border-white/20">
+        <div className="text-center mb-16 md:mb-24 max-w-4xl mx-auto bg-white/60 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-xl border border-white/20">
           {/* Large Icon */}
           <motion.div
             className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-50 text-gold mb-6 mx-auto"

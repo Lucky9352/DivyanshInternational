@@ -8,7 +8,7 @@ import { NutIcon } from "@/components/assets/Decorations";
 export default function Loading() {
   return (
     <div
-      className="flex items-center justify-center min-h-screen bg-background"
+      className="flex items-center justify-center min-h-screen bg-background pt-[72px] md:pt-24"
       role="status"
       aria-label="Loading page content"
     >

@@ -60,7 +60,7 @@ export default function SpiralQuote({ initialQuote, labels }: SpiralQuoteProps) 
     : null;
 
   return (
-    <section className="py-10 bg-bg relative overflow-hidden">
+    <section className="py-16 md:py-24 bg-bg relative overflow-hidden">
       {/* Dynamic Background Image */}
       {bgImage ? (
         <div className="absolute inset-0 z-0">

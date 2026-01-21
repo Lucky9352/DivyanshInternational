@@ -8,7 +8,7 @@ const SKELETON_COUNT = 6;
 
 export default function ProductsLoading() {
   return (
-    <div className="container mx-auto px-4 py-24">
+    <div className="container mx-auto px-4 pt-[72px] md:pt-24 pb-24">
       {/* Title skeleton */}
       <div className="h-12 w-48 bg-sand rounded mb-8 animate-pulse" aria-hidden="true" />
 

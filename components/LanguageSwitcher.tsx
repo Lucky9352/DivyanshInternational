@@ -87,7 +87,7 @@ export default function LanguageSwitcher() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.2 }}
-            className="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-xl border border-sand overflow-hidden z-50"
+            className="absolute left-0 md:left-auto md:right-0 mt-2 w-40 bg-white rounded-xl shadow-xl border border-sand overflow-hidden z-50"
             role="listbox"
           >
             <div className="py-1">

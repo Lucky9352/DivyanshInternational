@@ -137,7 +137,7 @@ export default function About({
   const sectionId = routing?.aboutSectionId ?? "about";
 
   return (
-    <section id={sectionId} className="py-20 bg-bg" aria-labelledby="about-heading">
+    <section id={sectionId} className="py-16 md:py-24 bg-bg" aria-labelledby="about-heading">
       <div className="container mx-auto px-4 md:px-6 lg:px-10">
         {/* Who We Are Section */}
         {whoWeAre ? <WhoWeAreSection whoWeAre={whoWeAre} /> : null}
@@ -170,7 +170,10 @@ interface WhoWeAreSectionProps {
 
 function WhoWeAreSection({ whoWeAre }: WhoWeAreSectionProps) {
   return (
-    <motion.div className="section-shell border border-border p-8 md:p-12 mb-16" {...fadeInUp}>
+    <motion.div
+      className="section-shell border border-border p-8 md:p-12 mb-16 md:mb-24"
+      {...fadeInUp}
+    >
       <p className="uppercase tracking-[0.4em] text-xs text-text-muted mb-4">{whoWeAre.eyebrow}</p>
       <h2 id="about-heading" className="text-3xl md:text-4xl font-semibold text-deep-brown mb-6">
         {whoWeAre.title}
@@ -181,7 +184,7 @@ function WhoWeAreSection({ whoWeAre }: WhoWeAreSectionProps) {
       {whoWeAre.stats && whoWeAre.stats.length > 0 ? (
         <div className="grid sm:grid-cols-3 gap-6 text-center pt-6 border-t border-border">
           {whoWeAre.stats.map((stat: Stat) => (
-            <div key={stat.label}>
+            <div key={stat.label} className="space-y-1">
               <p className="text-3xl font-semibold text-gold">{stat.value}</p>
               <p className="text-sm uppercase tracking-[0.3em] text-text-muted">{stat.label}</p>
             </div>
@@ -200,7 +203,7 @@ interface VisionPurposeSectionProps {
 function VisionPurposeSection({ vision, mission }: VisionPurposeSectionProps) {
   return (
     <motion.div
-      className="section-shell border border-border p-8 md:p-12 mb-16 bg-paper"
+      className="section-shell border border-border p-8 md:p-12 mb-16 md:mb-24 bg-paper"
       {...fadeInUp}
       transition={{ delay: 0.1 }}
     >
@@ -235,7 +238,7 @@ interface CommitmentSectionProps {
 function CommitmentSection({ commitment }: CommitmentSectionProps) {
   return (
     <motion.div
-      className="section-shell border border-border p-8 md:p-10 mb-16"
+      className="section-shell border border-border p-8 md:p-10 mb-16 md:mb-24"
       {...fadeInUp}
       transition={{ delay: 0.2 }}
     >
@@ -252,8 +255,8 @@ interface TimelineSectionProps {
 
 function TimelineSection({ title, entries }: TimelineSectionProps) {
   return (
-    <div className="mb-16">
-      <h3 className="text-3xl font-bold text-deep-brown text-center mb-12">{title}</h3>
+    <div className="mb-16 md:mb-24">
+      <h3 className="text-3xl font-bold text-deep-brown text-center mb-16 md:mb-24">{title}</h3>
       <Timeline entries={entries} />
     </div>
   );
@@ -266,7 +269,7 @@ interface DistributionSectionProps {
 function DistributionSection({ title }: DistributionSectionProps) {
   return (
     <div className="max-w-4xl mx-auto">
-      <h3 className="text-3xl font-bold text-deep-brown text-center mb-8">{title}</h3>
+      <h3 className="text-3xl font-bold text-deep-brown text-center mb-16 md:mb-24">{title}</h3>
       <DistributionMap />
     </div>
   );

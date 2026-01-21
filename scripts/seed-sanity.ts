@@ -1912,7 +1912,7 @@ const contactPageData = {
   businessHoursTitle: "Business Hours",
   footerNote: "Serving dry fruit buyers across Punjab, North India and pan-India since 1999.",
   contactDetails: {
-    address: "K-2, Kismat Complex, Miller Ganj, G.T. Road,\nLudhiana – 141003, Punjab, India",
+    address: "K-2, Kismat Complex, Miller Ganj, G.T. Road, Ludhiana – 141003, Punjab, India",
     phone: ["+91-9878122400", "+91-161-4662156"],
     email: "Care@divyanshint.com",
   },

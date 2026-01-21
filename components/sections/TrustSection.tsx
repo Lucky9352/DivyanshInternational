@@ -159,7 +159,7 @@ export default function TrustSection({
   return (
     <section
       id={sectionId}
-      className="py-16 bg-bg relative overflow-hidden"
+      className="py-16 md:py-24 bg-bg relative overflow-hidden"
       aria-labelledby="trust-heading"
     >
       {/* Dynamic Background Image */}
@@ -253,7 +253,7 @@ interface CertificatesGridProps {
 function CertificatesGrid({ certificates }: CertificatesGridProps) {
   return (
     <motion.div
-      className="grid md:grid-cols-3 gap-6 mb-10"
+      className="grid md:grid-cols-3 gap-6 mb-16 md:mb-24"
       initial="hidden"
       whileInView="show"
       viewport={{ once: true }}

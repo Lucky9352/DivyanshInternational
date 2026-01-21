@@ -275,7 +275,7 @@ export default function AboutContent({
         }
       />
 
-      <div className="bg-ivory min-h-screen pt-32 pb-20 relative">
+      <div className="bg-ivory min-h-screen pt-16 md:pt-24 pb-16 md:pb-24 relative">
         {/* Decorative Background Icons */}
         <DecorativeBackground variant="side-balanced" />
 
@@ -286,7 +286,7 @@ export default function AboutContent({
               initial="hidden"
               whileInView="visible"
               viewport={{ once: false, amount: 0.3 }}
-              className="text-center mb-20 relative"
+              className="text-center mb-16 md:mb-24 relative"
             >
               {/* Decorative blob in background */}
               <div
@@ -361,7 +361,7 @@ export default function AboutContent({
               initial="hidden"
               whileInView="visible"
               viewport={{ once: false, amount: 0.2 }}
-              className="mb-16 relative"
+              className="mb-16 md:mb-24 relative"
             >
               {/* Organic blob background */}
               <div
@@ -434,7 +434,7 @@ export default function AboutContent({
               initial="hidden"
               whileInView="visible"
               viewport={{ once: false, amount: 0.2 }}
-              className="text-center mb-16 relative"
+              className="text-center mb-16 md:mb-24 relative"
             >
               {/* Organic blob background */}
               <div
@@ -512,7 +512,7 @@ export default function AboutContent({
               initial="hidden"
               whileInView="visible"
               viewport={{ once: false, amount: 0.2 }}
-              className="mb-16 relative"
+              className="mb-16 md:mb-24 relative"
             >
               {/* Section blob background */}
               <div
@@ -525,7 +525,7 @@ export default function AboutContent({
 
               <div className="bg-white/90 backdrop-blur-sm p-10 rounded-2xl border border-gold-light shadow-xl">
                 <motion.h2
-                  className="text-3xl font-bold text-deep-brown mb-10 text-center font-heading"
+                  className="text-3xl font-bold text-deep-brown mb-16 md:mb-24 text-center font-heading"
                   variants={{
                     hidden: { opacity: 0, y: 20 },
                     visible: { opacity: 1, y: 0 },
@@ -652,8 +652,8 @@ export default function AboutContent({
 
           {/* Journey / Legacy Animation */}
           {timelineEntries.length > 0 && about.journeySection ? (
-            <section className="mb-16" aria-labelledby="journey-heading">
-              <div className="text-center mb-12">
+            <section className="mb-16 md:mb-24" aria-labelledby="journey-heading">
+              <div className="text-center mb-16 md:mb-24">
                 <p className="uppercase tracking-[0.4em] text-xs text-text-muted mb-3">
                   {about.journeySection.eyebrow}
                 </p>
@@ -670,8 +670,8 @@ export default function AboutContent({
 
           {/* Distribution Map */}
           {about.distributionRegions && about.distributionRegions.length > 0 ? (
-            <section className="mb-16" aria-labelledby="distribution-heading">
-              <div className="text-center mb-12">
+            <section className="mb-16 md:mb-24" aria-labelledby="distribution-heading">
+              <div className="text-center mb-16 md:mb-24">
                 <h2
                   id="distribution-heading"
                   className="text-3xl md:text-4xl font-bold text-deep-brown font-heading"

@@ -507,48 +507,42 @@ export default function TradeEnquiryForm({
       </div>
 
       {/* Product Interest Selection */}
-      <div>
-        <label className="block text-sm font-medium text-foreground mb-2">
+      <div className="space-y-3">
+        <label className="block text-sm font-semibold text-deep-brown">
           {labels.productInterestLabel}
         </label>
         <div
-          className="grid grid-cols-2 md:grid-cols-4 gap-3 border border-gray-100 p-4 rounded-xl bg-gray-50/50"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"
           role="group"
           aria-label="Product selection"
         >
-          {products.map((product) => (
-            <label
-              key={product._id}
-              className={`flex items-center space-x-2 cursor-pointer p-3 border rounded-lg transition-all ${
-                selectedProducts.includes(product.title)
-                  ? "bg-gold/10 border-gold shadow-xs"
-                  : "bg-white border-gray-200 hover:border-gold/50 hover:bg-gold/5"
-              }`}
-            >
-              <div className="relative flex items-center">
+          {products.map((product) => {
+            const isSelected = selectedProducts.includes(product.title);
+            return (
+              <label
+                key={product._id}
+                className={`flex items-center justify-center p-4 rounded-2xl border-2 cursor-pointer group relative text-center min-h-[60px] select-none transition-[background-color,border-color] duration-200 ease-in-out [-webkit-tap-highlight-color:transparent] outline-none ${
+                  isSelected ? "bg-gold border-gold" : "bg-white border-sand hover:border-gold/30"
+                }`}
+              >
+                {/* Hidden Native Checkbox */}
                 <input
                   type="checkbox"
-                  checked={selectedProducts.includes(product.title)}
+                  checked={isSelected}
                   onChange={() => toggleProduct(product.title)}
-                  className="peer h-4 w-4 appearance-none rounded border border-gray-300 checked:border-gold checked:bg-gold focus:outline-none focus:ring-2 focus:ring-gold/50"
+                  className="sr-only"
                 />
-                <svg
-                  className="pointer-events-none absolute left-0 top-0 h-4 w-4 text-white opacity-0 peer-checked:opacity-100"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+
+                <span
+                  className={`text-sm md:text-base font-bold transition-colors duration-200 ease-in-out ${
+                    isSelected ? "text-white" : "text-deep-brown group-hover:text-gold-dark"
+                  }`}
                 >
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </div>
-              <span className="text-sm font-medium text-foreground select-none">
-                {product.title}
-              </span>
-            </label>
-          ))}
+                  {product.title}
+                </span>
+              </label>
+            );
+          })}
         </div>
         <Controller name="productInterest" control={control} render={() => <></>} />
       </div>

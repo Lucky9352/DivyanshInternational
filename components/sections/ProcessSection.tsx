@@ -104,7 +104,11 @@ export default function ProcessSection({
   if (steps.length === 0) return null;
 
   return (
-    <section id={sectionId} className="py-12 bg-paper relative" aria-labelledby="process-heading">
+    <section
+      id={sectionId}
+      className="py-16 md:py-24 bg-paper relative"
+      aria-labelledby="process-heading"
+    >
       {/* Floating Decorations */}
       <DecorativeBackground variant="side-balanced" />
 
@@ -129,7 +133,7 @@ interface SectionHeaderProps {
 
 function SectionHeader({ settings }: SectionHeaderProps) {
   return (
-    <div className="max-w-2xl mb-12">
+    <div className="max-w-2xl mb-16 md:mb-24">
       {settings.eyebrow ? (
         <motion.p
           className="uppercase tracking-[0.4em] text-xs text-text-muted mb-4 font-bold"

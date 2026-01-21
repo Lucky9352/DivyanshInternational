@@ -208,12 +208,12 @@ export default function Footer({
     `© ${currentYear} ${companyName}. All rights reserved.`;
 
   return (
-    <footer className="bg-deep-brown pt-20 pb-10 relative overflow-hidden text-ivory border-t-4 border-gold">
+    <footer className="bg-deep-brown pt-24 pb-12 relative overflow-hidden text-ivory border-t-4 border-gold">
       {/* Subtle Gold Glow at top */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-px bg-gold/20"></div>
 
       <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16 md:mb-24">
           {/* Brand Column (4 columns) */}
           <div className="lg:col-span-4 space-y-6">
             <div>
@@ -346,7 +346,7 @@ export default function Footer({
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-ivory/10 pt-8 mt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="border-t border-ivory/10 pt-12 mt-12 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-ivory/60! font-medium">{copyright}</p>
 
           <div className="flex items-center gap-6 text-xs font-medium">

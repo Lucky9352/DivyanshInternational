@@ -95,7 +95,7 @@ export default async function NotFound() {
   const homeUrl = navigation?.homeUrl ?? DEFAULTS.homeUrl;
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center px-4 text-center relative overflow-hidden">
+    <div className="min-h-screen bg-background pt-[72px] md:pt-24 flex flex-col items-center justify-center px-4 text-center relative overflow-hidden">
       {/* Decorations */}
       <div className="absolute inset-0 pointer-events-none opacity-5" aria-hidden="true">
         <NutIcon className="absolute top-10 left-10 w-64 h-64 text-gold animate-spin-slow" />

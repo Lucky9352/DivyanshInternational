@@ -99,6 +99,9 @@ export default function AboutPosterSlider({ sliderData }: AboutPosterSliderProps
     if (posters.length <= 1) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Ignore if user is typing in an input field
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+
       if (e.key === "ArrowLeft") {
         goToPrev();
       } else if (e.key === "ArrowRight") {
@@ -118,7 +121,7 @@ export default function AboutPosterSlider({ sliderData }: AboutPosterSliderProps
 
   return (
     <section
-      className="relative w-full pt-16 md:pt-20 overflow-hidden bg-white"
+      className="relative w-full pt-[72px] md:pt-24 overflow-hidden bg-white"
       aria-label="Promotional posters"
     >
       {/* Poster Images - using img tag like ProductCard for Google Drive URLs */}

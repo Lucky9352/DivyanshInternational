@@ -152,7 +152,7 @@ export default function PrivacyPolicyContent({
   const contactPhone = organization?.contactPoint?.telephone;
 
   return (
-    <div className="bg-background min-h-screen pt-24 pb-20">
+    <div className="bg-background min-h-screen pt-[72px] md:pt-24 pb-16 md:pb-24">
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         {/* Header */}
         <header className="text-center mb-16 relative">
@@ -182,7 +182,7 @@ export default function PrivacyPolicyContent({
         <main className="max-w-4xl mx-auto bg-white p-8 md:p-12 rounded-3xl border border-sand shadow-sm">
           <div className="prose prose-lg max-w-none text-foreground">
             {privacyPolicy.content?.map((section, index) => (
-              <section key={section._key ?? index} className="mb-8">
+              <section key={section._key ?? index} className="mb-16 md:mb-24">
                 {section.heading ? (
                   <h3 className="text-deep-brown font-heading mt-8 mb-4 text-2xl font-bold">
                     {section.heading}

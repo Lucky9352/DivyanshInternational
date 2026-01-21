@@ -214,23 +214,17 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
-/* Custom Scrollbar - Premium Feel */
-::-webkit-scrollbar {
-  width: 10px;
+/* Hide Scrollbars - Seamless Experience */
+* {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
-::-webkit-scrollbar-track {
-  background: var(--color-bg);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-sand);
-  border-radius: var(--radius-full);
-  border: 2px solid var(--color-bg);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-gold);
+*::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari and Opera */
 }
 
 /* Prevent layout shift */
@@ -347,7 +341,7 @@ h3 {
 }
 
 p {
-  margin-bottom: 1rem;
+  margin-bottom: 0;
   color: var(--color-text-light);
 }
 
@@ -568,7 +562,7 @@ html.hydrated {
 
   /* Improve touch scrolling */
   * {
-    -webkit-tap-highlight-color: rgba(212, 165, 116, 0.2);
+    -webkit-tap-highlight-color: transparent;
   }
 }
 

@@ -151,13 +151,13 @@ export default function ContactContent({
   const productListTyped = productList as any;
 
   return (
-    <div className="bg-paper min-h-screen pt-24 pb-20 relative">
+    <div className="bg-paper min-h-screen pt-[72px] md:pt-24 pb-16 md:pb-24 relative">
       {/* Decorative Background Elements */}
       <DecorativeBackground variant="minimal" />
 
       <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <div className="text-center mb-16 relative">
+        <div className="text-center mb-16 md:mb-24 relative">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -179,7 +179,7 @@ export default function ContactContent({
         </div>
 
         {/* Form Content */}
-        <div className="max-w-4xl mx-auto mb-16">
+        <div className="max-w-4xl mx-auto mb-12 md:mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -217,17 +217,23 @@ function ContactInfoSection({ contact, siteSettings }: ContactInfoSectionProps) 
   const listSeparator = siteSettings.apiConfig?.listSeparator ?? ", ";
 
   return (
-    <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div className="bg-ivory p-8 rounded-3xl border-2 border-gold-light shadow-lg hover:shadow-xl transition-all duration-300">
-        <h3 className="text-xl font-bold text-deep-brown mb-4 font-heading">
+    <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+      <div className="bg-ivory p-6 md:p-8 rounded-3xl border-2 border-gold-light shadow-lg hover:shadow-xl transition-all duration-300">
+        <h3 className="text-xl font-bold text-deep-brown mb-3 font-heading">
           {contact.contactDetailsTitle}
         </h3>
-        <div className="space-y-4 text-foreground">
+        <div className="space-y-3 md:space-y-4 text-foreground">
           <div>
             <p className="font-semibold text-gold-dark mb-1">
               {siteSettings.contact?.officeLabel ?? "Office"}
             </p>
-            <p className="whitespace-pre-line">{contact.contactDetails.address}</p>
+            <p className="whitespace-pre-line">
+              {contact.contactDetails.address
+                ?.split("\n")
+                .map((l) => l.trim())
+                .filter(Boolean)
+                .join("\n")}
+            </p>
           </div>
           <div>
             <p className="font-semibold text-gold-dark mb-1">
@@ -244,15 +250,15 @@ function ContactInfoSection({ contact, siteSettings }: ContactInfoSectionProps) 
         </div>
       </div>
 
-      <div className="bg-ivory p-8 rounded-3xl border-2 border-gold-light shadow-lg hover:shadow-xl transition-all duration-300">
-        <h3 className="text-xl font-bold text-deep-brown mb-4 font-heading">
+      <div className="bg-ivory p-6 md:p-8 rounded-3xl border-2 border-gold-light shadow-lg hover:shadow-xl transition-all duration-300">
+        <h3 className="text-xl font-bold text-deep-brown mb-3 font-heading">
           {contact.businessHoursTitle}
         </h3>
-        <div className="space-y-2 text-foreground">
+        <div className="space-y-1 md:space-y-2 text-foreground">
           <p>{contact.businessHours.weekdays}</p>
           <p>{contact.businessHours.sunday}</p>
         </div>
-        <p className="mt-6 text-sm text-text-muted italic">{contact.footerNote}</p>
+        <p className="mt-4 text-sm text-text-muted italic">{contact.footerNote}</p>
       </div>
     </div>
   );

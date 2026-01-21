@@ -388,7 +388,7 @@ export default function CatalogueViewer({ settings }: CatalogueViewerProps) {
   // Inactive state
   if (!isActive) {
     return (
-      <div className="min-h-screen bg-paper pt-24">
+      <div className="min-h-screen bg-paper pt-[72px] md:pt-24">
         <div className="container mx-auto px-4 py-12">
           <div className="max-w-2xl mx-auto text-center">
             <div className="text-8xl mb-8">📚</div>
@@ -405,7 +405,7 @@ export default function CatalogueViewer({ settings }: CatalogueViewerProps) {
   // No content state
   if (!hasImageContent && !hasPdfContent) {
     return (
-      <div className="min-h-screen bg-paper pt-24">
+      <div className="min-h-screen bg-paper pt-[72px] md:pt-24">
         <div className="container mx-auto px-4 py-12">
           <div className="max-w-2xl mx-auto text-center">
             <div className="text-8xl mb-8">📖</div>
@@ -422,7 +422,7 @@ export default function CatalogueViewer({ settings }: CatalogueViewerProps) {
   // PDF Loading State (Before Document Load)
   if (contentType === "pdf" && hasPdfContent && !numPages) {
     return (
-      <div className="min-h-screen bg-paper pt-24 pb-12 flex flex-col items-center justify-center">
+      <div className="min-h-screen bg-paper pt-[72px] md:pt-24 pb-12 flex flex-col items-center justify-center">
         <div className="hidden">
           {/* Hidden Document loader to get page count */}
           <Document
@@ -440,13 +440,13 @@ export default function CatalogueViewer({ settings }: CatalogueViewerProps) {
 
   // Image Flipbook
   return (
-    <div className="min-h-screen bg-bg pt-24 pb-12">
+    <div className="min-h-screen bg-bg pt-[72px] md:pt-24 pb-16 md:pb-24">
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-10"
+          className="text-center mb-16 md:mb-24"
         >
           <h1 className="text-4xl md:text-5xl font-bold text-deep-brown mb-4 font-heading">
             {displayTitle}

@@ -40,7 +40,7 @@ export default function PosterBanner({ bannerData }: PosterBannerProps) {
 
   return (
     <section
-      className="relative w-full pt-10 pb-10 md:py-20 overflow-hidden bg-bg"
+      className="relative w-full py-16 md:py-24 overflow-hidden bg-bg"
       aria-label="Featured poster"
     >
       <motion.div

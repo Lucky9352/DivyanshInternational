@@ -239,12 +239,12 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
   };
 
   return (
-    <div className="min-h-screen bg-white pt-24 relative overflow-hidden">
+    <div className="min-h-screen bg-white pt-[72px] md:pt-24 relative overflow-hidden">
       <HeroVisualElements />
 
       <div className="relative z-10">
         {/* Breadcrumb */}
-        <div className="container mx-auto px-4 md:px-6 lg:px-8 py-4">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 py-6 md:py-8">
           <nav className="flex gap-1 text-sm text-text-muted whitespace-nowrap overflow-x-auto no-scrollbar">
             <Link
               href={labels.navigation.homeUrl || "/"}
@@ -265,7 +265,7 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
         </div>
 
         {/* Product Content */}
-        <section className="container mx-auto px-4 md:px-6 lg:px-8 py-12 relative">
+        <section className="container mx-auto px-4 md:px-6 lg:px-8 py-16 md:py-24 relative">
           <SectionVisualElements />
 
           <motion.div

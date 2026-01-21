@@ -79,10 +79,10 @@ export default function GalleryContent({ data }: GalleryContentProps) {
   }, [lightboxIndex, images.length]);
 
   return (
-    <section className="pt-28 pb-20 md:pt-32 md:pb-24 min-h-screen bg-sand/30">
+    <section className="pt-[72px] md:pt-24 pb-16 md:pb-24 min-h-screen bg-sand/30">
       <div className="container mx-auto px-4 md:px-6">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12 space-y-4">
+        <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24 space-y-4">
           <motion.h1
             className="text-4xl md:text-5xl lg:text-6xl font-serif text-deep-brown"
             initial={{ opacity: 0, y: 20 }}
@@ -118,7 +118,7 @@ export default function GalleryContent({ data }: GalleryContentProps) {
         </div>
 
         {images.length === 0 ? (
-          <div className="text-center py-20 text-(--color-muted)">
+          <div className="text-center py-16 md:py-24 text-(--color-muted)">
             <p>No images found in the gallery yet.</p>
           </div>
         ) : null}

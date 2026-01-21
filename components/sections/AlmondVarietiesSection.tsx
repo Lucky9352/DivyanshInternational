@@ -43,7 +43,7 @@ export default function ProductVarietiesSection({
   return (
     <section
       ref={ref}
-      className="py-8 md:py-12 bg-bg relative overflow-hidden"
+      className="py-16 md:py-24 bg-bg relative overflow-hidden"
       aria-labelledby="varieties-heading"
     >
       {/* Section Header */}
@@ -51,7 +51,7 @@ export default function ProductVarietiesSection({
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.5 }}
-        className="text-center mb-16"
+        className="text-center mb-16 md:mb-24"
       >
         <span className="inline-block px-4 py-1.5 bg-amber-100 text-amber-800 rounded-full text-sm font-medium mb-3">
           {badge}

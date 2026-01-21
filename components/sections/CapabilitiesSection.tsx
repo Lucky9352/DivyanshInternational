@@ -138,7 +138,7 @@ export default function CapabilitiesSection({
   return (
     <section
       id={sectionId}
-      className="py-20 bg-paper relative overflow-hidden"
+      className="py-16 md:py-24 bg-paper relative overflow-hidden"
       aria-labelledby="capabilities-heading"
     >
       {/* Dynamic Background Image */}
@@ -160,7 +160,7 @@ export default function CapabilitiesSection({
       <div className="container mx-auto px-4 md:px-6 lg:px-10 relative z-10">
         {/* Section Header */}
         {sectionSettings ? (
-          <div className="bg-white/60 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-xl border border-white/20 mb-12 max-w-4xl">
+          <div className="bg-white/60 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-xl border border-white/20 mb-16 md:mb-24 max-w-4xl">
             <SectionHeader settings={sectionSettings} />
           </div>
         ) : null}
@@ -191,7 +191,7 @@ interface SectionHeaderProps {
 
 function SectionHeader({ settings }: SectionHeaderProps) {
   return (
-    <div className="max-w-3xl mb-12">
+    <div className="max-w-3xl mb-16 md:mb-24">
       {settings.eyebrow ? (
         <motion.p
           className="uppercase tracking-[0.4em] text-xs text-gold-dark mb-4 font-bold"
@@ -285,13 +285,13 @@ interface CertificatesSectionProps {
 function CertificatesSection({ certificates, title, description }: CertificatesSectionProps) {
   return (
     <motion.div
-      className="mt-20 border-t border-border pt-16"
+      className="mt-16 md:mt-24 border-t border-border pt-16"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.8 }}
     >
-      <div className="text-center mb-10">
+      <div className="text-center mb-16 md:mb-24">
         {title ? (
           <motion.h3
             className="text-2xl font-bold text-deep-brown mb-4 font-heading"

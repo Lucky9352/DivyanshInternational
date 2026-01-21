@@ -216,7 +216,7 @@ export default function ProcessFlowSection({
 
   return (
     <section
-      className="relative py-16 md:py-32 bg-paper overflow-hidden"
+      className="relative py-16 md:py-24 bg-paper overflow-hidden"
       aria-labelledby="process-flow-heading"
     >
       {/* Dynamic Background Image */}
@@ -238,7 +238,7 @@ export default function ProcessFlowSection({
       <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
         {/* Section Header with Glass Protection */}
         <motion.div
-          className="text-center max-w-4xl mx-auto mb-12 md:mb-20 bg-white/60 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-xl border border-white/20"
+          className="text-center max-w-4xl mx-auto mb-16 md:mb-24 bg-white/60 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-xl border border-white/20"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

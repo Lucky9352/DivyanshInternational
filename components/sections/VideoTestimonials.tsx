@@ -139,7 +139,7 @@ export default function VideoTestimonialsSection({
   return (
     <section
       id={sectionId}
-      className="py-16 bg-bg relative overflow-hidden"
+      className="py-16 md:py-24 bg-bg relative overflow-hidden"
       aria-labelledby="testimonials-heading"
     >
       {/* Dynamic Background Image */}
@@ -160,7 +160,7 @@ export default function VideoTestimonialsSection({
 
       <div className="container mx-auto px-4 md:px-6 lg:px-10 relative z-10">
         {/* Centered Header with Glass Protection */}
-        <div className="text-center mb-16 max-w-4xl mx-auto bg-white/60 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-xl border border-white/20">
+        <div className="text-center mb-16 md:mb-24 max-w-4xl mx-auto bg-white/60 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-xl border border-white/20">
           {/* Icon */}
           <motion.div
             className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-50 text-gold mb-6 mx-auto"
@@ -204,7 +204,7 @@ export default function VideoTestimonialsSection({
 
         {/* Testimonials Grid */}
         <motion.div
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16"
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16 md:mb-24"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.1 }}

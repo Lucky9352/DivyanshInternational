@@ -91,7 +91,7 @@ export default async function ProductNotFound() {
   const productsUrl = navigation?.productsUrl ?? DEFAULTS.productsUrl;
 
   return (
-    <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4">
+    <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4 pt-[72px] md:pt-24">
       <h1 className="text-4xl font-bold text-deep-brown mb-4 font-serif">{notFoundTitle}</h1>
       <p className="text-(--color-muted) mb-8 max-w-md">{notFoundText}</p>
       <Link

@@ -99,7 +99,7 @@ export default function ErrorBoundary({ error, reset }: ErrorComponentProps) {
 
   return (
     <div
-      className="flex flex-col items-center justify-center min-h-screen bg-background px-4 text-center"
+      className="flex flex-col items-center justify-center min-h-screen bg-background pt-[72px] md:pt-24 px-4 text-center"
       role="alert"
       aria-live="assertive"
     >
