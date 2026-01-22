@@ -120,8 +120,8 @@ export default function Header({ initialHeader, products, siteSettings }: Header
   const nav = siteSettings?.navigation;
   const homeLabel = nav?.home || "Home";
   const homeUrl = nav?.homeUrl || "/";
-  const catalogueLabel = nav?.catalogue || "Catalogue";
-  const catalogueUrl = nav?.catalogueUrl || "/catalogue";
+  // const catalogueLabel = nav?.catalogue || "Catalogue";
+  // const catalogueUrl = nav?.catalogueUrl || "/catalogue";
   const productsLabel = nav?.productsLabel || nav?.products || "Products";
   const tradeButtonText = header.tradeButtonText || "Get Quote";
 
@@ -190,12 +190,14 @@ export default function Header({ initialHeader, products, siteSettings }: Header
                 }
               />
 
+              {/* Catalogue Link - Hidden for now
               <Link
                 href={catalogueUrl}
                 className="text-foreground hover:text-gold transition-colors focus:outline-2 focus:outline-gold focus:rounded px-2 py-1"
               >
                 {catalogueLabel}
               </Link>
+              */}
 
               {header.navLinks?.map((link, index) => (
                 <Link
@@ -246,7 +248,7 @@ export default function Header({ initialHeader, products, siteSettings }: Header
         products={products || []}
         menuItems={[
           { label: homeLabel, url: homeUrl },
-          { label: catalogueLabel, url: catalogueUrl },
+          // { label: catalogueLabel, url: catalogueUrl }, // Hidden for now
           ...(header.navLinks ?? []),
         ]}
         productsLabel={productsLabel}
