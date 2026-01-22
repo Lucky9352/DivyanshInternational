@@ -17,6 +17,7 @@ import { z } from "zod";
 import TradeEnquiryForm from "@/components/forms/TradeEnquiryForm";
 import { LeafIcon } from "@/components/assets/Decorations";
 import DecorativeBackground from "@/components/ui/DecorativeBackground";
+import DistributionMap from "@/components/DistributionMap";
 
 // =============================================================================
 // ZOD VALIDATION SCHEMAS
@@ -33,6 +34,15 @@ const BusinessHoursSchema = z.object({
   sunday: z.string(),
 });
 
+const DistributionRegionSchema = z.object({
+  _id: z.string().optional(),
+  _key: z.string().optional(),
+  name: z.string(),
+  lat: z.number(),
+  lng: z.number(),
+  radius: z.number().optional(),
+});
+
 const ContactPageDataSchema = z.object({
   _id: z.string(),
   eyebrow: z.string(),
@@ -45,6 +55,7 @@ const ContactPageDataSchema = z.object({
   footerNote: z.string(),
   contactDetails: ContactDetailsSchema,
   businessHours: BusinessHoursSchema,
+  distributionRegions: z.array(DistributionRegionSchema).nullable().optional(),
 });
 
 const SiteSettingsSchema = z
@@ -146,7 +157,7 @@ export default function ContactContent({
   const productListTyped = productList as any;
 
   return (
-    <div className="bg-paper min-h-screen pt-[72px] md:pt-24 pb-16 md:pb-24 relative">
+    <div className="bg-paper min-h-screen pt-18 md:pt-24 pb-16 md:pb-24 relative">
       {/* Decorative Background Elements */}
       <DecorativeBackground variant="minimal" />
 
@@ -194,6 +205,34 @@ export default function ContactContent({
 
         {/* Contact Information */}
         <ContactInfoSection contact={contact} siteSettings={siteSettings} />
+
+        {/* Distribution Map */}
+        {contact.distributionRegions && contact.distributionRegions.length > 0 ? (
+          <section className="mt-16 md:mt-20" aria-labelledby="distribution-heading">
+            <div className="text-center mb-8 md:mb-10">
+              <h2
+                id="distribution-heading"
+                className="text-2xl md:text-3xl lg:text-4xl font-bold text-deep-brown font-heading"
+              >
+                Serving Premium Dry Fruit Buyers Across
+              </h2>
+              <p className="text-text-muted mt-3 max-w-2xl mx-auto">
+                Our distribution network ensures timely delivery of premium quality dry fruits to
+                your location
+              </p>
+            </div>
+            <DistributionMap
+              locations={contact.distributionRegions.map((r) => ({
+                name: r.name,
+                lat: r.lat,
+                lng: r.lng,
+                radius: r.radius ?? 50000,
+                _id: r._id,
+              }))}
+              heading="Distribution Regions"
+            />
+          </section>
+        ) : null}
       </div>
     </div>
   );

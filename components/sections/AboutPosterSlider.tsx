@@ -10,6 +10,7 @@
 import { useState, useEffect, useCallback, useSyncExternalStore } from "react";
 import ContentBanner, { type ContentBannerData } from "@/components/ui/ContentBanner";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 // =============================================================================
 // TYPE DEFINITIONS
@@ -95,18 +96,20 @@ export default function AboutPosterSlider({ sliderData }: AboutPosterSliderProps
 
   return (
     <section
-      className="relative w-full overflow-hidden bg-bg pt-18 md:pt-24 pb-18 md:pb-24"
+      className="relative w-full overflow-hidden bg-bg pt-18 md:pt-24"
       aria-label="Promotional highlights"
     >
-      <div className="relative">
-        <div className="w-full">
+      <div className="relative min-h-[60vh] lg:min-h-[70vh]">
+        <div className="w-full grid h-full">
           {posters.map((poster, index) => (
-            <div key={poster._key || index} className={index === activeSlide ? "block" : "hidden"}>
-              <ContentBanner
-                data={poster}
-                priority={index <= 1}
-                className="animate-in fade-in duration-700 slide-in-from-bottom-4"
-              />
+            <div
+              key={poster._key || index}
+              className={cn(
+                "col-start-1 row-start-1 transition-opacity duration-700 h-full",
+                index === activeSlide ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
+              )}
+            >
+              <ContentBanner data={poster} priority={index <= 1} className="h-full" />
             </div>
           ))}
         </div>
@@ -116,30 +119,30 @@ export default function AboutPosterSlider({ sliderData }: AboutPosterSliderProps
           <>
             <button
               onClick={goToPrev}
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-30 p-2 rounded-full bg-white/50 hover:bg-white backdrop-blur-md text-deep-brown transition-all hover:scale-110 shadow-lg border border-white/20"
+              className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-30 p-2 text-deep-brown/60 hover:text-deep-brown hover:scale-110 active:scale-95 transition-all"
               aria-label="Previous slide"
             >
-              <ChevronLeft className="w-6 h-6" />
+              <ChevronLeft className="w-6 h-6 md:w-8 md:h-8 drop-shadow-sm" strokeWidth={2.5} />
             </button>
 
             <button
               onClick={goToNext}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-30 p-2 rounded-full bg-white/50 hover:bg-white backdrop-blur-md text-deep-brown transition-all hover:scale-110 shadow-lg border border-white/20"
+              className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-30 p-2 text-deep-brown/60 hover:text-deep-brown hover:scale-110 active:scale-95 transition-all"
               aria-label="Next slide"
             >
-              <ChevronRight className="w-6 h-6" />
+              <ChevronRight className="w-6 h-6 md:w-8 md:h-8 drop-shadow-sm" strokeWidth={2.5} />
             </button>
 
             {/* Dots */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex gap-2">
+            <div className="absolute bottom-2 md:bottom-6 left-1/2 -translate-x-1/2 z-30 flex gap-1 md:gap-2 px-4">
               {posters.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => goToSlide(index)}
-                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                  className={`h-1 md:h-2.5 rounded-full transition-all duration-300 ${
                     index === activeSlide
-                      ? "bg-gold scale-125 shadow-lg w-8"
-                      : "bg-deep-brown/20 hover:bg-deep-brown/40"
+                      ? "bg-gold shadow-md w-4 md:w-8"
+                      : "w-1 md:w-2.5 bg-white/40 hover:bg-white/60"
                   }`}
                   aria-label={`Go to slide ${index + 1}`}
                 />

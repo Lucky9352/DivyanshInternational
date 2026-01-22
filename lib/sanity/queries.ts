@@ -502,7 +502,8 @@ export const contactPageQuery = groq`
     businessHoursTitle,
     footerNote,
     contactDetails,
-    businessHours
+    businessHours,
+    distributionRegions
   }
 `;
 

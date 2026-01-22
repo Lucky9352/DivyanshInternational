@@ -148,7 +148,7 @@ export default function ContentBanner({ data, className, priority = false }: Con
   const bgClasses = cn(
     "relative w-full transition-colors duration-500",
     layout === "background-image" ? "overflow-hidden" : "",
-    "h-[60vh] lg:h-[70vh] flex items-center",
+    "min-h-[60vh] lg:min-h-[70vh] flex items-center py-8 md:py-12",
     layout !== "background-image" && isDarkTheme ? "bg-[#5D4037]" : "",
     layout !== "background-image" && !isDarkTheme ? "bg-ivory" : "",
     layout === "background-image" ? "bg-[#3b2f2f]" : "",
@@ -485,13 +485,13 @@ export default function ContentBanner({ data, className, priority = false }: Con
         layout === "right-image" || layout === "left-image"
           ? "w-full p-4 lg:p-12 items-center h-full max-h-full"
           : "",
-        layout === "background-image" ? "absolute inset-0 z-0 overflow-hidden" : ""
+        layout === "background-image" ? "absolute inset-0 z-0" : ""
       )}
     >
       <div
         className={cn(
-          "relative w-full h-full",
-          layout === "right-image" || layout === "left-image" ? "min-h-[300px]" : ""
+          "relative w-full h-full overflow-visible rounded-3xl",
+          layout === "right-image" || layout === "left-image" ? "min-h-75" : ""
         )}
       >
         <OptimizedImage
@@ -525,13 +525,13 @@ export default function ContentBanner({ data, className, priority = false }: Con
           }
           className="transition-transform duration-1000 hover:scale-105"
           imageClassName={cn(
-            "object-scale-down w-auto h-auto max-w-full",
+            "object-scale-down w-auto h-auto max-w-full rounded-3xl drop-shadow-2xl",
             layout === "right-image" || layout === "left-image" ? "object-scale-down" : ""
           )}
           priority={priority}
           sizes={layout === "background-image" ? "100vw" : "(max-width: 768px) 100vw, 50vw"}
-          quality={layout === "right-image" || layout === "left-image" ? 100 : 90}
-          overflowVisible={false}
+          quality={100}
+          overflowVisible={true}
         />
       </div>
       {/* Overlay for bg image */}

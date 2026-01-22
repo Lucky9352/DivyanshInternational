@@ -186,7 +186,7 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
   const tradeEvents = community.tradeEvents ?? [];
 
   return (
-    <div className="bg-paper min-h-screen pt-[72px] md:pt-24 pb-16 md:pb-24 relative">
+    <div className="bg-paper min-h-screen pt-18 md:pt-24 pb-16 md:pb-24 relative">
       {/* Decorative Background */}
       <DecorativeBackground variant="scattered" />
 
@@ -201,7 +201,7 @@ export default function CommunityContent({ initialCommunity }: CommunityContentP
           >
             {/* Decorative blob in background */}
             <div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-[600px] h-[300px] opacity-20"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-150 h-75 opacity-20"
               style={{
                 background: "#f5f0e8",
                 borderRadius: "60% 40% 55% 45% / 55% 60% 40% 45%",

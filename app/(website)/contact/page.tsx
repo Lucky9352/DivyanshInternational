@@ -33,6 +33,18 @@ const businessHoursSchema = z
   .passthrough();
 
 /**
+ * Distribution region schema
+ */
+const distributionRegionSchema = z.object({
+  _id: z.string().optional(),
+  _key: z.string().optional(),
+  name: z.string(),
+  lat: z.number(),
+  lng: z.number(),
+  radius: z.number().optional(),
+});
+
+/**
  * Contact page data schema
  */
 const contactPageDataSchema = z
@@ -48,6 +60,7 @@ const contactPageDataSchema = z
     footerNote: z.string().optional(),
     contactDetails: contactDetailsSchema.optional(),
     businessHours: businessHoursSchema.optional(),
+    distributionRegions: z.array(distributionRegionSchema).nullable().optional(),
   })
   .passthrough()
   .nullable();

@@ -206,37 +206,37 @@ export default function Footer({
     `© ${currentYear} ${companyName}. All rights reserved.`;
 
   return (
-    <footer className="bg-deep-brown pt-24 pb-12 relative overflow-hidden text-ivory border-t-4 border-gold">
+    <footer className="bg-deep-brown pt-12 md:pt-16 pb-8 md:pb-10 relative overflow-hidden text-ivory border-t-4 border-gold">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-px bg-gold/20"></div>
 
       <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16 md:mb-24">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 mb-12 md:mb-16">
           {/* Brand Column */}
-          <div className="lg:col-span-4 space-y-6">
+          <div className="lg:col-span-4 space-y-4 md:space-y-6">
             <div>
-              <Link href="/" className="inline-block mb-6 bg-ivory p-2 rounded-xl shadow-sm">
+              <Link href="/" className="inline-block mb-3 md:mb-4">
                 <OptimizedImage
                   src="/Logo.png"
                   alt={companyName}
                   width={400}
                   height={312}
-                  className="w-24 h-16 md:w-28 md:h-20 flex items-center shrink-0"
+                  className="w-20 h-14 md:w-24 md:h-16 flex items-center shrink-0"
                   imageClassName="w-full h-full object-scale-down hover:scale-105 transition-transform duration-300"
                   overflowVisible={true}
                   priority
                   quality={100}
                 />
               </Link>
-              <h3 className="text-3xl font-bold mb-4 text-gold-light! font-heading tracking-wide">
+              <h3 className="text-2xl md:text-3xl font-bold mb-2 md:mb-3 text-gold-light! font-heading tracking-wide">
                 {labels?.companyTitle || companyName}
               </h3>
-              <p className="text-base leading-relaxed text-ivory/90! max-w-sm">
+              <p className="text-sm md:text-base leading-normal md:leading-relaxed text-ivory/90! max-w-sm">
                 {labels?.companyDescription}
               </p>
             </div>
 
             {/* Social Links with enhanced hover */}
-            <div className="flex gap-3 pt-2">
+            <div className="flex gap-3">
               {[
                 {
                   link: footer.socialLinks.facebook,
@@ -274,17 +274,17 @@ export default function Footer({
 
           {/* Quick Links */}
           <div className="lg:col-span-2">
-            <h4 className="text-xl font-bold mb-6 text-gold-light! tracking-widest uppercase border-b-2 border-gold/30 pb-2 inline-block">
+            <h4 className="text-lg md:text-xl font-bold mb-4 md:mb-6 text-gold-light! tracking-widest uppercase border-b-2 border-gold/30 pb-2 inline-block">
               {labels?.quickLinksTitle || "Quick Links"}
             </h4>
-            <ul className="space-y-4">
+            <ul className="space-y-1 md:space-y-3">
               {footer.quickLinks
                 .filter((link) => link.label !== "Contact" && link.label !== "Make an Enquiry")
                 .map((link, index) => (
                   <li key={index}>
                     <Link
                       href={link.url}
-                      className="text-ivory/80 hover:text-white hover:translate-x-1 transition-all duration-300 inline-block text-sm font-medium"
+                      className="text-ivory/80 hover:text-white hover:translate-x-1 transition-all duration-300 inline-block text-sm font-medium leading-tight py-1"
                     >
                       {link.label}
                     </Link>
@@ -293,7 +293,7 @@ export default function Footer({
               <li>
                 <Link
                   href="/contact"
-                  className="text-ivory/80 hover:text-white hover:translate-x-1 transition-all duration-300 inline-block text-sm font-medium"
+                  className="text-ivory/80 hover:text-white hover:translate-x-1 transition-all duration-300 inline-block text-sm font-medium leading-tight py-1"
                 >
                   Contact Us
                 </Link>
@@ -303,15 +303,15 @@ export default function Footer({
 
           {/* Product Categories */}
           <div className="lg:col-span-3">
-            <h4 className="text-xl font-bold mb-6 text-gold-light! tracking-widest uppercase border-b-2 border-gold/30 pb-2 inline-block">
+            <h4 className="text-lg md:text-xl font-bold mb-4 md:mb-6 text-gold-light! tracking-widest uppercase border-b-2 border-gold/30 pb-2 inline-block">
               {labels?.productsTitle || "Our Range"}
             </h4>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-4">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 md:gap-y-3">
               {dynamicProductLinks.map((link) => (
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-ivory/80 hover:text-white hover:translate-x-1 transition-all duration-300 inline-block text-sm font-medium"
+                    className="text-ivory/80 hover:text-white hover:translate-x-1 transition-all duration-300 inline-block text-sm font-medium leading-tight py-1"
                   >
                     {link.label}
                   </Link>
@@ -322,10 +322,10 @@ export default function Footer({
 
           {/* Certifications */}
           <div className="lg:col-span-3">
-            <h4 className="text-xl font-bold mb-6 text-gold-light! tracking-widest uppercase border-b-2 border-gold/30 pb-2 inline-block">
+            <h4 className="text-lg md:text-xl font-bold mb-4 md:mb-6 text-gold-light! tracking-widest uppercase border-b-2 border-gold/30 pb-2 inline-block">
               {labels?.certificationsTitle || "Certifications"}
             </h4>
-            <div className="space-y-6">
+            <div className="space-y-3 md:space-y-5">
               <div className="flex flex-wrap gap-3">
                 {labels?.isoLabel ? (
                   <div className="px-4 py-2 border border-gold/40 rounded bg-gold/10 text-xs font-bold text-gold tracking-wider uppercase">
@@ -341,7 +341,7 @@ export default function Footer({
 
               <button
                 onClick={handleMakeEnquiry}
-                className="w-full sm:w-auto bg-gold hover:bg-gold-dark text-white px-8 py-3 rounded-full font-bold shadow-lg shadow-gold/20 hover:shadow-gold/40 hover:-translate-y-0.5 transition-all duration-300 text-sm tracking-wide"
+                className="w-full sm:w-auto bg-gold hover:bg-gold-dark text-white px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold shadow-lg shadow-gold/20 hover:shadow-gold/40 hover:-translate-y-0.5 transition-all duration-300 text-sm tracking-wide"
               >
                 Make an Enquiry
               </button>
@@ -356,7 +356,7 @@ export default function Footer({
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-ivory/10 pt-12 mt-12 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="border-t border-ivory/10 pt-8 mt-8 md:pt-10 md:mt-10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-ivory/60! font-medium">{copyright}</p>
 
           <div className="flex items-center gap-6 text-xs font-medium">

@@ -79,42 +79,37 @@ export default function DistributionMap({
     }
   }
 
-  const displayLocations =
-    locations.length > 0
-      ? locations
-      : [
-          { name: "Delhi NCR", lat: 28.6139, lng: 77.209, radius: 40000 },
-          { name: "Punjab", lat: 31.1471, lng: 75.3412, radius: 70000 },
-          { name: "Haryana", lat: 29.0588, lng: 76.0856, radius: 60000 },
-        ];
+  if (!locations || locations.length === 0) {
+    return null;
+  }
 
   return (
-    <div className="relative w-full h-96 bg-paper rounded-lg overflow-hidden shadow-md group isolate">
+    <div className="relative w-full h-100 md:h-125 lg:h-150 bg-paper rounded-lg overflow-hidden shadow-md group isolate">
       {heading ? (
-        <div className="absolute top-4 left-4 z-1000 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-sm pointer-events-none">
-          <h4 className="font-bold text-deep-brown">{heading}</h4>
+        <div className="absolute top-2 left-2 md:top-4 md:left-4 z-1000 bg-white/90 backdrop-blur-sm px-3 py-1.5 md:px-4 md:py-2 rounded-lg shadow-sm pointer-events-none">
+          <h4 className="font-bold text-deep-brown text-sm md:text-base">{heading}</h4>
         </div>
       ) : null}
 
       {/* Regions Overlay */}
-      <div className="absolute bottom-4 left-4 z-1000 bg-white/95 backdrop-blur-md p-4 rounded-xl shadow-lg border border-border max-w-[200px] pointer-events-none">
-        <h5 className="text-sm font-bold text-deep-brown mb-2 uppercase tracking-wider">
+      <div className="absolute bottom-2 left-2 md:bottom-4 md:left-4 z-1000 bg-white/95 backdrop-blur-md p-2.5 md:p-4 rounded-lg md:rounded-xl shadow-lg border border-border max-w-40 md:max-w-50 pointer-events-none">
+        <h5 className="text-xs md:text-sm font-bold text-deep-brown mb-1.5 md:mb-2 uppercase tracking-wider">
           Key Regions
         </h5>
-        <ul className="space-y-2">
-          {displayLocations.map((loc) => (
+        <ul className="space-y-1 md:space-y-1.5">
+          {locations.map((loc) => (
             <li
               key={loc.name}
-              className="flex items-center gap-2 text-sm font-medium text-text-muted"
+              className="flex items-center gap-1.5 md:gap-2 text-xs md:text-sm font-medium text-text-muted"
             >
-              <span className="w-2 h-2 rounded-full bg-gold shrink-0" />
+              <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-gold shrink-0" />
               {loc.name}
             </li>
           ))}
         </ul>
       </div>
 
-      <LeafletMap locations={displayLocations} />
+      <LeafletMap locations={locations} />
     </div>
   );
 }

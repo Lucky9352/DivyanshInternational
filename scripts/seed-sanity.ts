@@ -1954,6 +1954,40 @@ const contactPageData = {
     weekdays: "Monday – Saturday: 9:00 AM – 6:00 PM",
     sunday: "Sunday: Closed",
   },
+  distributionRegions: [
+    {
+      _key: "north",
+      name: "Northern India",
+      description: "Primary distribution hub",
+      lat: 30.7333,
+      lng: 76.7794,
+      radius: 150000,
+    },
+    {
+      _key: "delhi",
+      name: "Delhi NCR",
+      description: "Corporate headquarters & logistics",
+      lat: 28.6139,
+      lng: 77.209,
+      radius: 40000,
+    },
+    {
+      _key: "punjab",
+      name: "Punjab",
+      description: "Processing units",
+      lat: 31.1471,
+      lng: 75.3412,
+      radius: 80000,
+    },
+    {
+      _key: "haryana",
+      name: "Haryana",
+      description: "Supply chain network",
+      lat: 29.0588,
+      lng: 76.0856,
+      radius: 60000,
+    },
+  ],
 };
 
 const productsPageData = {

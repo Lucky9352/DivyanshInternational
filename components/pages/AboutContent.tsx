@@ -18,7 +18,6 @@ import { getGoogleDriveImageUrl } from "@/lib/utils";
 import OptimizedImage from "@/components/ui/OptimizedImage";
 
 import Timeline from "@/components/Timeline";
-import DistributionMap from "@/components/DistributionMap";
 import DecorativeBackground from "@/components/ui/DecorativeBackground";
 import InfographicsSection from "@/components/sections/InfographicsSection";
 import AboutPosterSlider from "@/components/sections/AboutPosterSlider";
@@ -186,17 +185,8 @@ const AboutDataSchema = z
   .nullable()
   .optional();
 
-const SiteSettingsSchema = z.object({
-  distribution: z
-    .object({
-      heading: z.string().optional(),
-    })
-    .optional(),
-});
-
 type TimelineEntry = z.infer<typeof TimelineEntrySchema>;
 type AboutData = z.infer<typeof AboutDataSchema>;
-type SiteSettings = z.infer<typeof SiteSettingsSchema>;
 
 interface Capability {
   _id: string;
@@ -242,15 +232,6 @@ function parseTimelineEntries(data: unknown): TimelineEntry[] {
   return result.data;
 }
 
-function parseSiteSettings(data: unknown): SiteSettings | null {
-  const result = SiteSettingsSchema.safeParse(data);
-  if (!result.success) {
-    console.error("[AboutContent] Site settings validation failed:", result.error.format());
-    return null;
-  }
-  return result.data;
-}
-
 // =============================================================================
 // COMPONENT
 // =============================================================================
@@ -258,13 +239,11 @@ function parseSiteSettings(data: unknown): SiteSettings | null {
 export default function AboutContent({
   initialTimeline,
   initialAbout,
-  siteSettings: rawSiteSettings,
   capabilities = [],
   posterSliderSection,
 }: AboutContentProps) {
   const about = parseAboutData(initialAbout);
   const timelineEntries = parseTimelineEntries(initialTimeline);
-  const siteSettings = parseSiteSettings(rawSiteSettings);
 
   if (!about) {
     return (
@@ -724,30 +703,6 @@ export default function AboutContent({
                 </h2>
               </div>
               <Timeline entries={timelineEntries} />
-            </section>
-          ) : null}
-
-          {/* Distribution Map */}
-          {about.distributionRegions && about.distributionRegions.length > 0 ? (
-            <section className="mb-16 md:mb-24" aria-labelledby="distribution-heading">
-              <div className="text-center mb-16 md:mb-24">
-                <h2
-                  id="distribution-heading"
-                  className="text-3xl md:text-4xl font-bold text-deep-brown font-heading"
-                >
-                  {siteSettings?.distribution?.heading ?? "Distribution Regions"}
-                </h2>
-              </div>
-              <DistributionMap
-                locations={(about.distributionRegions || []).map((r) => ({
-                  name: r.name,
-                  lat: r.lat ?? 28.6139,
-                  lng: r.lng ?? 77.209,
-                  radius: r.radius ?? 50000,
-                  _id: r._id,
-                }))}
-                heading={siteSettings?.distribution?.heading}
-              />
             </section>
           ) : null}
         </div>
