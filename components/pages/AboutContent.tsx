@@ -19,7 +19,6 @@ import OptimizedImage from "@/components/ui/OptimizedImage";
 
 import Timeline from "@/components/Timeline";
 import DistributionMap from "@/components/DistributionMap";
-import { LeafIcon } from "@/components/assets/Decorations";
 import DecorativeBackground from "@/components/ui/DecorativeBackground";
 import InfographicsSection from "@/components/sections/InfographicsSection";
 import AboutPosterSlider from "@/components/sections/AboutPosterSlider";
@@ -280,7 +279,7 @@ export default function AboutContent({
             >
               {/* Decorative blob in background */}
               <div
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-[600px] h-[300px] opacity-20"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-150 h-75 opacity-20"
                 style={{
                   background: "#f5f0e8",
                   borderRadius: "60% 40% 55% 45% / 55% 60% 40% 45%",
@@ -329,7 +328,15 @@ export default function AboutContent({
                 transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" as const }}
                 aria-hidden="true"
               >
-                <LeafIcon className="w-48 h-48 md:w-64 md:h-64 text-gold" />
+                <div className="relative w-48 h-48 md:w-64 md:h-64">
+                  <OptimizedImage
+                    src="/walnut.png"
+                    alt=""
+                    fill
+                    className="object-contain grayscale-[0.2] brightness-110"
+                    sizes="256px"
+                  />
+                </div>
               </motion.div>
               <motion.div
                 className="absolute bottom-0 left-0 md:left-20 -z-10 opacity-15"
@@ -384,7 +391,7 @@ export default function AboutContent({
                   >
                     <div className="relative w-12 h-12">
                       <OptimizedImage
-                        src="/cashewsingle.png"
+                        src="/hazelnut.png"
                         alt=""
                         fill
                         className="object-contain opacity-60 grayscale-[0.2]"
@@ -463,7 +470,7 @@ export default function AboutContent({
                 >
                   <div className="relative w-14 h-14">
                     <OptimizedImage
-                      src="/peanut.png"
+                      src="/dates.png"
                       alt=""
                       fill
                       className="object-contain opacity-40 grayscale-[0.2]"
@@ -580,7 +587,7 @@ export default function AboutContent({
                       <div className="p-8 text-center flex-1 flex flex-col">
                         <div className="relative w-10 h-10 mx-auto mb-4">
                           <OptimizedImage
-                            src="/walnut.png"
+                            src="/raisin.png"
                             alt=""
                             fill
                             className="object-contain opacity-40 grayscale-[0.2]"
@@ -634,7 +641,7 @@ export default function AboutContent({
                       <div className="p-8 text-center flex-1 flex flex-col">
                         <div className="relative w-10 h-10 mx-auto mb-4">
                           <OptimizedImage
-                            src="/peanut.png"
+                            src="/cashewsingle.png"
                             alt=""
                             fill
                             className="object-contain opacity-40 grayscale-[0.2]"
@@ -738,7 +745,7 @@ function DecorativeCorners() {
       >
         <div className="relative w-24 h-24">
           <OptimizedImage
-            src="/cashewsingle.png"
+            src="/raisin.png"
             alt=""
             fill
             className="object-contain grayscale-[0.2] brightness-110"
@@ -754,7 +761,7 @@ function DecorativeCorners() {
       >
         <div className="relative w-20 h-20">
           <OptimizedImage
-            src="/walnut.png"
+            src="/dates.png"
             alt=""
             fill
             className="object-contain grayscale-[0.2] brightness-110"

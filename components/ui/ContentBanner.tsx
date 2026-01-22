@@ -53,10 +53,11 @@ const FloatingStar = ({ className, delay = 0, duration = 4 }: FloatingStarProps)
   <motion.div
     className={cn("absolute text-gold/40 pointer-events-none z-0", className)}
     animate={{
-      y: [0, -20, 0],
-      rotate: [0, 10, -10, 0],
-      scale: [1, 1.1, 1],
-      opacity: [0.4, 0.8, 0.4],
+      x: [0, 20, -15, 10, 0],
+      y: [0, -30, 15, -20, 0],
+      rotate: [0, 360],
+      scale: [1, 1.2, 0.9, 1.1, 1],
+      opacity: [0.4, 0.8, 0.5, 0.7, 0.4],
     }}
     transition={{
       duration: duration,
@@ -76,9 +77,10 @@ const FloatingImage = ({ src, className, style, delay = 0, duration = 4 }: Float
     className={cn("absolute pointer-events-none z-0 opacity-90", className)}
     style={style as MotionStyle}
     animate={{
-      y: [0, -25, 0],
-      rotate: [0, 15, -15, 0],
-      scale: [1, 1.05, 1],
+      x: [0, 30, -20, 10, 0],
+      y: [0, -35, 20, -25, 0],
+      rotate: [0, 180, 360],
+      scale: [1, 1.08, 0.95, 1.05, 1],
     }}
     transition={{
       duration: duration,
@@ -154,101 +156,185 @@ export default function ContentBanner({ data, className, priority = false }: Con
   // ===========================================================================
 
   const FLOATING_IMAGES = [
-    // Top Left Area (Prominent)
+    // Top Left Corner
     {
       src: "/almond.png",
-      className: "w-14 h-14 md:w-24 md:h-24",
-      top: "5%",
-      left: "3%",
+      className: "w-10 h-10 sm:w-14 sm:h-14 md:w-20 md:h-20 lg:w-24 lg:h-24",
+      top: "3%",
+      left: "2%",
       delay: 0,
       duration: 7,
     },
-    // Top Right Area (Prominent)
+    // Top Left-Center
+    {
+      src: "/raisin.png",
+      className: "w-6 h-6 sm:w-8 sm:h-8 md:w-11 md:h-11 opacity-65",
+      top: "12%",
+      left: "18%",
+      delay: 2.5,
+      duration: 8,
+    },
+    // Top Center
+    {
+      src: "/dates.png",
+      className: "w-7 h-7 sm:w-10 sm:h-10 md:w-14 md:h-14 opacity-55 hidden sm:block",
+      top: "8%",
+      left: "45%",
+      delay: 3.2,
+      duration: 9,
+    },
+    // Top Right-Center
+    {
+      src: "/hazelnut.png",
+      className: "w-6 h-6 sm:w-9 sm:h-9 md:w-12 md:h-12 opacity-60",
+      top: "14%",
+      right: "20%",
+      delay: 1.8,
+      duration: 7.5,
+    },
+    // Top Right Corner
     {
       src: "/cashewsingle.png",
-      className: "w-12 h-12 md:w-20 md:h-20",
-      top: "10%",
-      right: "5%",
+      className: "w-9 h-9 sm:w-12 sm:h-12 md:w-16 md:h-16 lg:w-20 lg:h-20",
+      top: "4%",
+      right: "3%",
       delay: 1.5,
       duration: 6,
     },
-    // Bottom Left Area (Prominent)
+    // Middle Left
     {
       src: "/walnut.png",
-      className: "w-16 h-16 md:w-28 md:h-28",
-      bottom: "8%",
-      left: "4%",
-      delay: 0.5,
-      duration: 8,
-    },
-    // Bottom Right Area (Prominent)
-    {
-      src: "/hazelnut.png",
-      className: "w-12 h-12 md:w-20 md:h-20",
-      bottom: "12%",
-      right: "6%",
-      delay: 2,
-      duration: 5.5,
-    },
-
-    // Spread across (Middle/Inner edges)
-    {
-      src: "/dates.png",
-      className: "w-10 h-10 md:w-16 md:h-16 opacity-70",
-      top: "45%",
-      left: "2%",
+      className: "w-8 h-8 sm:w-11 sm:h-11 md:w-15 md:h-15 opacity-70",
+      top: "38%",
+      left: "5%",
       delay: 3,
-      duration: 9,
+      duration: 7.5,
     },
+    // Middle Left-Center
+    {
+      src: "/cashewsingle.png",
+      className: "w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 opacity-50 hidden sm:block",
+      top: "45%",
+      left: "28%",
+      delay: 4.2,
+      duration: 10,
+    },
+    // Middle Center
+    {
+      src: "/almond.png",
+      className: "w-8 h-8 sm:w-11 sm:h-11 md:w-15 md:h-15 opacity-45 hidden md:block",
+      top: "50%",
+      left: "50%",
+      delay: 2.8,
+      duration: 11,
+    },
+    // Middle Right-Center
     {
       src: "/raisin.png",
-      className: "w-8 h-8 md:w-12 md:h-12 opacity-60",
-      top: "55%",
-      right: "2%",
+      className: "w-6 h-6 sm:w-8 sm:h-8 md:w-11 md:h-11 opacity-55 hidden sm:block",
+      top: "42%",
+      right: "25%",
+      delay: 3.8,
+      duration: 9.5,
+    },
+    // Middle Right
+    {
+      src: "/dates.png",
+      className: "w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14 opacity-65",
+      top: "48%",
+      right: "4%",
       delay: 1,
       duration: 6.5,
     },
+    // Bottom Left Corner
     {
-      src: "/almond.png",
-      className: "w-8 h-8 md:w-12 md:h-12 opacity-40 hidden lg:block",
-      top: "15%",
-      left: "40%",
-      delay: 2,
-      duration: 10,
+      src: "/hazelnut.png",
+      className: "w-12 h-12 sm:w-16 sm:h-16 md:w-22 md:h-22 lg:w-28 lg:h-28",
+      bottom: "5%",
+      left: "3%",
+      delay: 0.5,
+      duration: 8,
     },
+    // Bottom Left-Center
+    {
+      src: "/walnut.png",
+      className: "w-7 h-7 sm:w-9 sm:h-9 md:w-13 md:h-13 opacity-60",
+      bottom: "12%",
+      left: "22%",
+      delay: 3.5,
+      duration: 9,
+    },
+    // Bottom Center
     {
       src: "/cashewsingle.png",
-      className: "w-6 h-6 md:w-10 md:h-10 opacity-30 hidden lg:block",
-      bottom: "25%",
-      left: "45%",
-      delay: 4,
-      duration: 12,
+      className: "w-6 h-6 sm:w-8 sm:h-8 md:w-11 md:h-11 opacity-50 hidden sm:block",
+      bottom: "8%",
+      left: "48%",
+      delay: 4.5,
+      duration: 10.5,
+    },
+    // Bottom Right-Center
+    {
+      src: "/almond.png",
+      className: "w-7 h-7 sm:w-10 sm:h-10 md:w-13 md:h-13 opacity-55",
+      bottom: "10%",
+      right: "18%",
+      delay: 2,
+      duration: 8.5,
+    },
+    // Bottom Right Corner
+    {
+      src: "/raisin.png",
+      className: "w-9 h-9 sm:w-12 sm:h-12 md:w-17 md:h-17 lg:w-20 lg:h-20",
+      bottom: "6%",
+      right: "4%",
+      delay: 2,
+      duration: 5.5,
     },
   ];
 
   const FloatingElements = isDarkTheme ? (
     <>
-      {/* Stars - Background Layer */}
-      <FloatingStar className="top-[5%] left-[10%] w-12 h-12 opacity-60" delay={0} duration={5} />
+      {/* Stars - Background Layer - Spread across entire area including center */}
       <FloatingStar
-        className="top-[25%] right-[12%] w-8 h-8 opacity-40"
+        className="top-[8%] left-[12%] w-10 h-10 md:w-12 md:h-12 opacity-50"
+        delay={0}
+        duration={5}
+      />
+      <FloatingStar
+        className="top-[20%] left-[45%] w-6 h-6 md:w-7 md:h-7 opacity-30 hidden sm:block"
+        delay={3}
+        duration={6}
+      />
+      <FloatingStar
+        className="top-[15%] right-[15%] w-7 h-7 md:w-8 md:h-8 opacity-35"
         delay={1.5}
         duration={4.5}
       />
       <FloatingStar
-        className="bottom-[15%] left-[8%] w-10 h-10 opacity-50"
+        className="top-[48%] left-[35%] w-5 h-5 md:w-6 md:h-6 opacity-25 hidden md:block"
+        delay={3.5}
+        duration={7}
+      />
+      <FloatingStar
+        className="top-[52%] right-[38%] w-6 h-6 md:w-7 md:h-7 opacity-28 hidden md:block"
+        delay={4.2}
+        duration={6.8}
+      />
+      <FloatingStar
+        className="bottom-[18%] left-[10%] w-8 h-8 md:w-10 md:h-10 opacity-45"
         delay={0.5}
         duration={6}
       />
       <FloatingStar
-        className="bottom-[40%] right-[3%] w-6 h-6 opacity-30"
-        delay={2}
-        duration={3.5}
+        className="bottom-[25%] left-[48%] w-5 h-5 md:w-6 md:h-6 opacity-28 hidden sm:block"
+        delay={2.5}
+        duration={5.5}
       />
       <FloatingStar
-        className="top-[35%] left-[30%] w-5 h-5 opacity-20 hidden lg:block"
-        delay={4}
-        duration={8}
+        className="bottom-[12%] right-[12%] w-7 h-7 md:w-8 md:h-8 opacity-40"
+        delay={2}
+        duration={5}
       />
 
       {/* Images - More Prominent Layer */}

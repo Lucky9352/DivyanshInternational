@@ -96,7 +96,7 @@ export default function AboutPosterSlider({ sliderData }: AboutPosterSliderProps
 
   return (
     <section
-      className="relative w-full overflow-hidden bg-bg pt-[72px] md:pt-24"
+      className="relative w-full overflow-hidden bg-bg pt-18 md:pt-24"
       aria-label="Promotional highlights"
     >
       <div className="relative">

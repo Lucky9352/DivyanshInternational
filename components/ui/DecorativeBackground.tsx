@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { useState, useSyncExternalStore, memo } from "react";
-import { LeafIcon, NutIcon } from "@/components/assets/Decorations";
 import OptimizedImage from "@/components/ui/OptimizedImage";
 
 export type Variant = "default" | "scattered" | "side-balanced" | "minimal";
@@ -82,9 +81,10 @@ function GoldenDust() {
             height: p.size,
           }}
           animate={{
-            y: [0, -30, 0],
-            opacity: [0, 0.6, 0],
-            scale: [1, 1.5, 1],
+            x: [0, 20, -15, 10, 0],
+            y: [0, -35, 15, -25, 0],
+            opacity: [0, 0.6, 0.3, 0.5, 0],
+            scale: [1, 1.8, 1.2, 1.5, 1],
           }}
           transition={{
             duration: p.duration,
@@ -105,7 +105,6 @@ interface FloatingElementProps {
   duration?: number;
   xRange?: number[];
   yRange?: number[];
-  rotateRange?: number[];
 }
 
 function FloatingElement({
@@ -115,20 +114,20 @@ function FloatingElement({
   duration = 15,
   xRange = [0, 10, 0],
   yRange = [0, -15, 0],
-  rotateRange = [0, 5, -5, 0],
 }: FloatingElementProps) {
   return (
     <motion.div
       className={`absolute ${className}`}
       animate={{
-        x: xRange,
-        y: yRange,
-        rotate: rotateRange,
+        x: [...xRange, xRange[0]].filter((val): val is number => val !== undefined),
+        y: [...yRange, yRange[0]].filter((val): val is number => val !== undefined),
+        rotate: [0, 360],
+        scale: [1, 1.05, 0.98, 1.03, 1],
       }}
       transition={{
         duration: duration,
         repeat: Infinity,
-        ease: "linear",
+        ease: "easeInOut",
         delay: delay,
       }}
     >
@@ -147,29 +146,20 @@ export default memo(function DecorativeBackground({
 }: DecorativeBackgroundProps) {
   const renderDefault = () => (
     <>
-      <FloatingElement
-        className="top-10 left-0 text-gold/5"
-        duration={18}
-        yRange={[0, -20, 0]}
-        rotateRange={[0, 2, -2, 0]}
-      >
-        <LeafIcon className="w-80 h-80" />
-      </FloatingElement>
-
       <FloatingImage
         src={DECORATIVE_IMAGES.almond}
-        className="top-1/4 right-16 opacity-30"
+        className="top-1/4 right-16 opacity-30 w-32 h-32"
         duration={20}
-        rotateRange={[0, 15, -15, 0]}
-        yRange={[0, -25, 0]}
+        xRange={[0, 25, -15, 10]}
+        yRange={[0, -30, 15, -25]}
       />
 
       <FloatingImage
         src={DECORATIVE_IMAGES.walnut}
         className="bottom-1/3 left-20 opacity-25 w-32 h-32"
         duration={22}
-        rotateRange={[0, -14, 14, 0]}
-        xRange={[0, -15, 0]}
+        xRange={[0, -20, 15, -10]}
+        yRange={[0, 20, -15, 10]}
         delay={2}
       />
 
@@ -177,8 +167,8 @@ export default memo(function DecorativeBackground({
         src={DECORATIVE_IMAGES.cashew}
         className="top-1/3 left-1/4 opacity-20 w-24 h-24"
         duration={25}
-        rotateRange={[0, -9, 9, 0]}
-        yRange={[0, -15, 0]}
+        xRange={[0, 15, -20, 12]}
+        yRange={[0, -20, 10, -15]}
         delay={1}
       />
 
@@ -186,8 +176,8 @@ export default memo(function DecorativeBackground({
         src={DECORATIVE_IMAGES.hazelnut}
         className="bottom-1/3 left-1/2 opacity-20 w-22 h-22"
         duration={28}
-        rotateRange={[0, 11, -11, 0]}
-        xRange={[0, 12, 0]}
+        xRange={[0, 18, -12, 8]}
+        yRange={[0, -18, 12, -10]}
         delay={4}
       />
     </>
@@ -195,31 +185,21 @@ export default memo(function DecorativeBackground({
 
   const renderScattered = () => (
     <>
-      {/* Large background anchor */}
-      <FloatingElement
-        className="top-[-5%] right-1/4 text-deep-brown/5"
-        duration={30}
-        yRange={[0, 20, 0]}
-        rotateRange={[0, 5, 0]}
-      >
-        <NutIcon className="w-96 h-96" />
-      </FloatingElement>
-
       {/* Scattered particles */}
       <FloatingImage
         src={DECORATIVE_IMAGES.cashew}
         className="top-[15%] left-[10%] opacity-25 w-20 h-20"
         duration={18}
-        rotateRange={[0, 45, 0]}
-        xRange={[0, 20, 0]}
+        xRange={[0, 25, -18, 12]}
+        yRange={[0, -22, 15, -18]}
       />
 
       <FloatingImage
         src={DECORATIVE_IMAGES.walnut}
         className="top-[45%] right-[8%] opacity-20 w-32 h-32"
         duration={25}
-        rotateRange={[0, -30, 30, 0]}
-        yRange={[0, 40, 0]}
+        xRange={[0, -30, 20, -15]}
+        yRange={[0, 35, -25, 20]}
         delay={1}
       />
 
@@ -227,7 +207,8 @@ export default memo(function DecorativeBackground({
         src={DECORATIVE_IMAGES.almond}
         className="bottom-[25%] left-[15%] opacity-25 w-24 h-24"
         duration={22}
-        rotateRange={[0, 60, 0]}
+        xRange={[0, 20, -15, 10]}
+        yRange={[0, -25, 18, -15]}
         delay={2}
       />
 
@@ -235,7 +216,8 @@ export default memo(function DecorativeBackground({
         src={DECORATIVE_IMAGES.hazelnut}
         className="bottom-[10%] right-[30%] opacity-15 w-20 h-20"
         duration={35}
-        rotateRange={[0, -360]}
+        xRange={[0, -25, 18, -12]}
+        yRange={[0, 20, -15, 12]}
         delay={0.5}
       />
 
@@ -243,8 +225,8 @@ export default memo(function DecorativeBackground({
         src={DECORATIVE_IMAGES.raisin}
         className="top-[30%] left-[80%] opacity-20 w-16 h-16"
         duration={28}
-        rotateRange={[0, 15, -15, 0]}
-        yRange={[0, -20, 0]}
+        xRange={[0, -18, 15, -10]}
+        yRange={[0, -25, 12, -18]}
         delay={3}
       />
 
@@ -252,7 +234,8 @@ export default memo(function DecorativeBackground({
         src={DECORATIVE_IMAGES.date}
         className="bottom-[40%] left-[40%] opacity-20 w-24 h-24"
         duration={32}
-        rotateRange={[0, 360]}
+        xRange={[0, 22, -20, 15]}
+        yRange={[0, -20, 15, -12]}
         delay={4}
       />
     </>
@@ -260,29 +243,20 @@ export default memo(function DecorativeBackground({
 
   const renderSideBalanced = () => (
     <>
-      <FloatingElement
-        className="top-20 right-0 text-gold/5"
-        duration={25}
-        xRange={[0, 10, 0]}
-        rotateRange={[0, -5, 0]}
-      >
-        <LeafIcon className="w-80 h-80 transform scale-x-[-1]" />
-      </FloatingElement>
-
       <FloatingImage
         src={DECORATIVE_IMAGES.walnut}
         className="top-[25%] left-[5%] opacity-30 w-24 h-24"
         duration={22}
-        yRange={[0, -20, 0]}
-        rotateRange={[0, 15, 0]}
+        xRange={[0, 18, -12, 8]}
+        yRange={[0, -25, 15, -18]}
       />
 
       <FloatingImage
         src={DECORATIVE_IMAGES.cashew}
         className="top-[65%] left-[8%] opacity-25 w-28 h-28"
         duration={26}
-        yRange={[0, 25, 0]}
-        rotateRange={[0, -10, 0]}
+        xRange={[0, 15, -18, 10]}
+        yRange={[0, 28, -20, 15]}
         delay={1}
       />
 
@@ -290,8 +264,8 @@ export default memo(function DecorativeBackground({
         src={DECORATIVE_IMAGES.almond}
         className="bottom-[15%] right-[5%] opacity-30 w-26 h-26"
         duration={28}
-        xRange={[0, -15, 0]}
-        rotateRange={[0, 20, 0]}
+        xRange={[0, -20, 12, -10]}
+        yRange={[0, 25, -18, 12]}
         delay={2}
       />
     </>
@@ -299,29 +273,29 @@ export default memo(function DecorativeBackground({
 
   const renderMinimal = () => (
     <>
-      <FloatingElement
-        className="-top-10 -right-10 opacity-10"
+      <FloatingImage
+        src={DECORATIVE_IMAGES.hazelnut}
+        className="-top-10 -right-10 opacity-10 w-56 h-56"
         duration={30}
-        rotateRange={[0, 10, -10, 0]}
-      >
-        <NutIcon className="w-56 h-56" />
-      </FloatingElement>
+        xRange={[0, -15, 10, -8]}
+        yRange={[0, 12, -10, 8]}
+      />
 
-      <FloatingElement
-        className="bottom-10 left-10 opacity-10"
+      <FloatingImage
+        src={DECORATIVE_IMAGES.cashew}
+        className="bottom-10 left-10 opacity-10 w-48 h-48"
         duration={35}
-        rotateRange={[0, -8, 8, 0]}
-        yRange={[0, 15, 0]}
-      >
-        <LeafIcon className="w-48 h-48" />
-      </FloatingElement>
+        xRange={[0, 12, -10, 8]}
+        yRange={[0, 18, -12, 10]}
+      />
 
       {/* Subtle extra detail for minimal */}
       <FloatingImage
         src={DECORATIVE_IMAGES.almond}
         className="top-1/2 left-10 opacity-15 w-12 h-12"
         duration={25}
-        rotateRange={[0, 360]}
+        xRange={[0, 10, -8, 5]}
+        yRange={[0, -15, 10, -8]}
         delay={5}
       />
     </>

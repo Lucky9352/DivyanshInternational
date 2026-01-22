@@ -12,6 +12,7 @@
 
 import { motion } from "framer-motion";
 import { z } from "zod";
+import { Sprout, ShieldCheck, Package, Truck } from "lucide-react";
 import DecorativeBackground from "@/components/ui/DecorativeBackground";
 import { getGoogleDriveImageUrl } from "@/lib/utils";
 import OptimizedImage from "@/components/ui/OptimizedImage";
@@ -54,96 +55,28 @@ interface ProcessFlowProps {
 // =============================================================================
 
 const PROCESS_ICONS: Record<string, React.ReactNode> = {
-  farm: (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      className="w-8 h-8 md:w-10 md:h-10"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
-      />
-    </svg>
-  ),
+  farm: <Sprout className="w-10 h-10 text-black!" strokeWidth={2} />,
   shelling: (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      className="w-8 h-8 md:w-10 md:h-10"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"
-      />
-    </svg>
+    <OptimizedImage
+      src="/Shelling.png"
+      alt="Shelling Process"
+      width={150}
+      height={150}
+      className="w-10 h-10 object-contain"
+    />
   ),
   sorting: (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      className="w-8 h-8 md:w-10 md:h-10"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
-      />
-    </svg>
+    <OptimizedImage
+      src="/Sorting.png"
+      alt="Sorting Process"
+      width={150}
+      height={150}
+      className="w-10 h-10 object-contain"
+    />
   ),
-  quality: (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      className="w-8 h-8 md:w-10 md:h-10"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"
-      />
-    </svg>
-  ),
-  packing: (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      className="w-8 h-8 md:w-10 md:h-10"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"
-      />
-    </svg>
-  ),
-  shipping: (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      className="w-8 h-8 md:w-10 md:h-10"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"
-      />
-    </svg>
-  ),
+  quality: <ShieldCheck className="w-8 h-8 md:w-10 md:h-10 text-black!" strokeWidth={2} />,
+  packing: <Package className="w-8 h-8 md:w-10 md:h-10 text-black!" strokeWidth={2} />,
+  shipping: <Truck className="w-8 h-8 md:w-10 md:h-10 text-black!" strokeWidth={2} />,
 };
 
 // Helper function to match icons based on keywords
@@ -318,7 +251,7 @@ function ProcessStepCard({ step, index, total }: ProcessStepCardProps) {
 
   return (
     <motion.div
-      className={`relative w-full md:flex-1 min-h-[220px] md:min-h-[320px] group transition-all duration-300 z-0 hover:z-20 hover:scale-[1.05] ${
+      className={`relative w-full md:flex-1 min-h-55 md:min-h-80 group transition-all duration-300 z-0 hover:z-20 hover:scale-[1.05] ${
         !isFirst ? "md:-ml-8" : ""
       }`}
       variants={itemVariants}
@@ -340,7 +273,7 @@ function ProcessStepCard({ step, index, total }: ProcessStepCardProps) {
                  We need to shift slightly left to account for the 30px indent on the left (on middle/last items)
              */}
         <div
-          className={`flex flex-col h-full justify-center items-center text-center w-full max-w-[200px] ${!isFirst ? "pl-8" : ""} ${!isLast ? "pr-8" : ""}`}
+          className={`flex flex-col h-full justify-center items-center text-center w-full max-w-50 ${!isFirst ? "pl-8" : ""} ${!isLast ? "pr-8" : ""}`}
         >
           <div
             className={`w-14 h-14 rounded-full mb-5 flex items-center justify-center font-bold text-xl shadow-lg ring-4 ring-opacity-20 ${isEven ? "ring-white" : "ring-gold"} ${numColor} mx-auto`}
@@ -367,7 +300,7 @@ function ProcessStepCard({ step, index, total }: ProcessStepCardProps) {
       <div className={`md:hidden ${bgColor} rounded-xl p-6 mb-4 relative shadow-lg`}>
         {/* Connecting Line for mobile vertical stack */}
         {!isLast ? (
-          <div className="absolute left-1/2 bottom-[-16px] w-1 h-4 bg-border -translate-x-1/2 z-0"></div>
+          <div className="absolute left-1/2 -bottom-4 w-1 h-4 bg-border -translate-x-1/2 z-0"></div>
         ) : null}
 
         <div className="flex items-center gap-4">
@@ -376,8 +309,11 @@ function ProcessStepCard({ step, index, total }: ProcessStepCardProps) {
           >
             {stepNumber}
           </div>
-          <div className="text-left">
-            <h3 className={`text-lg font-bold ${textColor}`}>{step.title}</h3>
+          <div className="flex-1 text-left">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-8 h-8 flex items-center justify-center text-white/90">{icon}</div>
+              <h3 className={`text-lg font-bold ${textColor}`}>{step.title}</h3>
+            </div>
             <p className={`text-sm ${textColor} opacity-90`}>{step.detail}</p>
           </div>
         </div>

@@ -159,7 +159,7 @@ export default function ProductCard({ product, onAddToEnquiry, labels }: Product
               className="w-auto h-auto max-w-full mx-auto block rounded-2xl hover:scale-105 transition-transform duration-500"
             />
           ) : (
-            <div className="min-h-[200px] flex items-center justify-center bg-beige rounded-2xl border border-dashed border-deep-brown">
+            <div className="min-h-50 flex items-center justify-center bg-beige rounded-2xl border border-dashed border-deep-brown">
               <span className="text-xs uppercase tracking-[0.3em] text-text-muted">
                 {labels?.productCard?.placeholderText || "Product Image"}
               </span>
@@ -183,7 +183,7 @@ export default function ProductCard({ product, onAddToEnquiry, labels }: Product
           {/* Variety */}
           {varietySection ? (
             <div className="flex items-start gap-2">
-              <span className="text-almond-gold font-semibold text-xs uppercase tracking-wider min-w-[50px]">
+              <span className="text-almond-gold font-semibold text-xs uppercase tracking-wider min-w-12.5">
                 {varietyLabel}
               </span>
               <span className="text-text-muted text-xs font-medium">
@@ -202,7 +202,7 @@ export default function ProductCard({ product, onAddToEnquiry, labels }: Product
           {/* Applications */}
           {product.applications && product.applications.length > 0 ? (
             <div className="flex items-start gap-2">
-              <span className="text-almond-gold font-semibold text-xs uppercase tracking-wider min-w-[50px]">
+              <span className="text-almond-gold font-semibold text-xs uppercase tracking-wider min-w-12.5">
                 {appLabel}
               </span>
               <span className="text-text-muted text-xs font-medium">
@@ -215,7 +215,7 @@ export default function ProductCard({ product, onAddToEnquiry, labels }: Product
           {/* Packaging */}
           {packagingSection ? (
             <div className="flex items-start gap-2">
-              <span className="text-almond-gold font-semibold text-xs uppercase tracking-wider min-w-[50px]">
+              <span className="text-almond-gold font-semibold text-xs uppercase tracking-wider min-w-12.5">
                 {packLabel}
               </span>
               <span className="text-text-muted text-xs font-medium">
@@ -233,7 +233,7 @@ export default function ProductCard({ product, onAddToEnquiry, labels }: Product
           {/* MOQ */}
           {product.MOQ ? (
             <div className="flex items-start gap-2">
-              <span className="text-almond-gold font-semibold text-xs uppercase tracking-wider min-w-[50px]">
+              <span className="text-almond-gold font-semibold text-xs uppercase tracking-wider min-w-12.5">
                 {moqLabel}
               </span>
               <span className="text-text-muted text-xs font-medium">{product.MOQ}</span>

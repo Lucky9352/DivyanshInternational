@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { urlFor } from "@/lib/sanity/client-browser";
 import { z } from "zod";
 import type { SanityImageSource } from "@sanity/image-url";
-import { LeafIcon } from "@/components/assets/Decorations";
 import { getGoogleDriveImageUrl } from "@/lib/utils";
 import OptimizedImage from "@/components/ui/OptimizedImage";
 
@@ -64,7 +63,7 @@ export default function Timeline({ entries }: TimelineProps) {
           return (
             <div
               key={entry.year}
-              className={`relative flex flex-col md:flex-row items-center md:min-h-[400px] ${
+              className={`relative flex flex-col md:flex-row items-center md:min-h-100 ${
                 isEven ? "md:flex-row-reverse" : ""
               }`}
             >
@@ -89,13 +88,7 @@ export default function Timeline({ entries }: TimelineProps) {
                     }}
                   />
 
-                  {/* Decorative leaves/elements */}
-                  <div
-                    className={`absolute ${isEven ? "-top-4 -left-8" : "-top-4 -right-8"} text-gold/40 hidden md:block z-10`}
-                    style={{ transform: `rotate(${isEven ? -30 : 30}deg)` }}
-                  >
-                    <LeafIcon className="w-12 h-12" />
-                  </div>
+                  {/* Decorative elements - optimized images only */}
                   <div
                     className={`absolute ${isEven ? "-bottom-4 -right-6" : "-bottom-4 -left-6"} hidden md:block z-10`}
                     style={{ transform: `rotate(${isEven ? 45 : -45}deg)` }}
@@ -113,7 +106,7 @@ export default function Timeline({ entries }: TimelineProps) {
 
                   {/* Image container with organic border */}
                   <div
-                    className="relative w-[320px] h-[230px] md:w-[420px] md:h-[300px] lg:w-[480px] lg:h-[340px] overflow-hidden shadow-xl group"
+                    className="relative w-[320px] h-57.5 md:w-105 md:h-75 lg:w-120 lg:h-85 overflow-hidden shadow-xl group"
                     style={{
                       borderRadius: isEven
                         ? "55% 45% 50% 50% / 50% 55% 45% 50%"
