@@ -13,7 +13,6 @@ const SCROLL_OPTIONS: LenisOptions = {
   duration: 1.5,
   smoothWheel: true,
   syncTouch: false,
-  touchMultiplier: 2,
 };
 
 export default function SmoothScrolling({ children }: SmoothScrollingProps) {

@@ -821,3 +821,94 @@ html.hydrated {
   display: none;
   /* Chrome, Safari and Opera */
 }
+
+/* =============================================================================
+   11. DECORATIVE ANIMATIONS
+   ============================================================================= */
+
+/* Floating animation variations to avoid uniformity */
+@keyframes float-1 {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate(15px, -15px) rotate(2deg);
+  }
+  66% {
+    transform: translate(-10px, 10px) rotate(-1deg);
+  }
+}
+
+@keyframes float-2 {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(-15px, -20px) rotate(-2deg);
+  }
+}
+
+@keyframes float-3 {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate(-10px, 15px) rotate(2deg);
+  }
+  66% {
+    transform: translate(15px, -10px) rotate(-1deg);
+  }
+}
+
+@keyframes float-4 {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(10px, -15px) rotate(1deg);
+  }
+}
+
+/* Golden Dust Animation */
+@keyframes dust-float {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(20px, -35px) scale(1.5);
+    opacity: 0.3;
+  }
+  75% {
+    transform: translate(-15px, 15px) scale(1.2);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0;
+  }
+}
+
+.animate-float-1 {
+  animation: float-1 20s ease-in-out infinite;
+}
+.animate-float-2 {
+  animation: float-2 25s ease-in-out infinite;
+}
+.animate-float-3 {
+  animation: float-3 22s ease-in-out infinite;
+}
+.animate-float-4 {
+  animation: float-4 28s ease-in-out infinite;
+}
+.animate-dust {
+  animation: dust-float var(--duration, 15s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}

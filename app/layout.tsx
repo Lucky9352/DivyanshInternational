@@ -85,6 +85,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
       lang="en"
       className={`hydrated ${inter.variable} ${manrope.variable}`}
       suppressHydrationWarning
+      data-scroll-behavior="smooth"
     >
       <body className="antialiased">
         <LanguageProvider>

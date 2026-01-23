@@ -105,6 +105,8 @@ export default function VideoShowcase({ data }: VideoShowcaseProps) {
                       allowFullScreen
                       style={{ border: "none" }}
                       loading="lazy"
+                      tabIndex={-1}
+                      aria-hidden="true"
                     />
                   </div>
                 ) : (

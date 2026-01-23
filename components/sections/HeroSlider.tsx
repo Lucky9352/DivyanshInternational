@@ -335,7 +335,7 @@ function VideoBackground({
               >
                 {slide.videoUrl && isValidVideoUrl(slide.videoUrl) && !videoErrors[slide._id] ? (
                   isYouTubeUrl(slide.videoUrl) ? (
-                    <div className="w-full h-full relative overflow-hidden">
+                    <div className="w-full h-full relative overflow-hidden pointer-events-none">
                       <iframe
                         key={`${slide._id}-${isMuted}`}
                         className="video-background-iframe"

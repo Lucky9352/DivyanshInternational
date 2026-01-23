@@ -8,6 +8,7 @@
  * Validated with Zod for type safety.
  */
 
+import { useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import { z } from "zod";
 
@@ -71,6 +72,27 @@ export default function DistributionMap({
   heading = "Our Reach",
   locations = [],
 }: DistributionMapProps) {
+  const [isVisible, setIsVisible] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   // Validate props in development
   if (process.env.NODE_ENV === "development") {
     const result = DistributionMapPropsSchema.safeParse({ heading, locations });
@@ -84,7 +106,10 @@ export default function DistributionMap({
   }
 
   return (
-    <div className="relative w-full h-100 md:h-125 lg:h-150 bg-paper rounded-lg overflow-hidden shadow-md group isolate">
+    <div
+      ref={containerRef}
+      className="relative w-full h-100 md:h-125 lg:h-150 bg-paper rounded-lg overflow-hidden shadow-md group isolate"
+    >
       {heading ? (
         <div className="absolute top-2 left-2 md:top-4 md:left-4 z-1000 bg-white/90 backdrop-blur-sm px-3 py-1.5 md:px-4 md:py-2 rounded-lg shadow-sm pointer-events-none">
           <h4 className="font-bold text-deep-brown text-sm md:text-base">{heading}</h4>
@@ -109,7 +134,7 @@ export default function DistributionMap({
         </ul>
       </div>
 
-      <LeafletMap locations={locations} />
+      {isVisible ? <LeafletMap locations={locations} /> : null}
     </div>
   );
 }

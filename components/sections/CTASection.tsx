@@ -265,7 +265,13 @@ function PricingForm({ pricing, contactPath, tradeType }: PricingFormProps) {
     >
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1">
-          <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted" />
+          <label htmlFor="cta-email" className="sr-only">
+            Business Email
+          </label>
+          <Mail
+            className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted"
+            aria-hidden="true"
+          />
           <input
             id="cta-email"
             name="email"

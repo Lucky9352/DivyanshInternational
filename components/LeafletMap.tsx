@@ -9,7 +9,7 @@
  */
 
 import React, { useEffect, useMemo } from "react";
-import { MapContainer, TileLayer, Marker, Popup, Circle } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from "react-leaflet";
 import L from "leaflet";
 import { z } from "zod";
 import "leaflet/dist/leaflet.css";
@@ -73,12 +73,18 @@ export default function LeafletMap({
     return new L.Icon(ICON_CONFIG);
   }, []);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      window.dispatchEvent(new Event("resize"));
-    }, 300);
-    return () => clearTimeout(timer);
-  }, []);
+  function MapInvalidator() {
+    const map = useMap();
+
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        map.invalidateSize();
+      }, 300);
+      return () => clearTimeout(timer);
+    }, [map]);
+
+    return null;
+  }
 
   return (
     <MapContainer
@@ -88,6 +94,7 @@ export default function LeafletMap({
       className="w-full h-full z-0"
       style={{ background: "var(--color-input, #f3f4f6)" }}
     >
+      <MapInvalidator />
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

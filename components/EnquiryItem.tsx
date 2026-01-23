@@ -105,10 +105,15 @@ export default function EnquiryItem({ item, onUpdate, onRemove, labels }: Enquir
       {isEditing ? (
         <div className="space-y-3">
           <div>
-            <label className="block text-xs font-medium text-(--color-muted) mb-1">
+            <label
+              htmlFor={`enquiry-grade-${item.id}`}
+              className="block text-xs font-medium text-(--color-muted) mb-1"
+            >
               {labels?.grade || "Grade"}
             </label>
             <input
+              id={`enquiry-grade-${item.id}`}
+              name="grade"
               type="text"
               value={grade}
               onChange={(e) => setGrade(e.target.value)}
@@ -117,10 +122,15 @@ export default function EnquiryItem({ item, onUpdate, onRemove, labels }: Enquir
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-(--color-muted) mb-1">
+            <label
+              htmlFor={`enquiry-pack-${item.id}`}
+              className="block text-xs font-medium text-(--color-muted) mb-1"
+            >
               {labels?.packFormat || "Pack Format"}
             </label>
             <input
+              id={`enquiry-pack-${item.id}`}
+              name="packFormat"
               type="text"
               value={packFormat}
               onChange={(e) => setPackFormat(e.target.value)}
@@ -129,10 +139,15 @@ export default function EnquiryItem({ item, onUpdate, onRemove, labels }: Enquir
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-(--color-muted) mb-1">
+            <label
+              htmlFor={`enquiry-quantity-${item.id}`}
+              className="block text-xs font-medium text-(--color-muted) mb-1"
+            >
               {labels?.quantity || "Quantity"}
             </label>
             <input
+              id={`enquiry-quantity-${item.id}`}
+              name="quantity"
               type="text"
               value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
@@ -141,10 +156,15 @@ export default function EnquiryItem({ item, onUpdate, onRemove, labels }: Enquir
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-(--color-muted) mb-1">
+            <label
+              htmlFor={`enquiry-notes-${item.id}`}
+              className="block text-xs font-medium text-(--color-muted) mb-1"
+            >
               {labels?.notes || "Notes"}
             </label>
             <textarea
+              id={`enquiry-notes-${item.id}`}
+              name="notes"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm focus:ring-2 focus:ring-gold/50 focus:border-gold outline-none transition-all"

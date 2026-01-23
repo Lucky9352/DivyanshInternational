@@ -352,6 +352,7 @@ export default function TradeEnquiryForm({
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
       {/* Honeypot field */}
       <input
+        id="trade-honeypot"
         type="text"
         {...register("honeypot")}
         className="hidden"
@@ -376,6 +377,7 @@ export default function TradeEnquiryForm({
             className={`w-full px-4 py-3 border rounded-lg focus:outline-2 focus:outline-gold transition-colors ${
               errors.name ? "border-red-500" : "border-gray-300"
             }`}
+            autoComplete="name"
             aria-required="true"
             aria-invalid={errors.name ? "true" : "false"}
             aria-describedby={errors.name ? "trade-name-error" : undefined}
@@ -402,6 +404,7 @@ export default function TradeEnquiryForm({
             className={`w-full px-4 py-3 border rounded-lg focus:outline-2 focus:outline-gold transition-colors ${
               errors.company ? "border-red-500" : "border-gray-300"
             }`}
+            autoComplete="organization"
             aria-required="true"
             aria-invalid={errors.company ? "true" : "false"}
             aria-describedby={errors.company ? "trade-company-error" : undefined}
@@ -423,6 +426,7 @@ export default function TradeEnquiryForm({
             type="text"
             {...register("role")}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-2 focus:outline-gold transition-colors"
+            autoComplete="organization-title"
           />
         </div>
 
@@ -441,6 +445,7 @@ export default function TradeEnquiryForm({
             className={`w-full px-4 py-3 border rounded-lg focus:outline-2 focus:outline-gold transition-colors ${
               errors.email ? "border-red-500" : "border-gray-300"
             }`}
+            autoComplete="email"
             aria-required="true"
             aria-invalid={errors.email ? "true" : "false"}
             aria-describedby={errors.email ? "trade-email-error" : undefined}
@@ -467,6 +472,7 @@ export default function TradeEnquiryForm({
             className={`w-full px-4 py-3 border rounded-lg focus:outline-2 focus:outline-gold transition-colors ${
               errors.phone ? "border-red-500" : "border-gray-300"
             }`}
+            autoComplete="tel"
             aria-required="true"
             aria-invalid={errors.phone ? "true" : "false"}
             aria-describedby={errors.phone ? "trade-phone-error" : undefined}
@@ -493,6 +499,7 @@ export default function TradeEnquiryForm({
             className={`w-full px-4 py-3 border rounded-lg focus:outline-2 focus:outline-gold transition-colors ${
               errors.country ? "border-red-500" : "border-gray-300"
             }`}
+            autoComplete="country-name"
             aria-required="true"
             aria-invalid={errors.country ? "true" : "false"}
             aria-describedby={errors.country ? "trade-country-error" : undefined}
@@ -506,10 +513,10 @@ export default function TradeEnquiryForm({
       </div>
 
       {/* Product Interest Selection */}
-      <div className="space-y-3">
-        <label className="block text-sm font-semibold text-deep-brown">
+      <fieldset className="space-y-3">
+        <legend className="block text-sm font-semibold text-deep-brown mb-3">
           {labels.productInterestLabel}
-        </label>
+        </legend>
         <div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"
           role="group"
@@ -526,6 +533,8 @@ export default function TradeEnquiryForm({
               >
                 {/* Hidden Native Checkbox */}
                 <input
+                  id={`product-${product._id}`}
+                  name="product_interest"
                   type="checkbox"
                   checked={isSelected}
                   onChange={() => toggleProduct(product.title)}
@@ -544,7 +553,7 @@ export default function TradeEnquiryForm({
           })}
         </div>
         <Controller name="productInterest" control={control} render={() => <></>} />
-      </div>
+      </fieldset>
 
       {/* Quantity Field */}
       <div>
@@ -557,6 +566,7 @@ export default function TradeEnquiryForm({
           {...register("quantity")}
           placeholder={labels.tradeQuantityPlaceholder}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-2 focus:outline-gold transition-colors"
+          autoComplete="off"
         />
       </div>
 

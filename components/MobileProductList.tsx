@@ -110,6 +110,8 @@ export default function MobileProductList({
                   }`}
                 >
                   <input
+                    id={`mobile-select-${product._id}`}
+                    name="product_selection"
                     type="checkbox"
                     checked={isSelected}
                     onChange={() => toggleProductSelection(product._id)}

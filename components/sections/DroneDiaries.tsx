@@ -166,7 +166,7 @@ export default function DroneDiaries({ sectionData }: DroneDiariesProps) {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <div className="w-full h-full relative overflow-hidden">
+                  <div className="w-full h-full relative overflow-hidden pointer-events-none">
                     <iframe
                       className="video-contain-iframe"
                       src={`${getYouTubeEmbedUrl(currentVideo.videoUrl) || ""}&mute=${isMuted ? 1 : 0}&vq=hd1080&hd=1&quality=high&autoplay=1&loop=1&controls=0&showinfo=0&rel=0&modestbranding=1`}
