@@ -55,7 +55,7 @@ interface ProcessFlowProps {
 // =============================================================================
 
 const PROCESS_ICONS: Record<string, React.ReactNode> = {
-  farm: <Sprout className="w-10 h-10 text-black!" strokeWidth={2} />,
+  farm: <Sprout className="w-10 h-10" strokeWidth={2} />,
   shelling: (
     <OptimizedImage
       src="/Shelling.png"
@@ -76,9 +76,9 @@ const PROCESS_ICONS: Record<string, React.ReactNode> = {
       quality={100}
     />
   ),
-  quality: <ShieldCheck className="w-8 h-8 md:w-10 md:h-10 text-black!" strokeWidth={2} />,
-  packing: <Package className="w-8 h-8 md:w-10 md:h-10 text-black!" strokeWidth={2} />,
-  shipping: <Truck className="w-8 h-8 md:w-10 md:h-10 text-black!" strokeWidth={2} />,
+  quality: <ShieldCheck className="w-8 h-8 md:w-10 md:h-10" strokeWidth={2} />,
+  packing: <Package className="w-8 h-8 md:w-10 md:h-10" strokeWidth={2} />,
+  shipping: <Truck className="w-8 h-8 md:w-10 md:h-10" strokeWidth={2} />,
 };
 
 // Helper function to match icons based on keywords
@@ -160,7 +160,7 @@ export default function ProcessFlowSection({
             src={bgImage}
             alt=""
             fill
-            className="pointer-events-none scale-110 blur-[5px] opacity-100 object-cover"
+            className="pointer-events-none opacity-100 object-cover"
             sizes="100vw"
             quality={100}
           />
@@ -210,7 +210,7 @@ export default function ProcessFlowSection({
 
         {/* Bottom tagline */}
         <motion.p
-          className="text-center mt-12 text-text-muted italic"
+          className="text-center mt-3 md:mt-12 text-text-muted italic"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -238,14 +238,15 @@ function ProcessStepCard({ step, index, total }: ProcessStepCardProps) {
   const icon = getProcessIcon(step.icon, step.title);
 
   const isEven = index % 2 === 0;
-  const bgColor = isEven ? "bg-gold/50" : "bg-gold/25";
-  const textColor = "text-white";
-  const numColor = isEven
-    ? "text-neutral-900 bg-white"
-    : "text-gold bg-white/10 border border-gold";
+  const bgColor = isEven ? "bg-deep-brown" : "bg-paper";
+  const textColor = isEven ? "!text-white" : "!text-deep-brown";
 
   const isFirst = index === 0;
   const isLast = index === total - 1;
+
+  const numberStyle = isEven
+    ? { color: "#3b2f2f", backgroundColor: "#f5f1e8" }
+    : { color: "#f5f1e8", backgroundColor: "#3b2f2f" };
 
   return (
     <motion.div
@@ -270,12 +271,15 @@ function ProcessStepCard({ step, index, total }: ProcessStepCardProps) {
           className={`flex flex-col h-full justify-center items-center text-center w-full max-w-50 ${!isFirst ? "pl-8" : ""} ${!isLast ? "pr-8" : ""}`}
         >
           <div
-            className={`w-14 h-14 rounded-full mb-5 flex items-center justify-center font-bold text-xl shadow-lg ring-4 ring-opacity-20 ${isEven ? "ring-white" : "ring-gold"} ${numColor} mx-auto`}
+            className={`w-14 h-14 rounded-full mb-5 flex items-center justify-center font-bold text-xl shadow-lg ring-4 ring-opacity-20 ${isEven ? "ring-white" : "ring-gold"} mx-auto`}
+            style={numberStyle}
           >
             {stepNumber}
           </div>
 
-          <div className="mb-4 text-white/90 transform group-hover:scale-110 transition-transform duration-300">
+          <div
+            className={`mb-4 ${textColor} transform group-hover:scale-110 transition-transform duration-300`}
+          >
             <div className="w-10 h-10 md:w-12 md:h-12 mx-auto">{icon}</div>
           </div>
 
@@ -296,13 +300,14 @@ function ProcessStepCard({ step, index, total }: ProcessStepCardProps) {
 
         <div className="flex items-center gap-4">
           <div
-            className={`w-12 h-12 shrink-0 rounded-full flex items-center justify-center font-bold text-lg shadow-md ${numColor}`}
+            className="w-12 h-12 shrink-0 rounded-full flex items-center justify-center font-bold text-lg shadow-md"
+            style={numberStyle}
           >
             {stepNumber}
           </div>
           <div className="flex-1 text-left">
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 flex items-center justify-center text-white/90">{icon}</div>
+              <div className={`w-8 h-8 flex items-center justify-center ${textColor}`}>{icon}</div>
               <h3 className={`text-lg font-bold ${textColor}`}>{step.title}</h3>
             </div>
             <p className={`text-sm ${textColor} opacity-90`}>{step.detail}</p>

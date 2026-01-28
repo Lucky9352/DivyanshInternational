@@ -489,6 +489,21 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
                       </div>
                     ))}
 
+                    {/* Applications List */}
+                    {product.applications && product.applications.length > 0 ? (
+                      <div>
+                        <h3 className="text-xl font-semibold text-deep-brown mb-3">Applications</h3>
+                        <ul className="space-y-2">
+                          {product.applications.map((app, i) => (
+                            <li key={i} className="flex items-start gap-2">
+                              <span className="w-1.5 h-1.5 bg-gold rounded-full mt-2.5 shrink-0" />
+                              <span className="text-text-muted">{app}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ) : null}
+
                     {/* Product Varieties Section */}
                     {product.almondVarieties && product.almondVarieties.length > 0 ? (
                       <ProductVarietiesSection
@@ -507,21 +522,6 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
                           product.category === "almonds" ? "Premium Varieties" : "Our Selection"
                         }
                       />
-                    ) : null}
-
-                    {/* Applications List */}
-                    {product.applications && product.applications.length > 0 ? (
-                      <div>
-                        <h3 className="text-xl font-semibold text-deep-brown mb-3">Applications</h3>
-                        <ul className="space-y-2">
-                          {product.applications.map((app, i) => (
-                            <li key={i} className="flex items-start gap-2">
-                              <span className="w-1.5 h-1.5 bg-gold rounded-full mt-2.5 shrink-0" />
-                              <span className="text-text-muted">{app}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
                     ) : null}
                   </div>
                 ) : null}

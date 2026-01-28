@@ -171,7 +171,7 @@ export default function ProductShowcase({
             src={bgImage}
             alt=""
             fill
-            className="pointer-events-none scale-110 blur-[5px] opacity-100 object-cover"
+            className="pointer-events-none opacity-100 object-cover"
             sizes="100vw"
             quality={100}
           />
@@ -183,8 +183,11 @@ export default function ProductShowcase({
 
       <div className="container mx-auto px-4 md:px-6 lg:px-10 relative z-10">
         {headerData ? (
-          <div className="text-center mb-16 md:mb-24 max-w-4xl mx-auto bg-sand/90 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-xl border border-sand/50">
-            <SectionHeader headerData={headerData} />
+          <div className="text-center mb-16 md:mb-24 max-w-4xl mx-auto bg-sand/90 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-xl border border-sand/50 relative overflow-hidden">
+            <DecorativeBackground variant="minimal" />
+            <div className="relative z-10">
+              <SectionHeader headerData={headerData} />
+            </div>
           </div>
         ) : null}
 
@@ -230,6 +233,19 @@ function SectionHeader({ headerData }: SectionHeaderProps) {
         <Package className="w-8 h-8" />
       </motion.div>
 
+      {headerData.title ? (
+        <motion.h2
+          id="products-heading"
+          className="text-3xl md:text-4xl lg:text-5xl font-bold text-deep-brown mb-6 font-heading leading-tight"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
+          {headerData.title}
+        </motion.h2>
+      ) : null}
+
       {headerData.eyebrow ? (
         <motion.div
           className="flex items-center justify-center gap-2 mb-4"
@@ -244,19 +260,6 @@ function SectionHeader({ headerData }: SectionHeaderProps) {
           </span>
           <span className="h-px w-8 bg-gold" />
         </motion.div>
-      ) : null}
-
-      {headerData.title ? (
-        <motion.h2
-          id="products-heading"
-          className="text-3xl md:text-4xl lg:text-5xl font-bold text-deep-brown mb-6 font-heading leading-tight"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-        >
-          {headerData.title}
-        </motion.h2>
       ) : null}
 
       {headerData.description ? (

@@ -52,7 +52,7 @@ export default function PosterBanner({ bannerData }: PosterBannerProps) {
             src={imageUrl}
             alt=""
             fill
-            className="scale-110 blur-[5px] opacity-100 object-cover z-0"
+            className="opacity-100 object-cover z-0"
             sizes="100vw"
           />
         </div>

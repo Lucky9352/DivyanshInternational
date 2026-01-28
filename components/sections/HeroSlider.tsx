@@ -372,7 +372,7 @@ function VideoBackground({
             )
         )}
       </AnimatePresence>
-      <div className="absolute inset-0 bg-white/60" />
+
       <div
         className="absolute inset-0 opacity-20"
         style={{

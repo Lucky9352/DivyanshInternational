@@ -148,7 +148,7 @@ export default function VideoTestimonialsSection({
             src={bgImage}
             alt=""
             fill
-            className="pointer-events-none scale-110 blur-[5px] opacity-100 object-cover"
+            className="pointer-events-none opacity-100 object-cover"
             sizes="100vw"
             quality={100}
           />
