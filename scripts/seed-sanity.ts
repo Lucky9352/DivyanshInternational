@@ -197,7 +197,7 @@ const products = [
     ],
     pricing: { currentPrice: 1299, originalPrice: 1599, discount: 19 },
     specifications: {
-      origin: "California (USA), Australia, Spain",
+      origin: "California, India, Iran, Afghanistan, Australia",
       variety: "Nonpareil, Carmel, Independence (Supreme Grade)",
       packaging: "Export-Grade Bulk / Industrial Standard",
       shelfLife: "12 Months",
