@@ -84,12 +84,24 @@ const products = [
         _key: "ls-1",
         title: createLocaleString("Grades & Size Options"),
         items: [
-          createLocaleString("Sui / Single / MST"),
-          createLocaleString("Broken / Diced / Sliced / Blanched"),
+          createLocaleString("Extra Jumbo, Jumbo"),
+          createLocaleString("Gold, Diamond"),
+          createLocaleString("Galaxy, Royal"),
+          createLocaleString("Whole Kernels"),
         ],
       },
       {
         _key: "ls-2",
+        title: createLocaleString("Processing Forms"),
+        items: [
+          createLocaleString("Chip & Scratch (Sui)"),
+          createLocaleString("Single / Mixed Sui Touch"),
+          createLocaleString("Broken Almonds"),
+          createLocaleString("Diced / Sliced / Blanched"),
+        ],
+      },
+      {
+        _key: "ls-3",
         title: createLocaleString("Packaging Formats Available"),
         items: [
           createLocaleString("Inshell 50 Lbs (22.68 Kg)"),
@@ -97,7 +109,7 @@ const products = [
         ],
       },
       {
-        _key: "ls-3",
+        _key: "ls-4",
         title: createLocaleString("Why Choose Us As Your Almond Partner?"),
         items: [
           createLocaleString("ISO-certified quality"),
@@ -106,6 +118,43 @@ const products = [
           createLocaleString("Fast delivery across Punjab, North India & pan-India"),
           createLocaleString("Competitive pricing for bulk almond purchase"),
         ],
+      },
+    ],
+    productGrading: [
+      {
+        _key: "pg-18-20",
+        grade: "18/20",
+        description: "Largest Size (approx. 18-20 kernels/oz)",
+        imageUrl:
+          "https://drive.google.com/file/d/1cvFG01z5dZI0rpEZM8eiNExaqUwXhU_Z/view?usp=sharing",
+      },
+      {
+        _key: "pg-20-22",
+        grade: "20/22",
+        description: "Extra Large (approx. 20-22 kernels/oz)",
+        imageUrl:
+          "https://drive.google.com/file/d/1dQN_xPNRCGMlbKBM7wAmrAWYExmriDOO/view?usp=sharing",
+      },
+      {
+        _key: "pg-23-25",
+        grade: "23/25",
+        description: "Large (approx. 23-25 kernels/oz)",
+        imageUrl:
+          "https://drive.google.com/file/d/1J4uA4P3tXQrzh3oqWKuju0SNgHSgYDCn/view?usp=sharing",
+      },
+      {
+        _key: "pg-25-27",
+        grade: "25/27",
+        description: "Medium (approx. 25-27 kernels/oz)",
+        imageUrl:
+          "https://drive.google.com/file/d/1xNr9rkyrWaKhaO5GKcACyZ8ajDZ-422I/view?usp=sharing",
+      },
+      {
+        _key: "pg-27-30",
+        grade: "27/30",
+        description: "Small (approx. 27-30 kernels/oz)",
+        imageUrl:
+          "https://drive.google.com/file/d/1416sUZKJh_T8mzUlAgugw-kiKEvZqgwT/view?usp=sharing",
       },
     ],
     ctaLine: createLocaleString(
@@ -2618,6 +2667,9 @@ async function seed() {
 
       if ("almondVarieties" in product && product.almondVarieties) {
         doc["almondVarieties"] = product.almondVarieties;
+      }
+      if ("productGrading" in product && product.productGrading) {
+        doc["productGrading"] = product.productGrading;
       }
 
       await safeCreateOrReplace(doc);

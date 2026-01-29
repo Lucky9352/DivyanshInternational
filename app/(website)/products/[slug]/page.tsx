@@ -48,6 +48,18 @@ const productSchema = z
       )
       .nullable()
       .optional(),
+    productGrading: z
+      .array(
+        z.object({
+          _key: z.string().optional(),
+          grade: z.string(),
+          imageUrl: z.string().nullable().optional(),
+          image: z.unknown().optional(),
+          description: z.string().optional(),
+        })
+      )
+      .nullable()
+      .optional(),
   })
   .passthrough()
   .nullable();

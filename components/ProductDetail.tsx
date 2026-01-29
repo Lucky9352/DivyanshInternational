@@ -15,6 +15,9 @@ import OptimizedImage from "@/components/ui/OptimizedImage";
 import ProductVarietiesSection, {
   type ProductVariety,
 } from "@/components/sections/AlmondVarietiesSection";
+import ProductGradingSection, {
+  type ProductGrade,
+} from "@/components/sections/ProductGradingSection";
 import { Check } from "lucide-react";
 
 // =============================================================================
@@ -98,6 +101,7 @@ const ProductSchema = z.object({
   varieties: z.array(VarietySchema).optional(),
   grades: z.array(z.string()).optional(),
   almondVarieties: z.array(z.custom<ProductVariety>()).optional(),
+  productGrading: z.array(z.custom<ProductGrade>()).optional(),
 });
 
 // Labels from Site Settings
@@ -290,30 +294,30 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
             <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 p-4 md:p-8">
               {/* Product Images */}
               <div className="space-y-4">
-                <div className="rounded-2xl overflow-hidden relative flex items-center justify-center max-h-[50vh] md:max-h-[600px] w-fit mx-auto">
+                <div className="rounded-2xl overflow-hidden relative flex items-center justify-center w-full h-[400px] md:h-[600px] bg-gray-50/50 border border-sand/30">
                   {productImages[selectedImage] ? (
                     productImages[selectedImage].type === "url" ? (
                       <OptimizedImage
                         src={productImages[selectedImage].url}
                         alt={productImages[selectedImage].alt}
-                        width={800}
-                        height={1000}
-                        className="w-auto h-auto max-h-[50vh] md:max-h-[600px] max-w-full"
-                        imageClassName="object-scale-down"
+                        fill
+                        className="w-full h-full"
+                        imageClassName="object-scale-down p-4"
                         priority
                         quality={100}
                       />
                     ) : (
                       <OptimizedImage
                         src={urlFor(productImages[selectedImage].image)
-                          .width(800)
-                          .height(1000)
+                          .width(1200)
+                          .height(1200)
+                          .fit("max")
+                          .auto("format")
                           .url()}
                         alt={productImages[selectedImage].alt}
-                        width={800}
-                        height={1000}
-                        className="w-auto h-auto max-h-[50vh] md:max-h-[600px] max-w-full"
-                        imageClassName="object-scale-down"
+                        fill
+                        className="w-full h-full"
+                        imageClassName="object-scale-down p-4"
                         priority
                         quality={100}
                       />
@@ -511,6 +515,17 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
                             </li>
                           ))}
                         </ul>
+                      </div>
+                    ) : null}
+
+                    {/* Product Grading Section */}
+                    {product.productGrading && product.productGrading.length > 0 ? (
+                      <div className="border-t border-sand/50 pt-8 mt-4">
+                        <ProductGradingSection
+                          grading={product.productGrading}
+                          title="Size & Grading Visual Guide"
+                          subtitle="Standard counts per ounce (kernels)"
+                        />
                       </div>
                     ) : null}
 

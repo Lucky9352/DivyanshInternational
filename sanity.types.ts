@@ -441,6 +441,19 @@ export type Product = {
     _key: string;
   }>;
   applications?: Array<string>;
+  productGrading?: Array<{
+    grade?: string;
+    imageUrl?: string;
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    description?: string;
+    _key: string;
+  }>;
   pricing?: {
     currentPrice?: number;
     originalPrice?: number;

@@ -180,6 +180,56 @@ export default defineType({
       of: [{ type: "string" }],
     }),
     defineField({
+      name: "productGrading",
+      title: "Product Grading",
+      type: "array",
+      group: "content",
+      description: "Visual representation of grades/sizes",
+      of: [
+        {
+          type: "object",
+          title: "Grade Item",
+          fields: [
+            defineField({
+              name: "grade",
+              title: "Grade / Size",
+              type: "string",
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: "imageUrl",
+              title: "Image URL (Google Drive)",
+              type: "url",
+              validation: (Rule) => Rule.uri({ scheme: ["https", "http"] }),
+            }),
+            defineField({
+              name: "image",
+              title: "Image (Upload)",
+              type: "image",
+              options: { hotspot: true },
+            }),
+            defineField({
+              name: "description",
+              title: "Description",
+              type: "string",
+            }),
+          ],
+          preview: {
+            select: {
+              title: "grade",
+              media: "image",
+            },
+            prepare({ title, media }) {
+              return {
+                title: title || "Untitled Grade",
+                media,
+              };
+            },
+          },
+        },
+      ],
+    }),
+    defineField({
       name: "pricing",
       title: "Pricing",
       type: "object",

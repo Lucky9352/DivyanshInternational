@@ -322,6 +322,13 @@ export const productBySlugQuery = groq`
       name,
       imageUrl,
       image
+    },
+    productGrading[] {
+      _key,
+      grade,
+      description,
+      imageUrl,
+      image
     }
   }
 `;
