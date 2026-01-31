@@ -108,6 +108,18 @@ export default function OptimizedImage({
     setIsLoaded(false);
   }
 
+  const resolveUrl = (url: string) => {
+    if (url.includes("drive.google.com") && url.includes("/view")) {
+      const match = url.match(/\/d\/([^/]+)\//);
+      if (match && match[1]) {
+        return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+      }
+    }
+    return url;
+  };
+
+  const finalSrc = resolveUrl(src);
+
   return (
     <div
       className={cn(
@@ -127,7 +139,7 @@ export default function OptimizedImage({
         />
       ) : null}
       <Image
-        src={src}
+        src={finalSrc}
         alt={alt}
         {...(width ? { width } : {})}
         {...(height ? { height } : {})}

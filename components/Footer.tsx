@@ -288,6 +288,14 @@ export default function Footer({
                   </Link>
                 </li>
               ))}
+              <li className="hidden md:list-item">
+                <Link
+                  href="/catalogue"
+                  className="text-ivory/80 hover:text-white hover:translate-x-1 transition-all duration-300 inline-block text-sm font-medium leading-tight py-1"
+                >
+                  Catalogue
+                </Link>
+              </li>
             </ul>
           </div>
 

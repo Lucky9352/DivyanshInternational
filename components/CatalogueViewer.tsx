@@ -2,17 +2,16 @@
 
 /**
  * Catalogue Viewer Component
- *
- * A professional catalogue viewer with page-flip animation for images.
- * For PDFs, embeds them directly or provides download option.
  */
 
 import React, { useState, useRef, useCallback, useEffect, forwardRef } from "react";
+import Link from "next/link";
 import OptimizedImage from "@/components/ui/OptimizedImage";
 import dynamic from "next/dynamic";
-import { motion, AnimatePresence } from "framer-motion";
-import { z } from "zod";
-import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import { cn, getGoogleDriveImageUrl } from "@/lib/utils";
+import DecorativeBackground from "@/components/ui/DecorativeBackground";
+import type { Product } from "@/sanity.types";
 
 const HTMLFlipBook = dynamic(() => import("react-pageflip"), {
   ssr: false,
@@ -23,255 +22,337 @@ const HTMLFlipBook = dynamic(() => import("react-pageflip"), {
   ),
 });
 
-const Document = dynamic(() => import("react-pdf").then((mod) => mod.Document), {
-  ssr: false,
-});
-const PdfPage = dynamic(() => import("react-pdf").then((mod) => mod.Page), {
-  ssr: false,
-});
-
-// =============================================================================
-// ZOD VALIDATION SCHEMAS
-// =============================================================================
-
-const PageAssetSchema = z.object({
-  _id: z.string(),
-  url: z.string(),
-});
-
-const PageSchema = z.object({
-  _key: z.string(),
-  alt: z.string().optional().nullable(),
-  caption: z.string().optional().nullable(),
-  asset: PageAssetSchema.optional().nullable(),
-});
-
-const PdfAssetSchema = z.object({
-  _id: z.string(),
-  url: z.string().optional().nullable(),
-  originalFilename: z.string().optional().nullable(),
-  size: z.number().optional().nullable(),
-});
-
-const CatalogueSettingsSchema = z.object({
-  _id: z.string().optional(),
-  title: z.string().optional().nullable(),
-  description: z.string().optional().nullable(),
-  contentType: z.enum(["pdf", "images"]).optional().nullable(),
-  pdfFile: z.object({ asset: PdfAssetSchema.optional().nullable() }).optional().nullable(),
-  pages: z.array(PageSchema).optional().nullable(),
-  pdfDownloadUrl: z.string().optional().nullable(),
-  coverImage: z.object({ asset: PageAssetSchema.optional().nullable() }).optional().nullable(),
-  version: z.string().optional().nullable(),
-  lastUpdated: z.string().optional().nullable(),
-  isActive: z.boolean().optional().nullable(),
-  showThumbnails: z.boolean().optional().nullable(),
-  showPageNumbers: z.boolean().optional().nullable(),
-});
-
-const CatalogueViewerPropsSchema = z.object({
-  settings: CatalogueSettingsSchema.nullable().optional(),
-});
-
-// =============================================================================
-// TYPES
-// =============================================================================
-
-export type CatalogueSettings = z.infer<typeof CatalogueSettingsSchema>;
-export type CatalogueViewerProps = z.infer<typeof CatalogueViewerPropsSchema>;
-
-type Page = z.infer<typeof PageSchema>;
-
-// =============================================================================
-// PAGE COMPONENT
-// =============================================================================
-
-interface PageComponentProps {
-  page: Page;
-  pageNumber: number;
-  showPageNumbers: boolean;
+interface FlipBookInstance {
+  pageFlip: () => {
+    flipNext: () => void;
+    flipPrev: () => void;
+  };
 }
 
-const PageComponent = forwardRef<HTMLDivElement, PageComponentProps>(
-  ({ page, pageNumber, showPageNumbers }, ref) => {
-    const imageUrl = page.asset?.url;
+export interface CatalogueViewerProps {
+  products: Product[];
+}
 
-    return (
-      <div
-        ref={ref}
-        className="page-wrapper"
-        style={{
-          width: "100%",
-          height: "100%",
-          backgroundColor: "#fff",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          position: "relative",
-          boxShadow: "inset 0 0 30px rgba(0,0,0,0.03)",
-        }}
-      >
-        {imageUrl ? (
-          <div className="relative w-full h-full">
+interface ProductPageProps {
+  product: Product;
+  type: "cover" | "intro" | "specs" | "gallery" | "end";
+  pageNumber: number;
+  showPageNumbers?: boolean;
+}
+
+const catalogueImages: Record<string, string> = {
+  almonds: "/catalogue-almonds.png",
+  cashews: "/catalogue-cashews.png",
+  walnuts: "/catalogue-walnuts.png",
+  pistachio: "/catalogue-pistachios.png",
+  coconut: "/catalogue-coconut.png",
+  raisins: "/catalogue-raisins.png",
+};
+
+function getCatalogueImage(product: Product): string {
+  const category = product.category?.toLowerCase() || "";
+  return catalogueImages[category] || getGoogleDriveImageUrl(product.heroImageUrl || "") || "";
+}
+
+const ProductPage = forwardRef<HTMLDivElement, ProductPageProps>(
+  ({ product, type, pageNumber, showPageNumbers }, ref) => {
+    if (type === "cover") {
+      return (
+        <div
+          ref={ref}
+          className="page-wrapper bg-linear-to-br from-deep-brown to-black text-white p-8 md:p-12 flex flex-col justify-between"
+          style={{ width: "100%", height: "100%" }}
+        >
+          <div className="flex flex-col items-center justify-center h-full gap-8">
+            <div className="w-48 h-48 md:w-64 md:h-64 relative rounded-full overflow-hidden border-4 border-almond-gold/50 shadow-2xl">
+              {product.heroImageUrl ? (
+                <OptimizedImage
+                  src={product.heroImageUrl}
+                  alt={product.title?.en || "Cover"}
+                  fill
+                  className="object-cover"
+                />
+              ) : null}
+            </div>
+            <div className="text-center">
+              <h1 className="text-4xl md:text-6xl font-bold font-heading text-almond-gold mb-4">
+                {product.title?.en}
+              </h1>
+              <p className="text-white/80 text-lg max-w-md mx-auto">{product.heroHeading?.en}</p>
+            </div>
+          </div>
+          <div className="text-center border-t border-white/10 pt-6">
+            <p className="text-sm tracking-widest uppercase text-almond-gold">
+              Divyansh International Collection
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+    if (type === "intro") {
+      return (
+        <div
+          ref={ref}
+          className="page-wrapper bg-[#FAF6F1] p-8 md:p-10 flex flex-col h-full relative overflow-hidden"
+          style={{ width: "100%", height: "100%" }}
+        >
+          {/* Background image */}
+          <div
+            className="absolute inset-0 pointer-events-none opacity-60"
+            style={{
+              backgroundImage: "url('/catalogue-page-bg.png')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          />
+          {/* Subtle border */}
+          <div className="absolute inset-3 border border-[#D4C4A8] pointer-events-none z-10" />
+          {/* Product Image - natural size like ProductCard */}
+          <div className="relative z-10 w-full flex justify-center mb-4 overflow-visible">
             <OptimizedImage
-              src={imageUrl}
-              alt={page.alt || `Page ${pageNumber}`}
-              fill
-              className="p-4"
-              imageClassName="object-scale-down"
-              sizes="(max-width: 768px) 100vw, 50vw"
-              priority={pageNumber <= 2}
+              src={getCatalogueImage(product)}
+              alt={product.title?.en || "Product"}
+              width={400}
+              height={300}
               quality={100}
+              overflowVisible
+              className="w-auto h-auto max-w-[90%] mx-auto block rounded-lg shadow-md border border-[#D4C4A8]"
+              imageClassName="object-contain"
             />
           </div>
-        ) : (
-          <div className="flex items-center justify-center text-gray-400 h-full">
-            <span className="text-xl">Page {pageNumber}</span>
+
+          <h2 className="relative z-10 text-2xl font-bold text-[#3A2A1E] font-heading mb-3">
+            {product.title?.en}
+          </h2>
+
+          <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar relative z-10">
+            <div className="prose prose-sm prose-brown">
+              {product.introParagraphs?.slice(0, 2).map((para, idx) => (
+                <p key={idx} className="mb-3 text-[#5C4A3A] leading-relaxed text-sm">
+                  {para.en}
+                </p>
+              ))}
+            </div>
           </div>
-        )}
 
-        {showPageNumbers ? (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-sm text-gray-600 bg-white/90 px-4 py-1.5 rounded-full shadow-sm border border-gray-200">
-            {pageNumber}
+          {showPageNumbers ? (
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-xs text-[#6B5B4F] font-semibold z-10 bg-[#FAF6F1]/80 px-3 py-1 rounded-full">
+              {pageNumber}
+            </div>
+          ) : null}
+        </div>
+      );
+    }
+
+    if (type === "specs") {
+      return (
+        <div
+          ref={ref}
+          className="page-wrapper bg-[#F5EFE6] p-8 md:p-10 flex flex-col h-full relative overflow-hidden"
+          style={{ width: "100%", height: "100%" }}
+        >
+          {/* Background image */}
+          <div
+            className="absolute inset-0 pointer-events-none opacity-50"
+            style={{
+              backgroundImage: "url('/catalogue-page-bg.png')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          />
+          {/* Subtle border */}
+          <div className="absolute inset-3 border border-[#D4C4A8] pointer-events-none z-10" />
+          <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar relative z-10">
+            <h3 className="text-xl font-bold text-[#3A2A1E] mb-4 border-b border-[#C4A35A]/40 pb-2">
+              Specifications
+            </h3>
+
+            <dl className="grid grid-cols-1 gap-y-3 mb-6 text-sm">
+              {product.specifications?.origin ? (
+                <div className="grid grid-cols-3">
+                  <dt className="font-semibold text-[#6B5B4F]">Origin</dt>
+                  <dd className="col-span-2 text-[#3A2A1E]">{product.specifications.origin}</dd>
+                </div>
+              ) : null}
+              {product.specifications?.variety ? (
+                <div className="grid grid-cols-3">
+                  <dt className="font-semibold text-[#6B5B4F]">Variety</dt>
+                  <dd className="col-span-2 text-[#3A2A1E]">{product.specifications.variety}</dd>
+                </div>
+              ) : null}
+              {product.specifications?.packaging ? (
+                <div className="grid grid-cols-3">
+                  <dt className="font-semibold text-[#6B5B4F]">Packaging</dt>
+                  <dd className="col-span-2 text-[#3A2A1E]">{product.specifications.packaging}</dd>
+                </div>
+              ) : null}
+              {product.specifications?.logistics ? (
+                <div className="grid grid-cols-3">
+                  <dt className="font-semibold text-[#6B5B4F]">Logistics</dt>
+                  <dd className="col-span-2 text-[#3A2A1E]">{product.specifications.logistics}</dd>
+                </div>
+              ) : null}
+            </dl>
+
+            <div className="space-y-4">
+              {product.listSections?.slice(0, 2).map((section) => (
+                <div
+                  key={section._key}
+                  className="bg-[#FAF6F1] p-3 rounded-lg border border-[#D4C4A8]"
+                >
+                  <h4 className="font-bold text-[#3A2A1E] mb-1.5 text-xs uppercase tracking-wide">
+                    {section.title?.en}
+                  </h4>
+                  <ul className="list-disc list-inside space-y-0.5">
+                    {section.items?.slice(0, 4).map((item, idx) => (
+                      <li key={idx} className="text-xs text-[#5C4A3A] pl-1">
+                        <span className="text-[#3A2A1E]/80">{item.en}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+
+            {product.ctaLine?.en ? (
+              <div className="mt-6 p-4 bg-[#FAF6F1]/80 backdrop-blur-sm rounded-lg border border-[#C4A35A]/30 shadow-sm">
+                <p className="text-[#3A2A1E] font-medium italic text-sm">
+                  &quot;{product.ctaLine.en}&quot;
+                </p>
+              </div>
+            ) : null}
           </div>
-        ) : null}
-      </div>
-    );
-  }
-);
-PageComponent.displayName = "PageComponent";
 
-// =============================================================================
-// PDF FLIP PAGE COMPONENT
-// =============================================================================
-
-interface PdfFlipPageProps {
-  pageNumber: number;
-  width: number;
-  height: number;
-  isCover?: boolean;
-}
-
-const PdfFlipPage = forwardRef<HTMLDivElement, PdfFlipPageProps>(
-  ({ pageNumber, height, isCover }, ref) => {
-    const isRight = pageNumber % 2 !== 0;
+          {showPageNumbers ? (
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-xs text-[#6B5B4F] font-semibold z-10 bg-[#F5EFE6]/80 px-3 py-1 rounded-full">
+              {pageNumber}
+            </div>
+          ) : null}
+        </div>
+      );
+    }
 
     return (
-      <div
-        ref={ref}
-        className={cn(
-          "bg-white flex items-center justify-center overflow-hidden relative user-select-none h-full w-full",
-          // Base styles for all pages
-          "",
-          // Hard cover styling
-          isCover ? "hard-cover z-20" : "soft-page bg-white",
-          // Rounded corners on outer edges
-          isCover && isRight ? "rounded-r-lg" : "",
-          isCover && !isRight ? "rounded-l-lg" : "",
-          // Inner thickness simulation
-          !isCover && isRight ? "rounded-r-sm" : "",
-          !isCover && !isRight ? "rounded-l-sm" : ""
-        )}
-        style={{
-          // Add 3D perspective effect for covers
-          transformStyle: isCover ? "preserve-3d" : "flat",
-        }}
-      >
-        <PdfPage
-          pageNumber={pageNumber}
-          height={height}
-          renderTextLayer={false}
-          renderAnnotationLayer={false}
-          className={cn(
-            "max-w-full max-h-full flex items-center justify-center",
-            isCover ? "transition-transform origin-center" : ""
-          )}
-        />
-
-        {/* Page Number */}
-        {!isCover ? (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-xs font-semibold text-gray-400 font-mono tracking-wide">
-            {pageNumber}
-          </div>
-        ) : null}
+      <div ref={ref} className="bg-white p-10">
+        <p>Page Content</p>
       </div>
     );
   }
 );
-PdfFlipPage.displayName = "PdfFlipPage";
+ProductPage.displayName = "ProductPage";
 
-// =============================================================================
-// MAIN COMPONENT
-// =============================================================================
+const CoverPage = forwardRef<HTMLDivElement, { title: string; subtitle?: string }>(
+  ({ title, subtitle }, ref) => (
+    <div
+      ref={ref}
+      className="page-wrapper bg-[#E8DDD0] p-8 flex flex-col items-center justify-center text-center relative overflow-hidden shadow-xl"
+      style={{
+        width: "100%",
+        height: "100%",
+      }}
+    >
+      {/* Background image with dry fruits */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: "url('/catalogue-cover-bg.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
 
-export default function CatalogueViewer({ settings }: CatalogueViewerProps) {
-  // Validate props in development
-  if (process.env.NODE_ENV === "development") {
-    const result = CatalogueViewerPropsSchema.safeParse({ settings });
-    if (!result.success) {
-      console.warn("[CatalogueViewer] Prop validation warning:", result.error.flatten());
-    }
-  }
+      {/* Double border */}
+      <div className="absolute inset-4 border border-[#A69070] pointer-events-none z-10" />
+      <div className="absolute inset-6 border border-[#C4B090] pointer-events-none z-10" />
 
-  const flipBookRef = useRef<unknown>(null);
+      {/* Content wrapper with z-index */}
+      <div className="relative z-10 flex flex-col items-center justify-center text-center">
+        {/* Logo */}
+        <div className="flex items-center justify-center">
+          <OptimizedImage
+            src="/Logo.png"
+            alt="Divyansh International Logo"
+            width={300}
+            height={300}
+            className="object-contain"
+          />
+        </div>
+
+        {/* Elegant centered separator */}
+        <div className="flex items-center justify-center gap-4 my-2 w-full">
+          <div className="w-12 h-px bg-[#A69070]" />
+          <div className="w-2 h-2 rotate-45 border border-[#8B7355]" />
+          <div className="w-12 h-px bg-[#A69070]" />
+        </div>
+
+        {/* Title */}
+        <h1 className="text-2xl md:text-3xl font-bold font-heading tracking-wide mb-1 text-[#3A2A1E]">
+          {title}
+        </h1>
+
+        {/* Subtitle */}
+        {subtitle ? (
+          <p className="text-xs text-[#5C4A3A] font-medium tracking-[0.2em] uppercase mb-2">
+            {subtitle}
+          </p>
+        ) : null}
+
+        {/* Tagline */}
+        <p className="text-[11px] text-[#4A3C30] italic">
+          Bringing Nature&apos;s Finest to Your Table
+        </p>
+
+        {/* Quality badges */}
+        <div className="flex items-center justify-center gap-3 mt-2">
+          <span className="text-[9px] text-[#5C4A3A] uppercase tracking-wider px-3 py-1.5 bg-[#D4C4A8] rounded">
+            Premium Quality
+          </span>
+          <span className="text-[9px] text-[#5C4A3A] uppercase tracking-wider px-3 py-1.5 bg-[#D4C4A8] rounded">
+            Export Grade
+          </span>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="absolute bottom-14 left-1/2 -translate-x-1/2 text-center z-10">
+        <p className="text-sm text-[#3A2A1E] uppercase tracking-[0.05em] font-bold">
+          Divyansh International Pvt Ltd · Ludhiana, Punjab
+        </p>
+        <p className="text-[10px] text-[#8B7355] mt-1">Est. 1999 · Catalogue 2026</p>
+      </div>
+    </div>
+  )
+);
+CoverPage.displayName = "CoverPage";
+
+export default function CatalogueViewer({ products }: CatalogueViewerProps) {
+  const flipBookRef = useRef<FlipBookInstance | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [currentPage, setCurrentPage] = useState(0);
+  const [visualPage, setVisualPage] = useState(0);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [isFlipping, setIsFlipping] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [flipDirection, setFlipDirection] = useState<"next" | "prev" | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [_isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
-  const [dimensions, setDimensions] = useState({ width: 900, height: 500 });
-  const [direction, setDirection] = useState(0); // 1 = next, -1 = prev
+  const [dimensions, setDimensions] = useState({ width: 500, height: 700 });
 
-  // PDF State
-  const [numPages, setNumPages] = useState<number | null>(null);
+  const totalPages = products.length * 2 + 4;
 
-  // Configure PDF.js worker on client side only
-  useEffect(() => {
-    import("react-pdf").then(({ pdfjs }) => {
-      pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
-    });
-  }, []);
-
-  function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
-    setNumPages(numPages);
-    setIsLoading(false);
-  }
-
-  // Content Variables (Moved to top to prevent ReferenceError)
-  const imagePages = settings?.pages ?? [];
-  const contentType = settings?.contentType ?? "images";
-  const isActive = settings?.isActive !== false;
-  const showThumbnails = settings?.showThumbnails !== false;
-  const showPageNumbers = settings?.showPageNumbers !== false;
-  const rawTitle = settings?.title || "Product Catalogue";
-  const displayTitle = rawTitle === "Test" ? "Product Catalogue" : rawTitle;
-  const displayDescription = settings?.description || "Explore our premium collection.";
-  const pdfUrl = settings?.pdfFile?.asset?.url || settings?.pdfDownloadUrl;
-
-  // Filter pages with valid URLs
-  const validPages = imagePages.filter((page) => page.asset?.url);
-
-  // Check if we have content
-  const hasImageContent = validPages.length >= 2;
-  const hasPdfContent = !!pdfUrl;
-
-  // Determine total pages based on content type
-  const totalPages = contentType === "pdf" ? numPages || 0 : validPages.length;
-
-  // Calculate responsive dimensions
   useEffect(() => {
     const updateDimensions = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
 
       if (mobile) {
-        const width = Math.min(window.innerWidth - 48, 450);
-        setDimensions({ width, height: Math.round(width * 1.2) });
-      } else if (window.innerWidth < 1024) {
-        setDimensions({ width: 700, height: 500 });
+        const width = Math.min(window.innerWidth - 32, 400);
+        setDimensions({ width, height: Math.round(width * 1.414) });
       } else {
-        setDimensions({ width: 1000, height: 600 });
+        setDimensions({ width: 500, height: 700 });
       }
     };
 
@@ -280,7 +361,6 @@ export default function CatalogueViewer({ settings }: CatalogueViewerProps) {
     return () => window.removeEventListener("resize", updateDimensions);
   }, []);
 
-  // Fullscreen toggle
   const toggleFullscreen = useCallback(() => {
     if (!containerRef.current) return;
 
@@ -291,16 +371,17 @@ export default function CatalogueViewer({ settings }: CatalogueViewerProps) {
     }
   }, []);
 
-  // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      const flipBook = flipBookRef.current as {
-        pageFlip?: () => { flipNext: () => void; flipPrev: () => void };
-      } | null;
+      const flipBook = flipBookRef.current;
+      if (!flipBook) return;
+
       if (e.key === "ArrowRight") {
-        flipBook?.pageFlip?.()?.flipNext();
+        setFlipDirection("next");
+        flipBook.pageFlip().flipNext();
       } else if (e.key === "ArrowLeft") {
-        flipBook?.pageFlip?.()?.flipPrev();
+        setFlipDirection("prev");
+        flipBook.pageFlip().flipPrev();
       } else if (e.key === "Escape" && isFullscreen) {
         toggleFullscreen();
       }
@@ -310,7 +391,14 @@ export default function CatalogueViewer({ settings }: CatalogueViewerProps) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isFullscreen, toggleFullscreen]);
 
-  // Fullscreen change handler
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setVisualPage(currentPage);
+    }, 5);
+
+    return () => clearTimeout(timer);
+  }, [currentPage]);
+
   useEffect(() => {
     const handleFullscreenChange = () => {
       setIsFullscreen(!!document.fullscreenElement);
@@ -324,224 +412,30 @@ export default function CatalogueViewer({ settings }: CatalogueViewerProps) {
     setCurrentPage(e.data);
   }, []);
 
-  const goToPage = useCallback(
-    (pageIndex: number) => {
-      if (contentType === "pdf") {
-        setCurrentPage(pageIndex);
-      } else {
-        const flipBook = flipBookRef.current as {
-          pageFlip?: () => { turnToPage: (page: number) => void };
-        } | null;
-        flipBook?.pageFlip?.()?.turnToPage(pageIndex);
-      }
-    },
-    [contentType]
-  );
-
-  const handleDownload = useCallback(() => {
-    if (!pdfUrl) return;
-    const link = document.createElement("a");
-    link.href = pdfUrl;
-    link.download = settings?.pdfFile?.asset?.originalFilename || "catalogue.pdf";
-    link.target = "_blank";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }, [pdfUrl, settings?.pdfFile?.asset?.originalFilename]);
-
-  const flipNext = useCallback(() => {
-    if (contentType === "pdf") {
-      setDirection(1);
-      setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1));
-    } else {
-      const flipBook = flipBookRef.current as { pageFlip?: () => { flipNext: () => void } } | null;
-      flipBook?.pageFlip?.()?.flipNext();
+  const handleFlipStateChange = useCallback((e: { data: string }) => {
+    if (e.data === "flipping") {
+      setIsFlipping(true);
+    } else if (e.data === "read") {
+      setIsFlipping(false);
     }
-  }, [contentType, totalPages]);
+  }, []);
 
-  const flipPrev = useCallback(() => {
-    if (contentType === "pdf") {
-      setDirection(-1);
-      setCurrentPage((prev) => Math.max(prev - 1, 0));
-    } else {
-      const flipBook = flipBookRef.current as { pageFlip?: () => { flipPrev: () => void } } | null;
-      flipBook?.pageFlip?.()?.flipPrev();
-    }
-  }, [contentType]);
+  const flipNext = () => {
+    setFlipDirection("next");
+    flipBookRef.current?.pageFlip()?.flipNext();
+  };
+  const flipPrev = () => {
+    setFlipDirection("prev");
+    flipBookRef.current?.pageFlip()?.flipPrev();
+  };
 
-  const showFlipbook =
-    (contentType === "pdf" && hasPdfContent && numPages && numPages > 0) ||
-    (contentType === "images" && hasImageContent);
-
-  // Inactive state
-  if (!isActive) {
+  if (isMobile) {
     return (
-      <div className="min-h-screen bg-paper pt-18 md:pt-24">
-        <div className="container mx-auto px-4 py-12">
-          <div className="max-w-2xl mx-auto text-center">
-            <div className="text-8xl mb-8">📚</div>
-            <h1 className="text-4xl font-bold text-deep-brown mb-4">Catalogue Unavailable</h1>
-            <p className="text-lg text-text-light">
-              The catalogue is currently disabled. Please check back later.
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // No content state
-  if (!hasImageContent && !hasPdfContent) {
-    return (
-      <div className="min-h-screen bg-paper pt-18 md:pt-24">
-        <div className="container mx-auto px-4 py-12">
-          <div className="max-w-2xl mx-auto text-center">
-            <div className="text-8xl mb-8">📖</div>
-            <h1 className="text-4xl font-bold text-deep-brown mb-4">No Catalogue Content</h1>
-            <p className="text-lg text-text-light">
-              Please add catalogue pages or a PDF in the CMS.
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // PDF Loading State
-  if (contentType === "pdf" && hasPdfContent && !numPages) {
-    return (
-      <div className="min-h-screen bg-paper pt-18 md:pt-24 pb-12 flex flex-col items-center justify-center">
-        <div className="hidden">
-          <Document
-            file={pdfUrl}
-            onLoadSuccess={onDocumentLoadSuccess}
-            onLoadError={(error) => console.error("PDF Load Error:", error)}
-            loading={null}
-          />
-        </div>
-        <div className="animate-spin rounded-full h-16 w-16 border-4 border-almond-gold border-t-transparent mb-4" />
-        <p className="text-text-light text-lg">Loading PDF...</p>
-      </div>
-    );
-  }
-
-  // Image Flipbook
-  return (
-    <div className="min-h-screen bg-bg pt-18 md:pt-24 pb-16 md:pb-24">
-      <div className="container mx-auto px-4 md:px-6 lg:px-8">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16 md:mb-24"
-        >
-          <h1 className="text-4xl md:text-5xl font-bold text-deep-brown mb-4 font-heading">
-            {displayTitle}
-          </h1>
-          <p className="text-lg text-text-light max-w-2xl mx-auto">{displayDescription}</p>
-        </motion.div>
-
-        {/* Flipbook Container */}
-        <motion.div
-          ref={containerRef}
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2 }}
-          className={cn(
-            "relative mx-auto",
-            isFullscreen && "fixed inset-0 z-50 flex items-center justify-center bg-black/95"
-          )}
-          style={
-            !isFullscreen
-              ? { maxWidth: isMobile ? dimensions.width + 80 : dimensions.width * 2 + 120 }
-              : {}
-          }
-        >
-          {/* Loading State */}
-          <AnimatePresence>
-            {isLoading ? (
-              <motion.div
-                initial={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="absolute inset-0 flex items-center justify-center bg-paper z-20 rounded-2xl"
-              >
-                <div className="text-center">
-                  <div className="animate-spin rounded-full h-16 w-16 border-4 border-almond-gold border-t-transparent mx-auto mb-4" />
-                  <p className="text-text-light text-lg">Loading catalogue...</p>
-                </div>
-              </motion.div>
-            ) : null}
-          </AnimatePresence>
-
-          {/* Controls */}
-          <div className="absolute top-4 right-4 z-30 flex gap-2">
-            <button
-              onClick={toggleFullscreen}
-              className="p-3 bg-white hover:bg-gray-50 rounded-full shadow-lg transition-all hover:scale-110 border border-gray-200"
-              aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
-            >
-              {isFullscreen ? (
-                <svg
-                  className="w-5 h-5 text-gray-700"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  className="w-5 h-5 text-gray-700"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
-                  />
-                </svg>
-              )}
-            </button>
-            {pdfUrl ? (
-              <button
-                onClick={handleDownload}
-                className="p-3 bg-white hover:bg-gray-50 rounded-full shadow-lg transition-all hover:scale-110 border border-gray-200"
-                aria-label="Download PDF"
-              >
-                <svg
-                  className="w-5 h-5 text-gray-700"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                  />
-                </svg>
-              </button>
-            ) : null}
-          </div>
-
-          {/* Navigation Arrows */}
-          <button
-            onClick={flipPrev}
-            className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-30 p-4 bg-white/95 hover:bg-white rounded-full shadow-xl transition-all hover:scale-110 disabled:opacity-40 disabled:cursor-not-allowed border border-gray-100"
-            disabled={currentPage === 0}
-            aria-label="Previous page"
-          >
+      <div className="min-h-screen bg-sand/20 flex flex-col items-center justify-start p-6 pt-32 pb-12 text-center overflow-y-auto">
+        <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-xl border border-gold/20 flex flex-col items-center">
+          <div className="w-20 h-20 bg-gold/10 rounded-full flex items-center justify-center mb-6">
             <svg
-              className="w-6 h-6 text-gray-700"
+              className="w-10 h-10 text-gold"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -549,248 +443,253 @@ export default function CatalogueViewer({ settings }: CatalogueViewerProps) {
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
+                strokeWidth={1.5}
+                d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
               />
             </svg>
-          </button>
-          <button
-            onClick={flipNext}
-            className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-30 p-4 bg-white/95 hover:bg-white rounded-full shadow-xl transition-all hover:scale-110 disabled:opacity-40 disabled:cursor-not-allowed border border-gray-100"
-            disabled={currentPage >= totalPages - 1}
-            aria-label="Next page"
-          >
-            <svg
-              className="w-6 h-6 text-gray-700"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+          </div>
+          <h2 className="text-2xl font-bold text-deep-brown mb-4 font-heading">
+            Desktop Experience Only
+          </h2>
+          <p className="text-text-light mb-8 italic">
+            Our interactive product catalogue is designed for larger screens to provide the best
+            reading experience. Please switch to a larger screen to view it.
+          </p>
+          <div className="w-full mt-2">
+            <Link
+              href="/"
+              className="inline-block bg-gold hover:bg-gold-dark text-white px-10 py-3.5 rounded-full font-bold transition-all shadow-md active:scale-95"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-
-          {/* Flipbook */}
-          <div
-            className="p-8 md:p-10 flex justify-center items-center bg-gray-50 rounded-2xl shadow-xl"
-            style={{ minHeight: isMobile ? dimensions.height + 100 : dimensions.height + 120 }}
-          >
-            {/* Wrap with Document if PDF */}
-            {contentType === "pdf" && hasPdfContent ? (
-              <Document file={pdfUrl} loading={null} className="flex justify-center items-center">
-                {/* Custom Single Page Viewer */}
-                <div
-                  className="relative bg-white rounded-lg shadow-2xl overflow-hidden"
-                  style={{
-                    width: dimensions.width,
-                    height: dimensions.height,
-                    perspective: "2000px",
-                  }}
-                >
-                  <AnimatePresence initial={false} custom={direction} mode="popLayout">
-                    {/* Current Page with Physics Curl Animation */}
-                    <motion.div
-                      key={currentPage}
-                      custom={direction}
-                      variants={{
-                        enter: (direction: number) => ({
-                          rotateY: direction > 0 ? 120 : -120,
-                          opacity: 0,
-                          zIndex: 0,
-                          x: 0,
-                          transformOrigin: direction > 0 ? "right center" : "left center",
-                        }),
-                        center: {
-                          rotateY: 0,
-                          opacity: 1,
-                          zIndex: 1,
-                          x: 0,
-                          transition: {
-                            rotateY: { type: "spring", stiffness: 60, damping: 12, mass: 1.2 },
-                            opacity: { duration: 0.4 },
-                          },
-                        },
-                        exit: (direction: number) => ({
-                          rotateY: direction > 0 ? -120 : 120,
-                          opacity: 0,
-                          zIndex: 0,
-                          transition: {
-                            rotateY: { type: "spring", stiffness: 60, damping: 12 },
-                            opacity: { duration: 0.4 },
-                          },
-                        }),
-                      }}
-                      initial="enter"
-                      animate="center"
-                      exit="exit"
-                      className="absolute inset-0 bg-white"
-                      style={{ backfaceVisibility: "hidden" }}
-                    >
-                      {numPages && currentPage < numPages ? (
-                        <PdfFlipPage
-                          pageNumber={currentPage + 1}
-                          width={dimensions.width}
-                          height={dimensions.height}
-                          isCover={currentPage === 0 || currentPage === numPages - 1}
-                        />
-                      ) : null}
-
-                      {/* Dynamic Shadow Overlay based on motion */}
-                      <motion.div
-                        initial={{ opacity: 0.5 }}
-                        animate={{ opacity: 0 }}
-                        exit={{ opacity: 0.5 }}
-                        className="absolute inset-0 pointer-events-none z-50 bg-black"
-                        style={{ mixBlendMode: "multiply" }}
-                      />
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
-              </Document>
-            ) : showFlipbook ? (
-              /* Image Flipbook */
-              <HTMLFlipBook
-                ref={flipBookRef}
-                width={dimensions.width}
-                height={dimensions.height}
-                size="fixed"
-                minWidth={280}
-                maxWidth={500}
-                minHeight={400}
-                maxHeight={700}
-                showCover={true}
-                mobileScrollSupport={true}
-                onFlip={handleFlip}
-                onInit={() => setIsLoading(false)}
-                className="catalogue-flipbook"
-                style={{}}
-                startPage={0}
-                drawShadow={true}
-                flippingTime={600}
-                usePortrait={isMobile}
-                startZIndex={0}
-                autoSize={false}
-                maxShadowOpacity={0.5}
-                showPageCorners={true}
-                disableFlipByClick={false}
-                swipeDistance={30}
-                clickEventForward={true}
-                useMouseEvents={true}
-              >
-                {/* Image Pages */}
-                {contentType === "images"
-                  ? validPages.map((page, index) => (
-                      <PageComponent
-                        key={page._key || `page-${index}`}
-                        page={page}
-                        pageNumber={index + 1}
-                        showPageNumbers={showPageNumbers}
-                      />
-                    ))
-                  : null}
-
-                {/* PDF Pages */}
-                {contentType === "pdf" && numPages
-                  ? Array.from(new Array(numPages), (el, index) => (
-                      <PdfFlipPage
-                        key={`pdf-page-${index + 1}`}
-                        pageNumber={index + 1}
-                        width={dimensions.width}
-                        height={dimensions.height}
-                        isCover={index === 0 || index === numPages - 1}
-                      />
-                    ))
-                  : null}
-              </HTMLFlipBook>
-            ) : null}
+              Back To Home
+            </Link>
           </div>
+        </div>
+      </div>
+    );
+  }
 
-          {/* Page Counter */}
-          <div className="text-center py-5">
-            <span className="text-base font-medium text-deep-brown bg-white px-6 py-2.5 rounded-full shadow-md border border-gray-200">
-              Page {currentPage + 1} of {totalPages}
-            </span>
-          </div>
-        </motion.div>
+  if (!products || products.length === 0) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p>No products available for catalogue.</p>
+      </div>
+    );
+  }
 
-        {/* Thumbnails */}
-        {showThumbnails && validPages.length > 0 ? (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="mt-10"
-          >
-            <div className="flex gap-3 overflow-x-auto pb-4 px-4 justify-center flex-wrap">
-              {validPages.slice(0, 16).map((page, index) => (
-                <button
-                  key={page._key || `thumb-${index}`}
-                  onClick={() => goToPage(index)}
-                  className={cn(
-                    "relative w-16 h-22 md:w-20 md:h-28 rounded-lg overflow-hidden border-2 transition-all shrink-0 hover:scale-105 bg-white shadow-md",
-                    currentPage === index
-                      ? "border-almond-gold shadow-lg ring-2 ring-almond-gold/30"
-                      : "border-gray-200 hover:border-gold-light"
-                  )}
-                  aria-label={`Go to page ${index + 1}`}
-                >
-                  {page.asset?.url ? (
-                    <OptimizedImage
-                      src={page.asset.url}
-                      alt={page.alt || `Thumbnail ${index + 1}`}
-                      fill
-                      className="object-cover"
-                      sizes="80px"
-                    />
-                  ) : null}
-                  {currentPage === index ? (
-                    <div className="absolute inset-0 bg-almond-gold/20" />
-                  ) : null}
-                </button>
-              ))}
-              {validPages.length > 16 ? (
-                <div className="flex items-center text-sm text-gray-500 px-2">
-                  +{validPages.length - 16} more
-                </div>
-              ) : null}
-            </div>
-          </motion.div>
-        ) : null}
+  return (
+    <div className="min-h-screen bg-sand/20 pt-32 pb-20 flex flex-col items-center relative overflow-hidden">
+      {/* Background Decorative Elements */}
+      <DecorativeBackground variant="scattered" className="opacity-40" />
 
-        {/* Touch Instructions */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-          className="mt-6 text-center md:hidden"
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-center mb-10 px-4"
+      >
+        <h1 className="text-4xl md:text-5xl font-bold text-deep-brown mb-2 font-heading">
+          Product Catalogue
+        </h1>
+        <p className="text-lg text-text-light max-w-2xl mx-auto">
+          Explore Our Premium Collection Of Dry Fruits.
+        </p>
+      </motion.div>
+
+      <div className="flex justify-center mb-8">
+        <button
+          onClick={toggleFullscreen}
+          className="group bg-white/80 backdrop-blur-sm p-4 rounded-full shadow-lg hover:shadow-xl hover:bg-white transition-all duration-300 text-deep-brown border border-gold-light/30"
+          title="Fullscreen Mode"
         >
-          <p className="text-sm text-text-muted">👆 Swipe or tap to flip pages</p>
-        </motion.div>
-
-        {/* Download Button */}
-        {pdfUrl ? (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="mt-10 text-center"
+          <svg
+            className="w-6 h-6 group-hover:scale-110 transition-transform duration-300"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
           >
-            <button
-              onClick={handleDownload}
-              className="px-8 py-4 bg-gold text-white rounded-full font-semibold hover:shadow-xl transition-all duration-300 hover:scale-105 inline-flex items-center gap-3 text-lg"
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <div
+        ref={containerRef}
+        className={cn(
+          "relative flex items-center justify-center p-4 transition-all duration-300",
+          isFullscreen ? "bg-black" : ""
+        )}
+        style={{
+          width: isFullscreen ? "100%" : "auto",
+          height: isFullscreen ? "100%" : "auto",
+        }}
+      >
+        <button
+          onClick={flipPrev}
+          className="absolute left-2 md:left-8 z-20 bg-white/80 p-3 rounded-full text-deep-brown shadow-lg hover:bg-white transition-all disabled:opacity-50 md:hidden"
+          disabled={currentPage === 0}
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+        </button>
+        <button
+          onClick={flipNext}
+          className="absolute right-2 md:right-8 z-20 bg-white/80 p-3 rounded-full text-deep-brown shadow-lg hover:bg-white transition-all disabled:opacity-50 md:hidden"
+          disabled={currentPage >= totalPages - 1}
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+
+        <div
+          className={cn(
+            "rounded-sm transition-all duration-500 ease-in-out",
+            "bg-transparent shadow-none"
+          )}
+          style={{
+            transform: !isMobile
+              ? visualPage <= 1
+                ? "translateX(-25%)"
+                : visualPage >= totalPages - 2
+                  ? "translateX(25%)"
+                  : "none"
+              : "none",
+          }}
+        >
+          <HTMLFlipBook
+            ref={flipBookRef}
+            width={dimensions.width}
+            height={dimensions.height}
+            size="fixed"
+            minWidth={300}
+            maxWidth={600}
+            minHeight={400}
+            maxHeight={800}
+            maxShadowOpacity={0.5}
+            showCover={false}
+            mobileScrollSupport={true}
+            className="catalogue-book"
+            style={{}}
+            startPage={0}
+            drawShadow={false}
+            flippingTime={1500}
+            usePortrait={isMobile}
+            startZIndex={0}
+            autoSize={true}
+            clickEventForward={true}
+            useMouseEvents={true}
+            swipeDistance={30}
+            showPageCorners={true}
+            disableFlipByClick={false}
+            onFlip={handleFlip}
+            onChangeState={handleFlipStateChange}
+            onInit={() => setIsLoading(false)}
+          >
+            <div
+              className={cn("page-wrapper relative", isFullscreen ? "bg-black" : "bg-background")}
+              style={{ width: "100%", height: "100%" }}
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                />
-              </svg>
-              Download PDF Catalogue
-            </button>
-          </motion.div>
-        ) : null}
+              {!isFullscreen ? <div className="absolute inset-0 bg-sand/20" /> : null}
+            </div>
+            <CoverPage title="Product Catalogue" subtitle="Premium Dry Fruits & Nuts" />
+
+            {products
+              .map((product, index) => (
+                <div key={`wrapper-${product._id}`}>
+                  <div className="hidden"></div>
+                  <ProductPage
+                    product={product}
+                    type="intro"
+                    pageNumber={index * 2 + 1}
+                    showPageNumbers={true}
+                    key={`${product._id}-intro`}
+                  />
+                  <ProductPage
+                    product={product}
+                    type="specs"
+                    pageNumber={index * 2 + 2}
+                    showPageNumbers={true}
+                    key={`${product._id}-specs`}
+                  />
+                </div>
+              ))
+              .flatMap((x) => [x.props.children[1], x.props.children[2]])}
+
+            <div
+              className="page-wrapper bg-[#E8DDD0] p-8 flex flex-col items-center justify-center text-center relative overflow-hidden shadow-xl"
+              style={{ width: "100%", height: "100%" }}
+            >
+              {/* Background image with dry fruits */}
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  backgroundImage: "url('/catalogue-cover-bg.png')",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              />
+
+              {/* Double border */}
+              <div className="absolute inset-4 border border-[#A69070] pointer-events-none z-10" />
+              <div className="absolute inset-6 border border-[#C4B090] pointer-events-none z-10" />
+
+              {/* Content */}
+              <div className="relative z-10 flex flex-col items-center justify-center text-center">
+                {/* Logo */}
+                <div className="flex items-center justify-center">
+                  <OptimizedImage
+                    src="/Logo.png"
+                    alt="Divyansh International Logo"
+                    width={500}
+                    height={500}
+                    className="object-contain"
+                  />
+                </div>
+
+                {/* Tagline */}
+                <p className="text-lg text-[#3A2A1E] font-semibold mt-8 mb-2">
+                  Bringing Nature&apos;s Finest to You
+                </p>
+
+                {/* Website */}
+                <p className="text-lg text-[#3A2A1E] font-semibold tracking-wide">
+                  www.divyanshint.com
+                </p>
+              </div>
+
+              {/* Footer */}
+              <div className="absolute bottom-26 left-1/2 -translate-x-1/2 text-center z-10">
+                <p className="text-base text-[#3A2A1E] uppercase tracking-[0.08em] font-bold">
+                  Thank You for Choosing Us
+                </p>
+                <p className="text-xs text-[#6B5B4F] mt-1 font-medium">
+                  Quality · Trust · Excellence
+                </p>
+              </div>
+            </div>
+
+            <div
+              className={cn("page-wrapper relative", isFullscreen ? "bg-black" : "bg-background")}
+              style={{ width: "100%", height: "100%" }}
+            >
+              {!isFullscreen ? <div className="absolute inset-0 bg-sand/20" /> : null}
+            </div>
+          </HTMLFlipBook>
+        </div>
+      </div>
+
+      <div className="mt-8 text-center text- text-text-muted md:hidden">
+        Page {currentPage + 1} of {totalPages}
       </div>
     </div>
   );

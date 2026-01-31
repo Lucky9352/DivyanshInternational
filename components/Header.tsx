@@ -189,14 +189,12 @@ export default function Header({ initialHeader, products, siteSettings }: Header
                 }
               />
 
-              {/* Catalogue Link
               <Link
-                href={catalogueUrl}
+                href="/catalogue"
                 className="text-foreground hover:text-gold transition-colors focus:outline-2 focus:outline-gold focus:rounded px-2 py-1"
               >
-                {catalogueLabel}
+                Catalogue
               </Link>
-              */}
 
               {header.navLinks?.map((link, index) => (
                 <Link
@@ -245,11 +243,7 @@ export default function Header({ initialHeader, products, siteSettings }: Header
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
         products={products || []}
-        menuItems={[
-          { label: homeLabel, url: homeUrl },
-          // { label: catalogueLabel, url: catalogueUrl },
-          ...(header.navLinks ?? []),
-        ]}
+        menuItems={[{ label: homeLabel, url: homeUrl }, ...(header.navLinks ?? [])]}
         productsLabel={productsLabel}
         closeMenuAriaLabel={header.closeMenuAriaLabel || "Close menu"}
       />
