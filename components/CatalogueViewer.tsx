@@ -216,7 +216,7 @@ const ProductPage = forwardRef<HTMLDivElement, ProductPageProps>(
             </div>
 
             {product.ctaLine?.en ? (
-              <div className="mt-6 p-4 bg-[#FAF6F1]/80 backdrop-blur-sm rounded-lg border border-[#C4A35A]/30 shadow-sm">
+              <div className="relative z-10 mt-6 p-4 bg-[#FAF6F1] rounded-lg border border-[#C4A35A]/30 shadow-sm">
                 <p className="text-[#3A2A1E] font-medium italic text-sm">
                   &quot;{product.ctaLine.en}&quot;
                 </p>
