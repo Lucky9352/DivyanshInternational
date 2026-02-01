@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { trackEvent } from "@/components/analytics/GA4";
 import { useLanguage } from "@/context/LanguageContext";
@@ -18,7 +18,7 @@ import ProductVarietiesSection, {
 import ProductGradingSection, {
   type ProductGrade,
 } from "@/components/sections/ProductGradingSection";
-import { Check } from "lucide-react";
+import { Check, Globe, Package, Hourglass, Warehouse, ChevronDown } from "lucide-react";
 
 // =============================================================================
 // ZOD SCHEMAS & TYPES
@@ -215,13 +215,6 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [productImages.length]);
 
-  const specs = [
-    { label: "Origin", value: product.specifications?.origin || "Multiple Origins" },
-    { label: "Packaging", value: product.specifications?.packaging || "Bulk" },
-    { label: "Shelf Life", value: product.specifications?.shelfLife || "12 Months" },
-    { label: "Storage", value: product.specifications?.storage || "Cool & Dry" },
-  ];
-
   // const pricing = {
   //   current: product.pricing?.currentPrice,
   //   original: product.pricing?.originalPrice,
@@ -260,7 +253,7 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
 
       <div className="relative z-10">
         {/* Breadcrumb */}
-        <div className="container mx-auto px-4 md:px-6 lg:px-8 py-6 md:py-8">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 py-3 md:py-8">
           <nav className="flex gap-1 text-sm text-text-muted whitespace-nowrap overflow-x-auto no-scrollbar">
             <Link
               href={labels.navigation.homeUrl || "/"}
@@ -281,7 +274,7 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
         </div>
 
         {/* Product Content */}
-        <section className="container mx-auto px-4 md:px-6 lg:px-8 py-16 md:py-24 relative">
+        <section className="container mx-auto px-4 md:px-6 lg:px-8 pt-0 pb-12 md:py-24 relative">
           <SectionVisualElements />
 
           <motion.div
@@ -418,17 +411,106 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
                   ))}
                 </div>
 
-                {/* Specs Box */}
-                <div className="bg-ivory rounded-xl p-4 border border-sand">
-                  <h3 className="font-semibold text-deep-brown mb-3">Specifications</h3>
-                  <div className="space-y-2">
-                    {specs.map((spec, index) => (
-                      <div key={index} className="flex justify-between text-sm">
-                        <span className="text-text-muted">{spec.label}:</span>
-                        <span className="font-medium text-deep-brown text-right pl-4">
-                          {spec.value}
-                        </span>
+                {/* Rich Specs Box */}
+                <div className="bg-ivory rounded-xl p-5 border border-sand shadow-sm">
+                  <h3 className="font-semibold text-deep-brown mb-4 flex items-center gap-2">
+                    <span className="w-1 h-5 bg-gold rounded-full" />
+                    Specifications
+                  </h3>
+                  <div className="space-y-4">
+                    {/* Origin with Dropdown */}
+                    <div className="bg-white/50 rounded-lg p-3 border border-sand/30 hover:border-gold/30 transition-colors group">
+                      <div className="flex items-start gap-3">
+                        <div className="p-2 bg-gold/10 rounded-lg text-gold shrink-0 mt-0.5">
+                          <Globe className="w-5 h-5" />
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-xs text-text-muted uppercase tracking-wider font-semibold mb-1">
+                            Origin
+                          </p>
+                          {(() => {
+                            const originText = product.specifications?.origin || "Multiple Origins";
+                            const origins = originText.split(",").map((o) => o.trim());
+                            // eslint-disable-next-line react-hooks/rules-of-hooks
+                            const [isOpen, setIsOpen] = useState(false);
+
+                            if (origins.length > 1) {
+                              return (
+                                <div>
+                                  <button
+                                    onClick={() => setIsOpen(!isOpen)}
+                                    className="flex items-center gap-1 text-deep-brown font-medium hover:text-gold transition-colors w-full text-left"
+                                  >
+                                    <span>{isOpen ? "Hide Origins" : "View Origins"}</span>
+                                    <ChevronDown
+                                      className={`w-4 h-4 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+                                    />
+                                  </button>
+                                  <AnimatePresence>
+                                    {isOpen ? (
+                                      <motion.ul
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: "auto" }}
+                                        exit={{ opacity: 0, height: 0 }}
+                                        className="mt-2 space-y-1 overflow-hidden"
+                                      >
+                                        {origins.map((origin, idx) => (
+                                          <motion.li
+                                            key={idx}
+                                            initial={{ opacity: 0, x: -10 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            transition={{ delay: idx * 0.05 }}
+                                            className="flex items-center gap-2 text-sm text-deep-brown/80 pl-2 border-l-2 border-gold/20"
+                                          >
+                                            <span className="w-1.5 h-1.5 rounded-full bg-gold/60" />
+                                            {origin}
+                                          </motion.li>
+                                        ))}
+                                      </motion.ul>
+                                    ) : null}
+                                  </AnimatePresence>
+                                </div>
+                              );
+                            }
+                            return <p className="text-deep-brown font-medium">{originText}</p>;
+                          })()}
+                        </div>
                       </div>
+                    </div>
+
+                    {/* Other Specs */}
+                    {[
+                      {
+                        label: "Packaging",
+                        value: product.specifications?.packaging || "Bulk",
+                        icon: <Package className="w-5 h-5" />,
+                      },
+                      {
+                        label: "Shelf Life",
+                        value: product.specifications?.shelfLife || "12 Months",
+                        icon: <Hourglass className="w-5 h-5" />,
+                      },
+                      {
+                        label: "Storage",
+                        value: product.specifications?.storage || "Cool & Dry",
+                        icon: <Warehouse className="w-5 h-5" />,
+                      },
+                    ].map((spec, index) => (
+                      <motion.div
+                        key={index}
+                        whileHover={{ scale: 1.02 }}
+                        className="bg-white/50 rounded-lg p-3 border border-sand/30 hover:border-gold/30 transition-colors flex items-center gap-3"
+                      >
+                        <div className="p-2 bg-gold/10 rounded-lg text-gold shrink-0">
+                          {spec.icon}
+                        </div>
+                        <div>
+                          <p className="text-xs text-text-muted uppercase tracking-wider font-semibold mb-0.5">
+                            {spec.label}
+                          </p>
+                          <p className="text-deep-brown font-medium text-sm">{spec.value}</p>
+                        </div>
+                      </motion.div>
                     ))}
                   </div>
                 </div>
@@ -589,7 +671,7 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
 
                     <div className="bg-white border border-sand rounded-xl p-6">
                       <h3 className="font-semibold text-lg mb-4">Standard Dimensions</h3>
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm">
                         <div className="p-3 bg-ivory rounded-lg">
                           <div className="font-medium text-deep-brown">
                             {product.specifications?.standardDimensions?.cartonSize || "10 KG"}
