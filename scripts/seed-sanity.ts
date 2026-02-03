@@ -82,12 +82,15 @@ const products = [
     listSections: [
       {
         _key: "ls-1",
-        title: createLocaleString("Grades & Size Options"),
+        title: createLocaleString("Brands Offered"),
         items: [
-          createLocaleString("Extra Jumbo, Jumbo"),
-          createLocaleString("Gold, Diamond"),
-          createLocaleString("Galaxy, Royal"),
-          createLocaleString("Whole Kernels"),
+          createLocaleString("Supreme"),
+          createLocaleString("Ridhi Sidhi"),
+          createLocaleString("Gold"),
+          createLocaleString("Diamond"),
+          createLocaleString("Sonora King"),
+          createLocaleString("Royal King"),
+          createLocaleString("Galaxy"),
         ],
       },
       {
@@ -104,8 +107,9 @@ const products = [
         _key: "ls-3",
         title: createLocaleString("Packaging Formats Available"),
         items: [
-          createLocaleString("Inshell 50 Lbs (22.68 Kg)"),
-          createLocaleString("Vacuum pouches for professional supply"),
+          createLocaleString("Inshell 50 lbs (22.68 Kg)"),
+          createLocaleString("White Labelling & Vacuum Pouches - On Demand"),
+          createLocaleString("Kernel Bags - 25 kgs, 10 kgs , 500 gms, 250 gms"),
         ],
       },
       {
@@ -689,7 +693,7 @@ const products = [
             "Golden Raisins – Premium quality – preferred for retail & export packs"
           ),
           createLocaleString(
-            "Indian Raisins – Green, Black, Golden (Sunde Khani / long raisins, round raisins) – popular for traditional retail, gifting & FMCG use"
+            "Indian Raisins – Green, Black, Golden (Sunde Khani / long raisins), Round raisins – popular for traditional retail, gifting & FMCG use"
           ),
           createLocaleString(
             "Kandhari Raisins – Green, Black, Golden (Mannaca / Abjosh) – premium choice for retail, export and high-value consumption"

@@ -116,7 +116,7 @@ export default function ProductCard({ product, onAddToEnquiry, labels }: Product
     "";
 
   // Dynamic Labels with Fallbacks
-  const specsTitle = labels?.productCard?.specificationsTitle || "Product Specifications";
+  // const specsTitle = labels?.productCard?.specificationsTitle || "Product Specifications";
   const varietyLabel = labels?.productCard?.varietyLabel || "Variety:";
   const appLabel = labels?.productCard?.applicationsLabel || "Applications:";
   const packLabel = labels?.productCard?.packLabel || "Pack:";
@@ -180,9 +180,9 @@ export default function ProductCard({ product, onAddToEnquiry, labels }: Product
 
         {/* Product Specifications Card */}
         <div className="space-y-3 bg-ivory p-4 rounded-2xl border border-sand mb-4">
-          <h4 className="text-xs font-bold text-deep-brown uppercase tracking-wider mb-2">
+          {/* <h4 className="text-xs font-bold text-deep-brown uppercase tracking-wider mb-2">
             {specsTitle}
-          </h4>
+          </h4> */}
 
           {/* Variety */}
           {varietySection ? (
