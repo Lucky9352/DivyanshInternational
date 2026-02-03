@@ -27,7 +27,18 @@ const ProductSchema = z.object({
     .array(
       z.object({
         title: z.custom<LocaleString>().optional().nullable(),
-        items: z.array(z.custom<LocaleString>()).optional().nullable(),
+        items: z
+          .array(
+            z.union([
+              z.custom<LocaleString>(),
+              z.object({
+                text: z.custom<LocaleString>(),
+                subItems: z.array(z.custom<LocaleString>()).optional(),
+              }),
+            ])
+          )
+          .optional()
+          .nullable(),
       })
     )
     .optional()
@@ -122,7 +133,10 @@ export default function ProductCard({ product, onAddToEnquiry, labels }: Product
   const packLabel = labels?.productCard?.packLabel || "Pack:";
   const moqLabel = labels?.productCard?.moqLabel || "Min. Order:";
 
-  const quickItems = (product.listSections?.[0]?.items || []).slice(0, 2);
+  const quickItems = (product.listSections?.[0]?.items || []).slice(0, 2).map((item) => {
+    const isNestedItem = typeof item === "object" && item !== null && "text" in item;
+    return isNestedItem ? item.text : (item as LocaleString);
+  });
 
   // Extracted Data
   const varietySection = extractListInfo(product.listSections, "variety", language);
@@ -194,7 +208,10 @@ export default function ProductCard({ product, onAddToEnquiry, labels }: Product
                 {(varietySection.items || [])
                   .slice(0, 2)
                   .map((item) => {
-                    const text = getLocalized(item, language);
+                    const isNestedItem =
+                      typeof item === "object" && item !== null && "text" in item;
+                    const itemData = isNestedItem ? item.text : (item as LocaleString);
+                    const text = getLocalized(itemData, language);
                     return (text || "").split("(")[0]?.trim() || "";
                   })
                   .join(", ")}
@@ -226,7 +243,10 @@ export default function ProductCard({ product, onAddToEnquiry, labels }: Product
                 {(packagingSection.items || [])
                   .slice(0, 2)
                   .map((item) => {
-                    return (getLocalized(item, language) || "").split("(")[0]?.trim() || "";
+                    const isNestedItem =
+                      typeof item === "object" && item !== null && "text" in item;
+                    const itemData = isNestedItem ? item.text : (item as LocaleString);
+                    return (getLocalized(itemData, language) || "").split("(")[0]?.trim() || "";
                   })
                   .join(", ")}
                 {(packagingSection.items?.length || 0) > 2 ? "..." : ""}

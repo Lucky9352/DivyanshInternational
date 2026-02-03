@@ -31,7 +31,17 @@ const ProductSchema = z.object({
     .array(
       z.object({
         title: z.custom<LocaleString>().optional(),
-        items: z.array(z.custom<LocaleString>()).optional(),
+        items: z
+          .array(
+            z.union([
+              z.custom<LocaleString>(),
+              z.object({
+                text: z.custom<LocaleString>(),
+                subItems: z.array(z.custom<LocaleString>()).optional(),
+              }),
+            ])
+          )
+          .optional(),
       })
     )
     .optional(),
@@ -392,18 +402,52 @@ export default function ProductModal({
                           {getLocalized(section.title, language)}
                         </h4>
                         <ul className="space-y-2">
-                          {section.items?.slice(0, 5).map((item, i) => (
-                            <li
-                              key={i}
-                              className="flex gap-2.5 items-start text-sm text-text-muted"
-                            >
-                              <span
-                                aria-hidden="true"
-                                className="mt-1.5 h-1.5 w-1.5 rounded-full bg-gold shrink-0"
-                              />
-                              <span>{getLocalized(item, language)}</span>
-                            </li>
-                          ))}
+                          {section.items?.slice(0, 5).map((item, i) => {
+                            // Type guard to check if item is an object with text property
+                            const isNestedItem =
+                              typeof item === "object" && item !== null && "text" in item;
+                            const itemText = isNestedItem
+                              ? getLocalized(item.text, language)
+                              : getLocalized(item as LocaleString, language);
+                            const hasSubItems =
+                              isNestedItem &&
+                              "subItems" in item &&
+                              item.subItems &&
+                              item.subItems.length > 0;
+
+                            return (
+                              <li key={i} className="flex flex-col gap-1">
+                                <div className="flex gap-2.5 items-start text-sm text-text-muted">
+                                  <span
+                                    aria-hidden="true"
+                                    className="mt-1.5 h-1.5 w-1.5 rounded-full bg-gold shrink-0"
+                                  />
+                                  <span>{itemText}</span>
+                                </div>
+                                {hasSubItems &&
+                                isNestedItem &&
+                                "subItems" in item &&
+                                item.subItems ? (
+                                  <ul className="ml-6 space-y-1 mt-0.5">
+                                    {item.subItems
+                                      .slice(0, 3)
+                                      .map((subItem: LocaleString, j: number) => (
+                                        <li
+                                          key={j}
+                                          className="flex gap-2 items-start text-xs text-text-muted"
+                                        >
+                                          <span
+                                            aria-hidden="true"
+                                            className="mt-1 h-1 w-1 rounded-full bg-gold/60 shrink-0"
+                                          />
+                                          <span>{getLocalized(subItem, language)}</span>
+                                        </li>
+                                      ))}
+                                  </ul>
+                                ) : null}
+                              </li>
+                            );
+                          })}
                         </ul>
                       </div>
                     ))}

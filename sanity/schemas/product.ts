@@ -97,14 +97,48 @@ export default defineType({
               name: "items",
               title: "List Items",
               type: "array",
-              of: [{ type: "localeString" }],
+              of: [
+                {
+                  type: "object",
+                  title: "List Item",
+                  fields: [
+                    defineField({
+                      name: "text",
+                      title: "Item Text",
+                      type: "localeString",
+                      validation: (Rule) => Rule.required(),
+                    }),
+                    defineField({
+                      name: "subItems",
+                      title: "Sub Items",
+                      type: "array",
+                      of: [{ type: "localeString" }],
+                      description: "Optional nested items under this item",
+                    }),
+                  ],
+                  preview: {
+                    select: {
+                      title: "text.en",
+                      subItem0: "subItems.0.en",
+                      subItem1: "subItems.1.en",
+                    },
+                    prepare({ title, subItem0, subItem1 }) {
+                      const subtitle = [subItem0, subItem1].filter(Boolean).join(", ");
+                      return {
+                        title: title || "Untitled Item",
+                        subtitle: subtitle ? `↳ ${subtitle}...` : "",
+                      };
+                    },
+                  },
+                },
+              ],
             }),
           ],
           preview: {
             select: {
               title: "title.en",
-              item0: "items.0.en",
-              item1: "items.1.en",
+              item0: "items.0.text.en",
+              item1: "items.1.text.en",
             },
             prepare({ title, item0, item1 }) {
               const subtitle = [item0, item1].filter(Boolean).join(", ");

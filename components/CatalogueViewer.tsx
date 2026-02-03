@@ -199,11 +199,35 @@ const ProductPage = forwardRef<HTMLDivElement, ProductPageProps>(
                     {section.title?.en}
                   </h4>
                   <ul className="list-disc list-inside space-y-0.5">
-                    {section.items?.slice(0, 4).map((item, idx) => (
-                      <li key={idx} className="text-xs text-[#5C4A3A] pl-1">
-                        <span className="text-[#3A2A1E]/80">{item.en}</span>
-                      </li>
-                    ))}
+                    {section.items?.slice(0, 4).map((item, idx) => {
+                      const isNestedItem =
+                        typeof item === "object" && item !== null && "text" in item;
+                      const itemText = isNestedItem
+                        ? (item as { text?: { en?: string } }).text?.en
+                        : (item as { en?: string }).en;
+                      const hasSubItems =
+                        isNestedItem &&
+                        "subItems" in item &&
+                        Array.isArray((item as { subItems?: unknown[] }).subItems) &&
+                        (item as { subItems: unknown[] }).subItems.length > 0;
+
+                      return (
+                        <li key={idx} className="text-xs text-[#5C4A3A] pl-1">
+                          <span className="text-[#3A2A1E]/80">{itemText}</span>
+                          {hasSubItems && isNestedItem && "subItems" in item ? (
+                            <ul className="list-circle list-inside ml-4 mt-0.5 space-y-0.5">
+                              {((item as { subItems: { en?: string }[] }).subItems || [])
+                                .slice(0, 3)
+                                .map((subItem: { en?: string }, subIdx: number) => (
+                                  <li key={subIdx} className="text-[10px] text-[#5C4A3A]/80">
+                                    {subItem.en}
+                                  </li>
+                                ))}
+                            </ul>
+                          ) : null}
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               ))}

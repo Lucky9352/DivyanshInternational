@@ -47,7 +47,17 @@ const ProductSchema = z.object({
     .array(
       z.object({
         title: z.custom<LocaleString>().optional(),
-        items: z.array(z.custom<LocaleString>()).optional(),
+        items: z
+          .array(
+            z.union([
+              z.custom<LocaleString>(),
+              z.object({
+                text: z.custom<LocaleString>(),
+                subItems: z.array(z.custom<LocaleString>()).optional(),
+              }),
+            ])
+          )
+          .optional(),
       })
     )
     .optional(),
@@ -567,16 +577,43 @@ export default function ProductDetail({ product, labels }: ProductDetailProps) {
                             const title = getLocalized(section.title, language) || "";
                             const isWhyChooseUs = title.toLowerCase().startsWith("why choose us");
 
+                            // Type guard to check if item is an object with text property
+                            const isNestedItem =
+                              typeof item === "object" && item !== null && "text" in item;
+                            const itemText = isNestedItem
+                              ? getLocalized(item.text, language)
+                              : getLocalized(item as LocaleString, language);
+                            const hasSubItems =
+                              isNestedItem &&
+                              "subItems" in item &&
+                              item.subItems &&
+                              item.subItems.length > 0;
+
                             return (
-                              <li key={i} className="flex items-start gap-2">
-                                {isWhyChooseUs ? (
-                                  <Check className="w-5 h-5 text-gold shrink-0 mt-0.5" />
-                                ) : (
-                                  <span className="w-1.5 h-1.5 bg-gold rounded-full mt-2.5 shrink-0" />
-                                )}
-                                <span className="text-text-muted">
-                                  {getLocalized(item, language)}
-                                </span>
+                              <li key={i} className="flex flex-col gap-1">
+                                <div className="flex items-start gap-2">
+                                  {isWhyChooseUs ? (
+                                    <Check className="w-5 h-5 text-gold shrink-0 mt-0.5" />
+                                  ) : (
+                                    <span className="w-1.5 h-1.5 bg-gold rounded-full mt-2.5 shrink-0" />
+                                  )}
+                                  <span className="text-text-muted">{itemText}</span>
+                                </div>
+                                {hasSubItems &&
+                                isNestedItem &&
+                                "subItems" in item &&
+                                item.subItems ? (
+                                  <ul className="ml-8 space-y-1.5 mt-1">
+                                    {item.subItems.map((subItem: LocaleString, j: number) => (
+                                      <li key={j} className="flex items-start gap-2">
+                                        <span className="w-1 h-1 bg-gold/60 rounded-full mt-2 shrink-0" />
+                                        <span className="text-text-muted text-sm">
+                                          {getLocalized(subItem, language)}
+                                        </span>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                ) : null}
                               </li>
                             );
                           })}

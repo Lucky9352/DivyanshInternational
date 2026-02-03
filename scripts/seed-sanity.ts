@@ -63,6 +63,13 @@ function createLocaleText(enText: string) {
   };
 }
 
+function createListItem(text: string, subItems: string[] = []) {
+  return {
+    text: createLocaleString(text),
+    subItems: subItems.map((item) => createLocaleString(item)),
+  };
+}
+
 const products = [
   {
     _id: "product-almonds",
@@ -84,43 +91,45 @@ const products = [
         _key: "ls-1",
         title: createLocaleString("Brands Offered"),
         items: [
-          createLocaleString("Supreme"),
-          createLocaleString("Ridhi Sidhi"),
-          createLocaleString("Gold"),
-          createLocaleString("Diamond"),
-          createLocaleString("Sonora King"),
-          createLocaleString("Royal King"),
-          createLocaleString("Galaxy"),
+          createListItem("Supreme"),
+          createListItem("Ridhi Sidhi"),
+          createListItem("Sethi Gold"),
+          createListItem("Diamond"),
+          createListItem("Sonora King"),
+          createListItem("Royal King"),
+          createListItem("Galaxy"),
         ],
       },
       {
         _key: "ls-2",
         title: createLocaleString("Processing Forms"),
         items: [
-          createLocaleString("Chip & Scratch (Sui)"),
-          createLocaleString("Single / Mixed Sui Touch"),
-          createLocaleString("Broken Almonds"),
-          createLocaleString("Diced / Sliced / Blanched"),
+          createListItem("Whole Kernels"),
+          createListItem("Chip & Scratch", ["Sui Touch", "Bindi", "Mixed Sui Touch"]),
+          createListItem("Broken"),
+          createListItem("Sliced"),
+          createListItem("Diced"),
+          createListItem("Blanched"),
         ],
       },
       {
         _key: "ls-3",
         title: createLocaleString("Packaging Formats Available"),
         items: [
-          createLocaleString("Inshell 50 lbs (22.68 Kg)"),
-          createLocaleString("White Labelling & Vacuum Pouches - On Demand"),
-          createLocaleString("Kernel Bags - 25 kgs, 10 kgs , 500 gms, 250 gms"),
+          createListItem("Inshell 50 lbs (22.68 Kg)"),
+          createListItem("Kernel Bags - 25 kgs, 10 kgs , 500 gms, 250 gms"),
+          createListItem("White Labelling & Vacuum Pouches - On Demand"),
         ],
       },
       {
         _key: "ls-4",
         title: createLocaleString("Why Choose Us As Your Almond Partner?"),
         items: [
-          createLocaleString("ISO-certified quality"),
-          createLocaleString("Consistent year-round supply"),
-          createLocaleString("Facility for daily processing, cleaning & custom sorting"),
-          createLocaleString("Fast delivery across Punjab, North India & pan-India"),
-          createLocaleString("Competitive pricing for bulk almond purchase"),
+          createListItem("ISO-certified quality"),
+          createListItem("Consistent year-round supply"),
+          createListItem("Facility for daily processing, cleaning & custom sorting"),
+          createListItem("Fast delivery across Punjab, North India & pan-India"),
+          createListItem("Competitive pricing for bulk almond purchase"),
         ],
       },
     ],
@@ -301,32 +310,32 @@ const products = [
         _key: "ls-cashew-1",
         title: createLocaleString("Grades Available"),
         items: [
-          createLocaleString(
+          createListItem(
             'W150 (Exceptionally Larde) - Often called "Super Giant" or "Emperor cashews"'
           ),
-          createLocaleString("W180 (King Size) - The largest, most premium grade"),
-          createLocaleString("W210 (Jumbo) - Popular for premium gifting"),
-          createLocaleString("W240 (Standard) - Ideally balanced size and cost"),
-          createLocaleString("W320 (Market Standard) - Most widely used grade"),
-          createLocaleString("Splits & Pieces (LWP/SWP) - For confectionery and gravy base"),
+          createListItem("W180 (King Size) - The largest, most premium grade"),
+          createListItem("W210 (Jumbo) - Popular for premium gifting"),
+          createListItem("W240 (Standard) - Ideally balanced size and cost"),
+          createListItem("W320 (Market Standard) - Most widely used grade"),
+          createListItem("Splits & Pieces (LWP/SWP) - For confectionery and gravy base"),
         ],
       },
       {
         _key: "ls-cashew-2",
         title: createLocaleString("Packaging"),
         items: [
-          createLocaleString("10kg / 11.34kg Tin Packs"),
-          createLocaleString("Vacuum pouches for bulk freshness"),
+          createListItem("10kg / 11.34kg Tin Packs"),
+          createListItem("Vacuum pouches for bulk freshness"),
         ],
       },
       {
         _key: "ls-cashew-3",
         title: createLocaleString("Why Choose Our Cashews?"),
         items: [
-          createLocaleString("Guaranteed low moisture & high crunch"),
-          createLocaleString("Whiteness intact with superior grading"),
-          createLocaleString("Consistent supply throughout the season"),
-          createLocaleString("Competitive bulk rates for wholesalers"),
+          createListItem("Guaranteed low moisture & high crunch"),
+          createListItem("Whiteness intact with superior grading"),
+          createListItem("Consistent supply throughout the season"),
+          createListItem("Competitive bulk rates for wholesalers"),
         ],
       },
     ],
@@ -386,24 +395,24 @@ const products = [
         _key: "ls-5",
         title: createLocaleString("Grades & Formats"),
         items: [
-          createLocaleString("Whole Walnuts"),
-          createLocaleString("Walnut Kernels – Halves / Quarters / Chips"),
+          createListItem("Whole Walnuts"),
+          createListItem("Walnut Kernels", ["Halves", "Quarters", "Chips"]),
         ],
       },
       {
         _key: "ls-6",
         title: createLocaleString("Packaging Options"),
-        items: [createLocaleString("Bulk and retail packages available")],
+        items: [createListItem("Bulk and retail packages available")],
       },
       {
         _key: "ls-7",
         title: createLocaleString("Why Partner with Us for Walnuts?"),
         items: [
-          createLocaleString("Multiple origins under one roof"),
-          createLocaleString("Consistent bulk availability"),
-          createLocaleString("Stringent sizing, grading & moisture control"),
-          createLocaleString("Dedicated pricing and quick dispatch"),
-          createLocaleString("Ideal for resellers, repackers and professional tenders"),
+          createListItem("Multiple origins under one roof"),
+          createListItem("Consistent bulk availability"),
+          createListItem("Stringent sizing, grading & moisture control"),
+          createListItem("Dedicated pricing and quick dispatch"),
+          createListItem("Ideal for resellers, repackers and professional tenders"),
         ],
       },
     ],
@@ -494,10 +503,10 @@ const products = [
         _key: "ls-8",
         title: createLocaleString("Varieties Available"),
         items: [
-          createLocaleString(
+          createListItem(
             "American Pistachios (California) – Bold, mildly sweet flavour, preferred for retail & export buyers"
           ),
-          createLocaleString(
+          createListItem(
             "Iranian Pistachios – Naturally rich flavour & deeper green kernel, ideal for premium gifting & gourmet segment"
           ),
         ],
@@ -507,18 +516,18 @@ const products = [
         _key: "ls-10",
         title: createLocaleString("Packaging Formats"),
         items: [
-          createLocaleString("10kg & 20kg imported cartons"),
-          createLocaleString("5kg vacuum packs for professional use"),
-          createLocaleString("Custom packing for gifting / private label available"),
+          createListItem("10kg & 20kg imported cartons"),
+          createListItem("5kg vacuum packs for professional use"),
+          createListItem("Custom packing for gifting / private label available"),
         ],
       },
       {
         _key: "ls-11",
         title: createLocaleString("Why Source Pistachios from Us?"),
         items: [
-          createLocaleString("Direct importers with year-round availability"),
-          createLocaleString("Multiple origins for price & flavour flexibility"),
-          createLocaleString("Size-graded, hygienically packed, ready for retail or bulk use"),
+          createListItem("Direct importers with year-round availability"),
+          createListItem("Multiple origins for price & flavour flexibility"),
+          createListItem("Size-graded, hygienically packed, ready for retail or bulk use"),
         ],
       },
     ],
@@ -607,31 +616,31 @@ const products = [
         _key: "ls-15",
         title: createLocaleString("Product Forms Available"),
         items: [
-          createLocaleString(
+          createListItem(
             "Fine Desiccated Coconut Powder – ideal for sweets, barfi, ladoo, confectionery"
           ),
-          createLocaleString(
+          createListItem(
             "Desiccated Coconut Flakes (Large Cut) – used in bakery toppings, cereal mixes & retail packs"
           ),
-          createLocaleString("Copra (Edible Grade) – for pressed oil/food applications"),
+          createListItem("Copra (Edible Grade) – for pressed oil/food applications"),
         ],
       },
       {
         _key: "ls-16",
         title: createLocaleString("Packaging Formats"),
         items: [
-          createLocaleString("10kg & 25kg poly-lined bags / cartons"),
-          createLocaleString("Customised 1kg & 500gm private label packs for retail / export"),
+          createListItem("10kg & 25kg poly-lined bags / cartons"),
+          createListItem("Customised 1kg & 500gm private label packs for retail / export"),
         ],
       },
       {
         _key: "ls-17",
         title: createLocaleString("Why Buy from Divyansh International?"),
         items: [
-          createLocaleString("Consistent high-fat, fresh stock"),
-          createLocaleString("Hygienic drying & moisture-controlled packing"),
-          createLocaleString("Trusted supplier to FMCG brands and quality dry fruit traders"),
-          createLocaleString("Rapid delivery across Punjab, North India & pan-India"),
+          createListItem("Consistent high-fat, fresh stock"),
+          createListItem("Hygienic drying & moisture-controlled packing"),
+          createListItem("Trusted supplier to FMCG brands and quality dry fruit traders"),
+          createListItem("Rapid delivery across Punjab, North India & pan-India"),
         ],
       },
     ],
@@ -689,13 +698,11 @@ const products = [
         _key: "ls-12",
         title: createLocaleString("Raisin Types Available"),
         items: [
-          createLocaleString(
-            "Golden Raisins – Premium quality – preferred for retail & export packs"
+          createListItem("Golden Raisins – Premium quality – preferred for retail & export packs"),
+          createListItem(
+            "Indian Raisins – Green, Black, Golden (Sunde Khani / Long Raisins), Round Raisins – popular for traditional retail, gifting & FMCG use"
           ),
-          createLocaleString(
-            "Indian Raisins – Green, Black, Golden (Sunde Khani / long raisins), Round raisins – popular for traditional retail, gifting & FMCG use"
-          ),
-          createLocaleString(
+          createListItem(
             "Kandhari Raisins – Green, Black, Golden (Mannaca / Abjosh) – premium choice for retail, export and high-value consumption"
           ),
         ],
@@ -704,19 +711,19 @@ const products = [
         _key: "ls-13",
         title: createLocaleString("Packaging Options"),
         items: [
-          createLocaleString("5kg & 10kg vacuum-packed bags"),
-          createLocaleString("15kg & 25kg cartons"),
+          createListItem("5kg & 10kg vacuum-packed bags"),
+          createListItem("15kg & 25kg cartons"),
         ],
       },
       {
         _key: "ls-14",
         title: createLocaleString("Why Choose Us for Raisins?"),
         items: [
-          createLocaleString("Origin: Indian and imported grades"),
-          createLocaleString("Hygienic processing and grading"),
-          createLocaleString("Competitive pricing across grades"),
-          createLocaleString("On-time delivery across Punjab, North India & pan-India"),
-          createLocaleString("Trusted supplier to qualityrs, hospitality, retail & exporters"),
+          createListItem("Origin: Indian and imported grades"),
+          createListItem("Hygienic processing and grading"),
+          createListItem("Competitive pricing across grades"),
+          createListItem("On-time delivery across Punjab, North India & pan-India"),
+          createListItem("Trusted supplier to qualityrs, hospitality, retail & exporters"),
         ],
       },
     ],
